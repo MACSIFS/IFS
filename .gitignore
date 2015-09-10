@@ -1,0 +1,8 @@
+env/*
+tags
+.ropeproject
+.idea
+*.sw[po]
+*.pyc
+*.sublime-project
+*.sublime-workspace
