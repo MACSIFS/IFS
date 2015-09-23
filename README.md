@@ -6,7 +6,16 @@ Build Master: Magnus
 Product Owner: Simon MC
 
 ## Installation
-    $ pip install -r requirements.txt
+Vagrant and ansible should be installed on the system. For example on Ubuntu:
+
+### Vagrant
+    $ sudo apt-get install vagrant
+
+### Ansible
+    $ sudo apt-get install software-properties-common
+    $ sudo apt-add-repository ppa:ansible/ansible
+    $ sudo apt-get update
+    $ sudo apt-get install ansible
 
 ## Configuration
 Default settings file:
@@ -20,15 +29,12 @@ Optional settings files:
     3.  ~/.ifs.cfg
 
 ## Run
+To run backend, database and start serving frontend part run
 
-Clean and initialize database:
+    $ vagrant up
 
-    python manage.py init_db
+use http://localhost:5000/ in you browser to see the application.
 
-Run application:
+If new libraries or packages were added then:
 
-    python manage.py runserver
-
-For available options:
-
-    python manage.py runserver --help
+    $ vagrant provision
