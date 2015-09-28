@@ -2,7 +2,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('entry')
         .controller('TeacherCtrl', TeacherController);
         
     /* @ngInject */

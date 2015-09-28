@@ -2,7 +2,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('entry')
         .controller('MainCtrl', MainController);
 
     /* @ngInject */
@@ -14,7 +14,7 @@
         vm.lectureCode = '';
         
         $scope.$watch('vm.lectureCode', function(current, old) {
-            console.log(vm.lectureCode);
+            /* demo */
         });
     }
 })();
