@@ -8,3 +8,5 @@ tags
 *.sublime-workspace
 .vagrant
 node_modules
+bower_components/*
+release/*

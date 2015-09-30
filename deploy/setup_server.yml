@@ -14,7 +14,6 @@
       with_items:
         - git-core
         - npm
-        - node
         - nginx
         - python3-pip
         - python3-venv
@@ -37,17 +36,23 @@
     - name: install grunt
       npm: name=grunt global=yes
 
+    - name: install node
+      npm: name=node global=yes
+
+    - name: make node -> nodejs link
+      file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
+
     - name: install grunt-cli
       npm: name=grunt-cli global=yes
 
     - name: install clientside dependencies with npm
       npm: path={{srv_dir}}/{{app_name}}/src
 
-#    - name: install clientside dependencies with bower
-#      bower: path={{srv_dir}}/{{app_name}}/src
+    - name: install clientside dependencies with bower
+      bower: path={{srv_dir}}/{{app_name}}/src
 
-#    - name: run grunt command
-#      command: grunt chdir={{srv_dir}}/{{app_name}}/src
+    - name: run grunt command
+      command: grunt devbuild chdir={{srv_dir}}/{{app_name}}/src
 
     - name: install backend dependencies with pip
       pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv

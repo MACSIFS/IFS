@@ -5,11 +5,11 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat:  {
             js: {
-                src: ['src/client/app/app.module.js', 'release/concat/<%= pkg.name %>.js'],
+                src: ['client/app/app.module.js', 'release/concat/<%= pkg.name %>.js'],
                 dest: 'release/concat/<%= pkg.name %>.js'
             },
             css: {
-                src: ['src/client/content/css/*.css'],
+                src: ['client/content/css/*.css'],
                 dest: 'release/concat/<%= pkg.name %>.css'
             },
             deps: {
@@ -45,15 +45,15 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            files: ['gruntfile.js', 'src/client/app/**/*.js']
+            files: ['gruntfile.js', 'client/app/**/*.js']
         },
         watch: {
             js: {
-                files: ['src/client/app/**/*.js'],
+                files: ['client/app/**/*.js'],
                 tasks: ['jshint']
             },
             html: {
-                files: ['src/client/index.html'],
+                files: ['client/index.html'],
                 tasks: ['tags:debugScripts', 'tags:debugLinks']
             }
         },
@@ -69,11 +69,11 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap/dist/js/bootstrap.js',
                     'bower_components/angular/angular.js',
                     'bower_components/angular-route/angular-route.js',
-                    'src/client/app/app.module.js',
-                    'src/client/app/app.route.js',
-                    'src/client/app/**/*.js'
+                    'client/app/app.module.js',
+                    'client/app/app.route.js',
+                    'client/app/**/*.js'
                 ],
-                dest: 'src/client/index.html'
+                dest: 'client/index.html'
             },
             devLinks: {
                 options: {
@@ -83,9 +83,9 @@ module.exports = function (grunt) {
                 },
                 src: [
                     'bower_components/bootstrap/dist/css/bootstrap.css',
-                    'src/client/content/css/*.css'
+                    'client/content/css/*.css'
                 ],
-                dest: 'src/client/index.html'
+                dest: 'client/index.html'
             },
             releaseScripts: {
                 options: {
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
                     'release/minified/<%= pkg.name %>-deps.min.js',
                     'release/minified/<%= pkg.name %>.min.js'
                 ],
-                dest: 'src/client/index.html',
+                dest: 'client/index.html',
             },
             releaseLinks: {
                 options: {
@@ -109,7 +109,7 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap/dist/css/bootstrap.min.css',
                     'release/minified/<%= pkg.name %>.min.css'
                 ],
-                dest: 'src/client/index.html'
+                dest: 'client/index.html'
             }
         },
         ngAnnotate: {
@@ -118,7 +118,7 @@ module.exports = function (grunt) {
             },
             app: {
                 files: {
-                    'release/concat/<%= pkg.name %>.js': ['src/client/app/**/*.js','!src/client/app/app.module.js']
+                    'release/concat/<%= pkg.name %>.js': ['client/app/**/*.js','!client/app/app.module.js']
                 }
             }
         }
@@ -147,6 +147,11 @@ module.exports = function (grunt) {
         'tags:devLinks',
         'watch'
     ]);
-    
+    grunt.registerTask('devbuild', [
+        'jshint',
+        'tags:devScripts',
+        'tags:devLinks'
+    ]);
+
     grunt.registerTask('default', ['dev']);
 };
