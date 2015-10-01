@@ -8,7 +8,7 @@
     function entryHeader() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/main/entry.header.html',
+            templateUrl: 'app/entry.header.html',
             link: link,
             controller: EntryHeaderController,
             controllerAs: 'vm',
@@ -19,6 +19,7 @@
         
         function link(scope, element, attrs, vm) {
             console.log('Entry Header Directive Link online');
+            
         }
     }
     
@@ -29,6 +30,11 @@
         var vm = this;
         vm.title = 'Interactive Feedback System';
         
+        // Highlight the current button in the header
+        var button = getButton($location.path());
+        button.addClass('active');
+        
+        // Catch location change in order to change highligting:
         $scope.$on("$locationChangeStart", function(event, next, current) {
             var nextPath = next.split('#')[1];
             var currentPath = current.split('#')[1];
@@ -38,7 +44,6 @@
             
             buttonCurrent.removeClass('active');
             buttonNext.addClass('active');
-            //event.preventDefault();
         });
     }
     
@@ -55,5 +60,4 @@
             }
         }
     }
-    
 })();
