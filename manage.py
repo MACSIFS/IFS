@@ -1,7 +1,7 @@
 from flask.ext.script import Manager
 
-from ifs import app
-from ifs.models import db
+from server import app
+from server.models import db
 
 manager = Manager(app)
 
