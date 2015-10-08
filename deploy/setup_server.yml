@@ -1,0 +1,95 @@
+- hosts: all
+  remote_user: vagrant
+  sudo: True
+
+  vars:
+    app_name: ifs
+    app_run: server
+    src_dir: /vagrant
+    srv_dir: /srv
+
+  tasks:
+    - name: install packages
+      apt: pkg={{item}} state=installed update-cache=yes
+      with_items:
+        - git-core
+        - npm
+        - nginx
+        - python3-pip
+        - python3-venv
+        - python3-dev
+        - supervisor
+        - postgresql
+
+    - name: ensure app directory exists
+      file: path={{srv_dir}}/{{app_name}} state=directory
+
+    - name: ensure log directory exists
+      file: path={{srv_dir}}/{{app_name}}/log state=directory
+
+    - name: link source directory
+      file: src={{src_dir}} dest={{srv_dir}}/{{app_name}}/src state=link
+
+    - name: install bower
+      npm: name=bower global=yes
+
+    - name: install grunt
+      npm: name=grunt global=yes
+
+    - name: install node
+      npm: name=node global=yes
+
+    - name: make node -> nodejs link
+      file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
+
+    - name: install grunt-cli
+      npm: name=grunt-cli global=yes
+
+    - name: install clientside dependencies with npm
+      npm: path={{srv_dir}}/{{app_name}}/src
+
+    - name: install clientside dependencies with bower
+      bower: path={{srv_dir}}/{{app_name}}/src
+
+    - name: run grunt command
+      command: grunt devbuild chdir={{srv_dir}}/{{app_name}}/src
+
+    - name: install backend dependencies with pip
+      pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv
+
+    - name: install gunicorn into the env
+      pip:  name=gunicorn virtualenv={{srv_dir}}/{{app_name}}/env state=present
+
+    - name: install ipython
+      pip:  name=ipython virtualenv={{srv_dir}}/{{app_name}}/env state=present
+
+    - name: write nginx conf
+      template: src=template/nginx.conf dest=/etc/nginx/nginx.conf
+      notify:
+      - restart nginx
+
+    - name: remove default nginx enabled site
+      file: path=/etc/nginx/sites-enabled/default state=absent
+
+    - name: create nginx config for application
+      template: src=template/nginx_site.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
+      notify:
+      - restart nginx
+
+    - name: link nginx config
+      file: src=/etc/nginx/sites-available/{{app_name}}.conf dest=/etc/nginx/sites-enabled/{{app_name}}.conf state=link
+      notify:
+      - restart nginx
+
+    - name: enable postgresql
+      service: name=postgresql state=started enabled=yes
+
+    - name: create application config for supervisord
+      template: src=template/supervisor_site.conf dest=/etc/supervisor/conf.d/{{app_name}}.conf
+
+    - name: enable supervisor
+      service: name=supervisor state=started enabled=yes
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted

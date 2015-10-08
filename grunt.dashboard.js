@@ -3,13 +3,13 @@ console.log('Evaluating grunt.dashboard.js');
 exports.concat = {
     js: {
         src: [
-            'src/client/dashboard/app/dashboard.module.js',
+            'client/dashboard/app/dashboard.module.js',
             'release/concat/dashboard.js'
         ],
         dest: 'release/concat/dashboard.js'
     },
     css: {
-        src: ['src/client/dashboard/content/css/*.css'],
+        src: ['client/dashboard/content/css/*.css'],
         dest: 'release/concat/dashboard.css'
     }
 };
@@ -26,11 +26,11 @@ exports.cssmin = {
     }
 };
 
-exports.jshint = 'src/client/dashboard/**/*.js';
+exports.jshint = 'client/dashboard/**/*.js';
 
 exports.watch = {
     change: {
-        files: ['src/client/dashboard/app/**/*.js'],
+        files: ['client/dashboard/app/**/*.js'],
         tasks: ['jshint:dashboard']
     }
 };
@@ -47,12 +47,11 @@ exports.tags = {
                 'bower_components/jquery/dist/jquery.js',
                 'bower_components/bootstrap/dist/js/bootstrap.js',
                 'bower_components/angular/angular.js',
-                'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
-                'src/client/dashboard/app/dashboard.module.js',
-                'src/client/dashboard/app/**/*.js'
+                'client/dashboard/app/dashboard.module.js',
+                'client/dashboard/app/**/*.js'
             ],
-            dest: 'src/client/dashboard/index.html'
+            dest: 'client/dashboard/index.html'
         },
         release: {
             options: {
@@ -64,7 +63,7 @@ exports.tags = {
                 'release/min/IFS-deps.min.js',
                 'release/min/dashboard.min.js'
             ],
-            dest: 'src/client/dashboard/index.html'
+            dest: 'client/dashboard/index.html'
         }
     },
     links: {
@@ -76,9 +75,9 @@ exports.tags = {
             },
             src: [
                 'bower_components/bootstrap/dist/css/bootstrap.css',
-                'src/client/dashboard/content/css/*.css'
+                'client/dashboard/content/css/*.css'
             ],
-            dest: 'src/client/dashboard/index.html'
+            dest: 'client/dashboard/index.html'
         },
         release: {
             options: {
@@ -90,14 +89,13 @@ exports.tags = {
                 'bower_components/bootstrap/dist/css/bootstrap.css',
                 'release/min/dashboard.min.css'
             ],
-            dest: 'src/client/dashboard/index.html'
+            dest: 'client/dashboard/index.html'
         }
     }
 };
 
 exports.ngAnnotate = {
     files: {
-        'release/concat/dashboard.js': ['src/client/dashboard/app/**/*.js', '!src/client/dashboard/app/dashboard.module.js']
+        'release/concat/dashboard.js': ['client/dashboard/app/**/*.js', '!client/dashboard/app/dashboard.module.js']
     }
 };
-

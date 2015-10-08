@@ -3,13 +3,13 @@ console.log('Evaluating grunt.entry.js');
 exports.concat = {
     js: {
         src: [
-            'src/client/entry/app/entry.module.js',
+            'client/entry/app/entry.module.js',
             'release/concat/entry.js'
         ],
         dest: 'release/concat/entry.js'
     },
     css: {
-        src: ['src/client/entry/content/css/*.css'],
+        src: ['client/entry/content/css/*.css'],
         dest: 'release/concat/entry.css'
     }
 };
@@ -26,11 +26,11 @@ exports.cssmin = {
     }
 };
 
-exports.jshint = 'src/client/entry/**/*.js';
+exports.jshint = 'client/entry/**/*.js';
 
 exports.watch = {
     change: {
-        files: ['src/client/entry/app/**/*.js'],
+        files: ['client/entry/app/**/*.js'],
         tasks: ['jshint:entry']
     }
 };
@@ -49,10 +49,10 @@ exports.tags = {
                 'bower_components/angular/angular.js',
                 'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
-                'src/client/entry/app/entry.module.js',
-                'src/client/entry/app/**/*.js'
+                'client/entry/app/entry.module.js',
+                'client/entry/app/**/*.js'
             ],
-            dest: 'src/client/entry/index.html'
+            dest: 'client/entry/index.html'
         },
         release: {
             options: {
@@ -64,7 +64,7 @@ exports.tags = {
                 'release/min/IFS-deps.min.js',
                 'release/min/entry.min.js'
             ],
-            dest: 'src/client/entry/index.html'
+            dest: 'client/entry/index.html'
         }
     },
     links: {
@@ -76,9 +76,9 @@ exports.tags = {
             },
             src: [
                 'bower_components/bootstrap/dist/css/bootstrap.css',
-                'src/client/entry/content/css/*.css'
+                'client/entry/content/css/*.css'
             ],
-            dest: 'src/client/entry/index.html'
+            dest: 'client/entry/index.html'
         },
         release: {
             options: {
@@ -90,14 +90,13 @@ exports.tags = {
                 'bower_components/bootstrap/dist/css/bootstrap.css',
                 'release/min/entry.min.css'
             ],
-            dest: 'src/client/entry/index.html'
+            dest: 'client/entry/index.html'
         }
     }
 };
 
 exports.ngAnnotate = {
     files: {
-        'release/concat/entry.js': ['src/client/entry/app/**/*.js', '!src/client/entry/app/entry.module.js']
+        'release/concat/entry.js': ['client/entry/app/**/*.js', '!client/entry/app/entry.module.js']
     }
 };
-
