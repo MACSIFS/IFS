@@ -1,5 +1,5 @@
 (function() {
     'use strict';
     
-    angular.module('entry', ['ngRoute']);
+    angular.module('entry', ['ngResource', 'ngRoute']);
 })();
