@@ -19,7 +19,6 @@
         
         function link(scope, element, attrs, vm) {
             console.log('Entry Header Directive Link online');
-            
         }
     }
     
