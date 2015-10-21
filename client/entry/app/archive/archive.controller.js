@@ -1,6 +1,6 @@
 (function() {
     angular
-        .module('app')
+        .module('entry')
         .controller('ArchiveCtrl', ArchiveController);
 
     function ArchiveController() {

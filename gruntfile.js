@@ -1,18 +1,17 @@
+var entry = require('./grunt.entry.js');
+var dashboard = require('./grunt.dashboard.js');
+
 module.exports = function (grunt) {
     'use strict'; 
     
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat:  {
-            js: {
-                src: ['client/app/app.module.js', 'release/concat/<%= pkg.name %>.js'],
-                dest: 'release/concat/<%= pkg.name %>.js'
-            },
-            css: {
-                src: ['client/content/css/*.css'],
-                dest: 'release/concat/<%= pkg.name %>.css'
-            },
-            deps: {
+            jsEntry: entry.concat.js,
+            jsDashboard: dashboard.concat.js,
+            cssEntry: entry.concat.css,
+            cssDashboard: dashboard.concat.css,
+            depsScripts: {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/bootstrap/dist/js/bootstrap.js',
@@ -20,107 +19,55 @@ module.exports = function (grunt) {
                     'bower_components/angular-route/angular-route.js'
                 ],
                 dest: 'release/concat/<%= pkg.name %>-deps.js'
+            },
+            depsLinks: {
+                src: ['bower_components/bootstrap/dist/css/bootstrap.css'],
+                dest: 'release/concat/<%= pkg.name %>-deps.css'
             }
         },
         uglify: {
-            options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-            },
-            js: {
-                files: {
-                    'release/minified/<%= pkg.name %>.min.js': 'release/concat/<%= pkg.name %>.js'
-                }
-            },
+            entry: entry.uglify,
+            dashboard: dashboard.uglify,
             deps: {
                 files: {
-                    'release/minified/<%= pkg.name %>-deps.min.js': ['<%= concat.deps.dest %>']
+                    'release/min/<%= pkg.name %>-deps.min.js': ['<%= concat.depsScripts.dest %>']
                 }
             }
         },
         cssmin: {
-            css: {
+            entry: entry.cssmin,
+            dashboard: dashboard.cssmin,
+            deps: {
                 files: {
-                    'release/minified/<%= pkg.name %>.min.css': ['<%= concat.css.dest %>']
+                    'release/min/<%= pkg.name %>-deps.min.css': ['<%= concat.depsLinks.dest %>']
                 }
             }
         },
         jshint: {
-            files: ['gruntfile.js', 'client/app/**/*.js']
+            entry: ['*.js', entry.jshint],
+            dashboard: ['*.js', dashboard.jshint],
+            all: ['*.js', 'src/**/*.js']
         },
         watch: {
-            js: {
-                files: ['client/app/**/*.js'],
-                tasks: ['jshint']
-            },
-            html: {
-                files: ['client/index.html'],
-                tasks: ['tags:debugScripts', 'tags:debugLinks']
-            }
+            entry: entry.watch.change,
+            dashboard: dashboard.watch.change,
         },
         tags: {
-            devScripts: {
-                options: {
-                    scriptTemplate: '<script src="{{ path }}"></script>',
-                    openTag: '<!-- Start of generated js tag -->',
-                    closeTag: '<!-- End of generated js tag -->'
-                },
-                src: [
-                    'bower_components/jquery/dist/jquery.js',
-                    'bower_components/bootstrap/dist/js/bootstrap.js',
-                    'bower_components/angular/angular.js',
-                    'bower_components/angular-route/angular-route.js',
-                    'client/app/app.module.js',
-                    'client/app/app.route.js',
-                    'client/app/**/*.js'
-                ],
-                dest: 'client/index.html'
-            },
-            devLinks: {
-                options: {
-                    linkTemplate: '<link rel="stylesheet" href="{{ path }}"/>',
-                    openTag: '<!-- Start of generated css tag -->',
-                    closeTag: '<!-- End of generated css tag -->'
-                },
-                src: [
-                    'bower_components/bootstrap/dist/css/bootstrap.css',
-                    'client/content/css/*.css'
-                ],
-                dest: 'client/index.html'
-            },
-            releaseScripts: {
-                options: {
-                    scriptTemplate: '<script src="{{ path }}"></script>',
-                    openTag: '<!-- Start of generated js tag -->',
-                    closeTag: '<!-- End of generated js tag -->'
-                },
-                src: [
-                    'release/minified/<%= pkg.name %>-deps.min.js',
-                    'release/minified/<%= pkg.name %>.min.js'
-                ],
-                dest: 'client/index.html',
-            },
-            releaseLinks: {
-                options: {
-                    linkTemplate: '<link rel="stylesheet" href="{{ path }}"/>',
-                    openTag: '<!-- Start of generated css tag -->',
-                    closeTag: '<!-- End of generated css tag -->'
-                },
-                src: [
-                    'bower_components/bootstrap/dist/css/bootstrap.min.css',
-                    'release/minified/<%= pkg.name %>.min.css'
-                ],
-                dest: 'client/index.html'
-            }
+            devScriptsEntry: entry.tags.scripts.dev,
+            devScriptsDashboard: dashboard.tags.scripts.dev,
+            devLinksEntry: entry.tags.links.dev,
+            devLinksDashboard: dashboard.tags.links.dev,
+            releaseScriptsEntry: entry.tags.scripts.release,
+            releaseScriptsDashboard: dashboard.tags.scripts.release,
+            releaseLinksEntry: entry.tags.links.release,
+            releaseLinksDashboard: dashboard.tags.links.release
         },
         ngAnnotate: {
             options: {
                 singleQuotes: true
             },
-            app: {
-                files: {
-                    'release/concat/<%= pkg.name %>.js': ['client/app/**/*.js','!client/app/app.module.js']
-                }
-            }
+            entry: entry.ngAnnotate,
+            dashboard: dashboard.ngAnnotate
         }
     });
     
@@ -132,26 +79,64 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-script-link-tags');
     grunt.loadNpmTasks('grunt-ng-annotate');
     
-    grunt.registerTask('release', [
-        'jshint',
-        'ngAnnotate',
-        'concat', 
-        'uglify', 
-        'cssmin', 
-        'tags:releaseScripts',
-        'tags:releaseLinks'
-    ]); 
-    grunt.registerTask('dev', [
-        'jshint',
-        'tags:devScripts',
-        'tags:devLinks',
-        'watch'
+    grunt.registerTask('dev:entry', [
+        'jshint:entry',
+        'tags:devScriptsEntry',
+        'tags:devLinksEntry',
+        'watch:entry',
     ]);
-    grunt.registerTask('devbuild', [
-        'jshint',
-        'tags:devScripts',
-        'tags:devLinks'
+    
+    grunt.registerTask('release:entry', [
+        'jshint:entry',
+        'ngAnnotate:entry',
+        'concat:depsLinks',
+        'concat:depsScripts',
+        'concat:jsEntry',
+        'concat:cssEntry',
+        'uglify:deps',
+        'uglify:entry',
+        'cssmin:deps',
+        'cssmin:entry',
+        'tags:releaseScriptsEntry',
+        'tags:releaseLinksEntry'
     ]);
-
-    grunt.registerTask('default', ['dev']);
+    
+    grunt.registerTask('dev:dashboard', [
+        'jshint:dashboard',
+        'tags:devScriptsDashboard',
+        'tags:devLinksDashboard',
+        'watch:dashboard'
+    ]);
+    
+    grunt.registerTask('release:dashboard', [
+        'jshint:dashboard',
+        'ngAnnotate:dashboard',
+        'concat:depsLinks',
+        'concat:depsScripts',
+        'concat:jsDashboard',
+        'concat:cssDashboard',
+        'uglify:deps',
+        'uglify:dashboard',
+        'cssmin:deps',
+        'cssmin:dashboard',
+        'tags:releaseScriptsDashboard',
+        'tags:releaseLinksDashboard'
+    ]);
+    
+    grunt.registerTask('release:all', [
+        'release:entry',
+        'release:dashboard'
+    ]);
+    
+    grunt.registerTask('default', function() {
+        console.log('');
+        console.log('*************************');
+        console.log('Please specify what to do:');
+        console.log('');
+        console.log('$ grunt <type>:<module> ');
+        console.log('Example: grunt dev:entry');
+        console.log('Example: grunt release:dashboard');
+        console.log('');
+        console.log('*************************');
+    });
 };

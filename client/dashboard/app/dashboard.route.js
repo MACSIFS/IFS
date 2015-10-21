@@ -2,7 +2,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('dashboard')
         .config(config);
 
     /* ngInject */
@@ -15,18 +15,10 @@
                 controller: 'MainCtrl',
                 controllerAs: 'vm'
             })
-            .when('/archive', {
-                templateUrl: 'app/archive/overview.html',
-                controller: 'ArchiveCtrl',
+            .when('/register', {
+                templateUrl: 'app/register/register.html',
+                controller: 'RegisterCtrl',
                 controllerAs: 'vm'
-            })
-            .when('/teacher', {
-                templateUrl: 'app/teacher/teacher.html',
-                controller: 'TeacherCtrl',
-                controllerAs: 'vm'
-            })
-            .when('/about', {
-                templateUrl: 'app/about/about.html'
             })
             .otherwise({
                 redirectTo: '/'

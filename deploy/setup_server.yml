@@ -51,9 +51,6 @@
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
 
-    - name: run grunt command
-      command: grunt devbuild chdir={{srv_dir}}/{{app_name}}/src
-
     - name: install backend dependencies with pip
       pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv
 
