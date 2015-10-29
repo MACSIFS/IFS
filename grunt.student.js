@@ -1,37 +1,37 @@
-console.log('Evaluating grunt.entry.js');
+console.log('Evaluating grunt.student.js');
 
 exports.concat = {
     js: {
         src: [
-            'client/entry/app/entry.module.js',
-            'release/concat/entry.js'
+            'client/student/app/student.module.js',
+            'release/concat/student.js'
         ],
-        dest: 'release/concat/entry.js'
+        dest: 'release/concat/student.js'
     },
     css: {
-        src: ['client/entry/content/css/*.css'],
-        dest: 'release/concat/entry.css'
+        src: ['client/student/content/css/*.css'],
+        dest: 'release/concat/student.css'
     }
 };
 
 exports.uglify = {
     files: {
-        'release/min/entry.min.js': ['release/concat/entry.js']
+        'release/min/student.min.js': ['release/concat/student.js']
     }
 };
 
 exports.cssmin = {
     files: {
-        'release/min/entry.min.css': ['release/concat/entry.css']
+        'release/min/student.min.css': ['release/concat/student.css']
     }
 };
 
-exports.jshint = 'client/entry/**/*.js';
+exports.jshint = 'client/student/**/*.js';
 
 exports.watch = {
     change: {
-        files: ['client/entry/app/**/*.js'],
-        tasks: ['jshint:entry']
+        files: ['client/student/app/**/*.js'],
+        tasks: ['jshint:student']
     }
 };
 
@@ -47,11 +47,12 @@ exports.tags = {
                 'bower_components/jquery/dist/jquery.js',
                 'bower_components/bootstrap/dist/js/bootstrap.js',
                 'bower_components/angular/angular.js',
+                'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
-                'client/entry/app/entry.module.js',
-                'client/entry/app/**/*.js'
+                'client/student/app/student.module.js',
+                'client/student/app/**/*.js'
             ],
-            dest: 'client/entry/index.html'
+            dest: 'client/student/index.html'
         },
         release: {
             options: {
@@ -61,9 +62,9 @@ exports.tags = {
             },
             src: [
                 'release/min/IFS-deps.min.js',
-                'release/min/entry.min.js'
+                'release/min/student.min.js'
             ],
-            dest: 'client/entry/index.html'
+            dest: 'client/student/index.html'
         }
     },
     links: {
@@ -75,9 +76,9 @@ exports.tags = {
             },
             src: [
                 'bower_components/bootstrap/dist/css/bootstrap.css',
-                'client/entry/content/css/*.css'
+                'client/student/content/css/*.css'
             ],
-            dest: 'client/entry/index.html'
+            dest: 'client/student/index.html'
         },
         release: {
             options: {
@@ -87,16 +88,15 @@ exports.tags = {
             },
             src: [
                 'bower_components/bootstrap/dist/css/bootstrap.css',
-                'release/min/entry.min.css'
+                'release/min/student.min.css'
             ],
-            dest: 'client/entry/index.html'
+            dest: 'client/student/index.html'
         }
     }
 };
 
 exports.ngAnnotate = {
     files: {
-        'release/concat/entry.js': ['client/entry/app/**/*.js', '!client/entry/app/entry.module.js']
+        'release/concat/student.js': ['client/student/app/**/*.js', '!client/student/app/student.module.js']
     }
 };
-

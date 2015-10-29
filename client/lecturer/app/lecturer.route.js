@@ -2,17 +2,17 @@
     'use strict';
     
     angular
-        .module('dashboard')
+        .module('lecturer')
         .config(config);
 
     /* ngInject */
     function config($routeProvider) {
-        console.log('Route Provider live');
+        console.log('Ready (Route Provider');
         
         $routeProvider
             .when('/', {
-                templateUrl: 'app/main/main.html',
-                controller: 'MainCtrl',
+                templateUrl: 'app/login/login.html',
+                controller: 'LoginCtrl',
                 controllerAs: 'vm'
             })
             .when('/register', {

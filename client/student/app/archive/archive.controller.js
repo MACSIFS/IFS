@@ -1,11 +1,11 @@
 (function() {
     angular
-        .module('entry')
+        .module('student')
         .controller('ArchiveCtrl', ArchiveController);
 
     function ArchiveController() {
-        console.log("Archive Control Online");
-        
+        console.log("Ready (Archive Control)");
+        angular.element('#archive-btn').addClass('active');
         var vm = this;
         
         vm.filterTerm = '';

@@ -2,11 +2,13 @@
     'use strict';
     
     angular
-        .module('dashboard')
+        .module('lecturer')
         .controller('RegisterCtrl', RegisterController);
         
     /* @ngInject */
     function RegisterController($scope) {
-        console.log('Register Controller online');
+        console.log('Ready (Register Controller)');
+        angular.element('#register-btn').addClass('active');
+        var vm = this;
     }
 })();
