@@ -1,5 +1,5 @@
-var entry = require('./grunt.entry.js');
-var dashboard = require('./grunt.dashboard.js');
+var student = require('./grunt.student.js');
+var lecturer = require('./grunt.lecturer.js');
 
 module.exports = function (grunt) {
     'use strict'; 
@@ -7,10 +7,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat:  {
-            jsEntry: entry.concat.js,
-            jsDashboard: dashboard.concat.js,
-            cssEntry: entry.concat.css,
-            cssDashboard: dashboard.concat.css,
+            jsStudent: student.concat.js,
+            jsLecturer: lecturer.concat.js,
+            cssStudent: student.concat.css,
+            cssLecturer: lecturer.concat.css,
             depsScripts: {
                 src: [
                     'bower_components/jquery/dist/jquery.js',
@@ -27,8 +27,8 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            entry: entry.uglify,
-            dashboard: dashboard.uglify,
+            student: student.uglify,
+            lecturer: lecturer.uglify,
             deps: {
                 files: {
                     'release/min/<%= pkg.name %>-deps.min.js': ['<%= concat.depsScripts.dest %>']
@@ -36,8 +36,8 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            entry: entry.cssmin,
-            dashboard: dashboard.cssmin,
+            student: student.cssmin,
+            lecturer: lecturer.cssmin,
             deps: {
                 files: {
                     'release/min/<%= pkg.name %>-deps.min.css': ['<%= concat.depsLinks.dest %>']
@@ -45,30 +45,30 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            entry: ['*.js', entry.jshint],
-            dashboard: ['*.js', dashboard.jshint],
+            student: ['*.js', student.jshint],
+            lecturer: ['*.js', lecturer.jshint],
             all: ['*.js', 'src/**/*.js']
         },
         watch: {
-            entry: entry.watch.change,
-            dashboard: dashboard.watch.change,
+            student: student.watch.change,
+            lecturer: lecturer.watch.change,
         },
         tags: {
-            devScriptsEntry: entry.tags.scripts.dev,
-            devScriptsDashboard: dashboard.tags.scripts.dev,
-            devLinksEntry: entry.tags.links.dev,
-            devLinksDashboard: dashboard.tags.links.dev,
-            releaseScriptsEntry: entry.tags.scripts.release,
-            releaseScriptsDashboard: dashboard.tags.scripts.release,
-            releaseLinksEntry: entry.tags.links.release,
-            releaseLinksDashboard: dashboard.tags.links.release
+            devScriptsStudent: student.tags.scripts.dev,
+            devScriptsLecturer: lecturer.tags.scripts.dev,
+            devLinksStudent: student.tags.links.dev,
+            devLinksLecturer: lecturer.tags.links.dev,
+            releaseScriptsStudent: student.tags.scripts.release,
+            releaseScriptsLecturer: lecturer.tags.scripts.release,
+            releaseLinksStudent: student.tags.links.release,
+            releaseLinksLecturer: lecturer.tags.links.release
         },
         ngAnnotate: {
             options: {
                 singleQuotes: true
             },
-            entry: entry.ngAnnotate,
-            dashboard: dashboard.ngAnnotate
+            student: student.ngAnnotate,
+            lecturer: lecturer.ngAnnotate
         }
     });
     
@@ -80,53 +80,53 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-script-link-tags');
     grunt.loadNpmTasks('grunt-ng-annotate');
     
-    grunt.registerTask('dev:entry', [
-        'jshint:entry',
-        'tags:devScriptsEntry',
-        'tags:devLinksEntry',
-        'watch:entry',
+    grunt.registerTask('dev:student', [
+        'jshint:student',
+        'tags:devScriptsStudent',
+        'tags:devLinksStudent',
+        'watch:student',
     ]);
     
-    grunt.registerTask('release:entry', [
-        'jshint:entry',
-        'ngAnnotate:entry',
+    grunt.registerTask('release:student', [
+        'jshint:student',
+        'ngAnnotate:student',
         'concat:depsLinks',
         'concat:depsScripts',
-        'concat:jsEntry',
-        'concat:cssEntry',
+        'concat:jsStudent',
+        'concat:cssStudent',
         'uglify:deps',
-        'uglify:entry',
+        'uglify:student',
         'cssmin:deps',
-        'cssmin:entry',
-        'tags:releaseScriptsEntry',
-        'tags:releaseLinksEntry'
+        'cssmin:student',
+        'tags:releaseScriptsStudent',
+        'tags:releaseLinksStudent'
     ]);
     
-    grunt.registerTask('dev:dashboard', [
-        'jshint:dashboard',
-        'tags:devScriptsDashboard',
-        'tags:devLinksDashboard',
-        'watch:dashboard'
+    grunt.registerTask('dev:lecturer', [
+        'jshint:lecturer',
+        'tags:devScriptsLecturer',
+        'tags:devLinksLecturer',
+        'watch:lecturer'
     ]);
     
-    grunt.registerTask('release:dashboard', [
-        'jshint:dashboard',
-        'ngAnnotate:dashboard',
+    grunt.registerTask('release:lecturer', [
+        'jshint:lecturer',
+        'ngAnnotate:lecturer',
         'concat:depsLinks',
         'concat:depsScripts',
-        'concat:jsDashboard',
-        'concat:cssDashboard',
+        'concat:jsLecturer',
+        'concat:cssLecturer',
         'uglify:deps',
-        'uglify:dashboard',
+        'uglify:lecturer',
         'cssmin:deps',
-        'cssmin:dashboard',
-        'tags:releaseScriptsDashboard',
-        'tags:releaseLinksDashboard'
+        'cssmin:lecturer',
+        'tags:releaseScriptsLecturer',
+        'tags:releaseLinksLecturer'
     ]);
     
     grunt.registerTask('release:all', [
-        'release:entry',
-        'release:dashboard'
+        'release:student',
+        'release:lecturer'
     ]);
     
     grunt.registerTask('default', function() {
@@ -135,8 +135,8 @@ module.exports = function (grunt) {
         console.log('Please specify what to do:');
         console.log('');
         console.log('$ grunt <type>:<module> ');
-        console.log('Example: grunt dev:entry');
-        console.log('Example: grunt release:dashboard');
+        console.log('Example: grunt dev:student');
+        console.log('Example: grunt release:lecturer');
         console.log('');
         console.log('*************************');
     });
