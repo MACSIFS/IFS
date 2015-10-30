@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <input type="search" class="form-control" data-ng-model="filterTerm" placeholder="Filter archive" />
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" data-ng-repeat="lecture in vm.lectures | filter:filterTerm as results">
+            {{lecture.code}} , {{lecture.name}}, {{lecture.date | date}}
+        </li>
+        <li class="list-group-item" data-ng-show="results.length == 0">
+            <strong>No results found...</strong>
+        </li>
+    </ul>
+</div>
