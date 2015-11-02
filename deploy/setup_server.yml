@@ -50,6 +50,7 @@
 
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
+      sudo: no
 
     - name: install backend dependencies with pip
       pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv
