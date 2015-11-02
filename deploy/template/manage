@@ -1,0 +1,1 @@
+{{srv_dir}}/{{app_name}}/env/bin/python {{srv_dir}}/{{app_name}}/src/manage.py $1

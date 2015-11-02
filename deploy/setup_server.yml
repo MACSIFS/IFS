@@ -88,6 +88,9 @@
     - name: enable supervisor
       service: name=supervisor state=started enabled=yes
 
+    - name: create manage command
+      template: src=template/manage dest=/bin/manage mode=755
+
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
