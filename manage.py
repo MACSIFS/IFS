@@ -1,3 +1,6 @@
+import os
+import unittest
+
 from flask.ext.script import Manager
 
 from server import app
@@ -13,5 +16,12 @@ def init_db():
     db.create_all()
 
 
-if __name__ == "__main__":
+@manager.command
+def test():
+    tests_path = os.path.join(os.path.dirname(__file__), 'server', 'tests')
+    tests = unittest.defaultTestLoader.discover(tests_path)
+    runner = unittest.TextTestRunner()
+    runner.run(tests)
+
+if __name__ == '__main__':
     manager.run()
