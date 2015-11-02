@@ -69,6 +69,16 @@ module.exports = function (grunt) {
             },
             student: student.ngAnnotate,
             lecturer: lecturer.ngAnnotate
+        },
+        karma: {
+            options: {
+            },
+            lecturer: {
+                configFile: 'test/unit/client/lecturer/karma.conf.js',
+            },
+            student: {
+                configFile: 'test/unit/client/student/karma.conf.js',
+            }
         }
     });
     
@@ -79,6 +89,20 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-script-link-tags');
     grunt.loadNpmTasks('grunt-ng-annotate');
+    grunt.loadNpmTasks('grunt-karma');
+
+    grunt.registerTask('test:lecturer', [
+        'karma:lecturer'
+    ]);
+
+    grunt.registerTask('test:student', [
+        'karma:student'
+    ]);
+
+    grunt.registerTask('test:all', [
+        'test:lecturer',
+        'test:student'
+    ]);
     
     grunt.registerTask('dev:student', [
         'jshint:student',
@@ -137,6 +161,12 @@ module.exports = function (grunt) {
         console.log('$ grunt <type>:<module> ');
         console.log('Example: grunt dev:student');
         console.log('Example: grunt release:lecturer');
+        console.log('');
+        console.log('Available types:');
+        console.log('test:');
+        console.log('  :lecturer - Run unit tests for lecture module');
+        console.log('  :student - Run unit tests for student module');
+        console.log('  :all - Run all unit tests');
         console.log('');
         console.log('*************************');
     });
