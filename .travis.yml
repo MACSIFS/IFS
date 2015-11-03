@@ -1,0 +1,14 @@
+language: node_js
+node_js: stable
+dist: trusty
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y python-pip chromium-browser firefox
+  - sudo pip install ansible
+install:
+  - ansible-playbook deploy/setup_server.yml -v -i deploy/hosts-travis
+before_script:
+  # The next two lines enable chromium and firefox to run without a screen
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+script: manage test && grunt test:all

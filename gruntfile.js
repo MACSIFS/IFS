@@ -99,9 +99,9 @@ module.exports = function (grunt) {
         'karma:student'
     ]);
 
+    // Fails when there are no tests, so add test:student later
     grunt.registerTask('test:all', [
-        'test:lecturer',
-        'test:student'
+        'test:lecturer'
     ]);
     
     grunt.registerTask('dev:student', [
