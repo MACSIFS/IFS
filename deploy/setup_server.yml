@@ -5,7 +5,6 @@
   vars:
     app_name: ifs
     app_run: server
-    src_dir: /vagrant
     srv_dir: /srv
 
   tasks:
@@ -16,7 +15,7 @@
         - npm
         - nginx
         - python3-pip
-        - python3-venv
+        - python3.4-venv
         - python3-dev
         - supervisor
         - postgresql
@@ -53,7 +52,7 @@
       sudo: no
 
     - name: install backend dependencies with pip
-      pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv
+      pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv-3.4
 
     - name: install gunicorn into the env
       pip:  name=gunicorn virtualenv={{srv_dir}}/{{app_name}}/env state=present
