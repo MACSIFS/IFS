@@ -32,9 +32,6 @@
     - name: install bower
       npm: name=bower global=yes
 
-    - name: install grunt
-      npm: name=grunt global=yes
-
     - name: install node
       npm: name=node global=yes
 
