@@ -10,6 +10,7 @@
         console.log('Ready (Lecture Service)');
         
         /* jshint validthis: true */
-        this.retrieveSlides = $resource('../../server/lecture/:id', {id:'@lectureId'});
+        this.retrieveSlides = $resource('API/:id', {id:'@lectureId'});
+        this.retrieveCommentsAndQuestions = $resource('API/:id', {id:'@lectureId'});
     }
 })();
