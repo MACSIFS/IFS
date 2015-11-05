@@ -14,7 +14,7 @@
             joinLecture: joinLecture,
             leaveLecture: leaveLecture,
             loadLecture: loadLecture,
-            getCommentsAndQuestions: getCommentsAndQuestions
+            getComments: getComments
         };
         
         return service;
@@ -46,9 +46,9 @@
             }
         }
         
-        function getCommentsAndQuestions(onSuccess, onFail) {
+        function getComments(onSuccess, onFail) {
             if (angular.isDefined(lectureId)) {
-                lectureService.retrieveCommentsAndQuestions
+                lectureService.retrieveComments
                     .get({id: lectureId}, onSuccess, onFail);
             } else {
                 $location.path('/');

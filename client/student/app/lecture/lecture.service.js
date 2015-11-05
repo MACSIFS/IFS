@@ -11,6 +11,6 @@
         
         /* jshint validthis: true */
         this.retrieveSlides = $resource('API/:id', {id:'@lectureId'});
-        this.retrieveCommentsAndQuestions = $resource('API/:id', {id:'@lectureId'});
+        this.retrieveComments = $resource('API/:id', {id:'@lectureId'});
     }
 })();

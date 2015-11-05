@@ -3,14 +3,14 @@
     
     angular
         .module('student')
-        .directive('commentAndQuestionPanel', commentAndQuestionPanel);
+        .directive('commentPanel', commentPanel);
     
-    function commentAndQuestionPanel() {
+    function commentPanel() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/lecture/commentAndQuestion.html',
+            templateUrl: 'app/lecture/comment.panel.html',
             link: link,
-            controller: CommentAndQuestionPanelController,
+            controller: CommentPanelController,
             controllerAs: 'vm',
             bindToController: true
         };
@@ -23,10 +23,10 @@
     }
     
     /* @ngInject */
-    function CommentAndQuestionPanelController(lectureFactory) {
+    function CommentPanelController(lectureFactory) {
         console.log('Ready (Simple List Panel Controller)');
         
-        getCommentsAndQuestions();
+        getComments();
         
         var vm = this;
         vm.list = [
@@ -36,9 +36,9 @@
             {text: 'This is a really long comment. A comment testing how the text wraps to multiple lines'}
         ];
         
-        function getCommentsAndQuestions() {
+        function getComments() {
             lectureFactory
-                .getCommentsAndQuestions(function(response) {
+                .getComments(function(response) {
                     console.log('Success');
                     // TODO: update vm.list.
                     
