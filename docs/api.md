@@ -56,11 +56,20 @@ Content:
 ```
 {
     "type": "object",
-    "title": "comment",
-    "type": "object",
     "properties": {
-        "content": {
-            "type": "string"
+        "comments": {
+            "description": "List of all comments",
+            "type": "array",
+            "items": {
+                "description": "A comment",
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "description": "Text content of comment",
+                        "type": "string"
+                    }
+                }
+            }
         }
     }
 }
