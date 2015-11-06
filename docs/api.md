@@ -26,6 +26,44 @@ Example: `hig.no/ifs/api/0`
 
 ## <a name="api"></a>APIs
 
+### <a name="add-comment"></a>Add comment
+
+Add a comment to a lecture.
+
+#### URL
+
+`/lectures/:lecture-id/comment`
+
+#### Method
+
+POST
+
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to add a new comment to.
+
+#### Success Response
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the added comment",
+            "type": "number"
+        }
+    }
+}
+```
+
 ### <a name="get-comments"></a>Get Comments
 
 Get comments from a lecture.
