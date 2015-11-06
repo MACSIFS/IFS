@@ -163,6 +163,28 @@ Content:
 }
 ```
 
+#### Error Responses
+
+##### Lecture Not Found
+
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+
 ### <a name="example"></a>Example API (not implemented)
 Retrieve a sum of money.
 
