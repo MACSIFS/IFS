@@ -5,6 +5,7 @@
     * [API Version](#version)
     * [Base URL](#base)
 * [APIs](#api)
+    * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Example API](#example)
 * [Format](#format)
