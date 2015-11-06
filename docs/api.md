@@ -148,6 +148,10 @@ Content:
                 "description": "A comment",
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "description": "ID of comment",
+                        "type": "integer"
+                    },
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
