@@ -5,6 +5,7 @@
     * [API Version](#version)
     * [Base URL](#base)
 * [APIs](#api)
+    * [Get Comments](#get-comments)
     * [Example API](#example)
 * [Format](#format)
 
@@ -24,6 +25,55 @@ When designing new APIs, they should be added to this document in the format des
 Example: `hig.no/ifs/api/0`
 
 ## <a name="api"></a>APIs
+
+### <a name="get-comments"></a>Get Comments
+
+Get comments from a lecture.
+
+#### URL
+
+`/lectures/:lecture-id/comments`
+
+
+#### Method
+
+GET
+
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to retrieve comments for.
+
+#### Success Respones
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "comments": {
+            "description": "List of all comments",
+            "type": "array",
+            "items": {
+                "description": "A comment",
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "description": "Text content of comment",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 ### <a name="example"></a>Example API (not implemented)
 Retrieve a sum of money.
