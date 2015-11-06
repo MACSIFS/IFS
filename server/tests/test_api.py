@@ -22,22 +22,28 @@ class GetCommentsApiTest(BaseTestCase):
 
         db.session.commit()
 
-    def test_success(self):
+    def test_all(self):
+        self._test_success()
+        self._test_lecture_not_found()
+        self._test_list()
+        self._test_content()
+
+    def _test_success(self):
         rv = self.app.get('/api/0/lectures/1/comments')
         assert rv.status_code == 200
 
-    def test_lecture_not_found(self):
+    def _test_lecture_not_found(self):
         rv = self.app.get('/api/0/lectures/2/comments')
         assert rv.status_code == 404
 
-    def test_list(self):
+    def _test_list(self):
         rv = self.app.get('/api/0/lectures/1/comments')
         assert rv.headers['Content-Type'] == 'application/json'
 
         response = json.loads(rv.data.decode('utf-8'))
         assert len(response['comments']) == 2
 
-    def test_content(self):
+    def _test_content(self):
         rv = self.app.get('/api/0/lectures/1/comments')
         assert rv.headers['Content-Type'] == 'application/json'
 
