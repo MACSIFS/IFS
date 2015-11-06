@@ -7,6 +7,7 @@
 * [APIs](#api)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
+    * [Vote Comment](#vote-comment)
     * [Example API](#example)
 * [Format](#format)
 
@@ -109,6 +110,44 @@ Content:
                     }
                 }
             }
+        }
+    }
+}
+```
+
+### <a name="vote-comment"></a>Vote a comment
+
+Upvote or downvote a comment
+
+#### URL
+
+`/lectures/:lecture-id/comment/:comment-id/vote`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to vote on a comment.
+* `comment-id=[integer]` ID of comment to vote on.
+
+#### Success Respones
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "rating": {
+            "description": "The new rating of the comment",
+            "type": "number"
         }
     }
 }
