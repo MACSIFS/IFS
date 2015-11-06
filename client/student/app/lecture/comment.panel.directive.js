@@ -35,7 +35,7 @@
             lectureFactory
                 .getComments(function(response) {
                     console.log('Success');
-                    vm.list = response.comments;
+                    vm.list = response.content;
                     
                 }, function(response) {
                     console.log('Error');
