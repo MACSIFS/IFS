@@ -50,7 +50,8 @@ exports.tags = {
                 'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
                 'client/student/app/student.module.js',
-                'client/student/app/**/*.js'
+                'client/student/app/**/*.js',
+                'client/shared/**/*.js'
             ],
             dest: 'client/student/index.html'
         },
@@ -97,6 +98,10 @@ exports.tags = {
 
 exports.ngAnnotate = {
     files: {
-        'release/concat/student.js': ['client/student/app/**/*.js', '!client/student/app/student.module.js']
+        'release/concat/student.js': [
+            'client/student/app/**/*.js', 
+            '!client/student/app/student.module.js',
+            'client/shared/**/*.js'
+        ]
     }
 };

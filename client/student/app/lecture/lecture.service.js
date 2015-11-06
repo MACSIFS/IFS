@@ -6,11 +6,11 @@
         .service('lectureService', lectureService);
         
     /* @ngInject */
-    function lectureService($resource) {
+    function lectureService($resource, CONSTANT) {
         console.log('Ready (Lecture Service)');
         
         /* jshint validthis: true */
-        this.retrieveSlides = $resource('API/:id', {id:'@lectureId'});
-        this.retrieveComments = $resource('API/:id', {id:'@lectureId'});
+        this.retrieveSlides = $resource(CONSTANT.baseURL + '/API/:id', {id:'@lectureId'});
+        this.retrieveComments = $resource(CONSTANT.baseURL + '/lecturers/:id/comments', {id:'@lectureId'});
     }
 })();
