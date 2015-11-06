@@ -6,7 +6,7 @@
     angular
         .module('ifsShared')
         .constant('CONSTANT', {
-            baseURL: 'http://hostname/api/version'
+            baseURL: '/api/0'
         });
 
 })();

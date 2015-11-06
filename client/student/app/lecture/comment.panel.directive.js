@@ -29,18 +29,13 @@
         getComments();
         
         var vm = this;
-        vm.list = [
-            {text: 'This is a comment'},
-            {text: 'Is this a question?'},
-            {text: 'Could you repeat this lecture?'},
-            {text: 'This is a really long comment. A comment testing how the text wraps to multiple lines'}
-        ];
+        vm.list = [];
         
         function getComments() {
             lectureFactory
                 .getComments(function(response) {
-                    console.log('Success');
-                    // TODO: update vm.list.
+                    console.log('Success', response);
+                    vm.list = response;
                     
                 }, function(response) {
                     console.log('Error');
