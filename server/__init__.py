@@ -4,6 +4,7 @@ from flask import Flask
 
 from .models import db
 from .main.main import main
+from .resources import api
 
 app = Flask(__name__)
 
@@ -15,3 +16,5 @@ if not app.config.from_envvar('IFS_SETTINGS', silent=True):
 app.register_blueprint(main)
 
 db.init_app(app)
+
+api.init_app(app)
