@@ -11,6 +11,7 @@
         var lectureId;
     
         var service = {
+            submitComment: submitComment,
             joinLecture: joinLecture,
             leaveLecture: leaveLecture,
             loadLecture: loadLecture
@@ -35,14 +36,18 @@
             } else {
                 $location.path('/');
             }
+            
+            function onSuccess(value, responseHeaders) {
+                console.log('success', value);
+            }
+            
+            function onFail(httpResponse) {
+                console.log('error: ', httpResponse.status, httpResponse.statusText);
+            }
         }
         
-        function onSuccess(value, responseHeaders) {
-            console.log('success', value);
-        }
-        
-        function onFail(httpResponse) {
-            console.log('error: ', httpResponse.status, httpResponse.statusText);
+        function submitComment() {
+            
         }
     }
 })();
