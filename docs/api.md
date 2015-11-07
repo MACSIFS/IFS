@@ -46,6 +46,10 @@ POST
 
 * `lecture-id=[integer]` ID of lecture to add a new comment to.
 
+#### Data Parameters
+
+* `data=[string]` The comment to be added.
+
 #### Success Response
 
 ##### Success
