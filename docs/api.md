@@ -34,7 +34,7 @@ Add a comment to a lecture.
 
 #### URL
 
-`/lectures/:lecture-id/comment`
+`/lectures/:lecture-id/comments`
 
 #### Method
 
@@ -121,7 +121,7 @@ Upvote or downvote a comment
 
 #### URL
 
-`/lectures/:lecture-id/comment/:comment-id/vote`
+`/lectures/:lecture-id/comments/:comment-id/vote`
 
 #### Method
 
