@@ -33,7 +33,7 @@ Add a comment to a lecture.
 
 #### URL
 
-`/lectures/:lecture-id/comment`
+`/lectures/:lecture-id/comments`
 
 #### Method
 
