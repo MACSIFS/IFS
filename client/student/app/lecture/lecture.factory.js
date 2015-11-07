@@ -49,9 +49,7 @@
         function getComments(onSuccess, onFail) {
             if (angular.isDefined(lectureId)) {
                 lectureService.retrieveComments
-                    .get({id: lectureId}, onSuccess, onFail);
-            } else {
-                $location.path('/');
+                    .query({id: lectureId}, onSuccess, onFail);
             }
         }
     }
