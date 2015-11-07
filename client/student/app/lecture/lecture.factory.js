@@ -49,7 +49,7 @@
         function getComments(onSuccess, onFail) {
             if (angular.isDefined(lectureId)) {
                 lectureService.retrieveComments
-                    .query({id: lectureId}, onSuccess, onFail);
+                    .get({id: lectureId}, onSuccess, onFail);
             }
         }
     }
