@@ -7,7 +7,8 @@
 * [APIs](#api)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
-    * [Vote Comment](#vote-comment)
+    * [Get Comment Rating] (#get-rating)
+    * [Rate Comment](#rate-comment)
     * [Example API](#example)
 * [Format](#format)
 
@@ -160,13 +161,53 @@ Content:
 }
 ```
 
-### <a name="vote-comment"></a>Vote a comment
+
+### <a name="get-rating"></a>Get Rating
+
+Get a comments rating.
+
+#### URL
+
+`/lectures/:lecture-id/comments/:comment-id/rating`
+
+#### Method
+
+GET
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture.
+* `comment-id=[integer]` ID of comment to retrieve its rating.
+
+#### Success Respones
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "rating": {
+            "description": "The rating of the comment",
+            "type": "number"
+        }
+    }
+}
+```
+
+
+### <a name="rate-comment"></a>Rate a comment
 
 Upvote or downvote a comment
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/vote`
+`/lectures/:lecture-id/comments/:comment-id/rating/:rating-id`
 
 #### Method
 
@@ -178,6 +219,11 @@ POST
 
 * `lecture-id=[integer]` ID of lecture to vote on a comment.
 * `comment-id=[integer]` ID of comment to vote on.
+* `rating-id=[integer]` ID of rating (simulating user).
+
+#### Data Parameters
+
+* `data=[integer]` The number 1 or -1 for upvoting or downvoting.
 
 #### Success Respones
 
@@ -197,6 +243,27 @@ Content:
     }
 }
 ```
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
 
 ### <a name="example"></a>Example API (not implemented)
 Retrieve a sum of money.
