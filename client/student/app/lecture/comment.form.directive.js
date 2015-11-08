@@ -11,13 +11,13 @@
             templateUrl: 'app/lecture/comment.form.html',
             link: link,
             controller: CommentFormController,
-            controllerAs: 'vm',
+            controllerAs: 'commentForm',
             bindToController: true
         };
         
         return directive;
         
-        function link(scope, element, attrs, vm) {
+        function link(scope, element, attrs, commentForm) {
             console.log('Ready (Comment Form Link)');
         }
     }
@@ -26,13 +26,18 @@
     function CommentFormController(lectureFactory) {
         console.log('Ready (Comment Form Controller)');
         
-        var vm = this;
-        vm.submitComment = submitComment;
+        var commentForm = this;
+        commentForm.comment = '';
+        commentForm.submitComment = submitComment;
         
         function submitComment() {
-            console.log('submit comment');
-            lectureFactory.submitComment();
+            lectureFactory.submitComment(commentForm.comment, function() {
+                console.log('Success');
+                // TODO: Show user feedback.
+            }, function() {
+                console.log('error');
+                // TODO: Show user feedback.
+            });
         }
-        
     }    
 })();

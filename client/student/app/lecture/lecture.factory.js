@@ -47,14 +47,10 @@
             }
         }
         
-        function submitComment() {
-            
-            function onSuccess(value, responseHeaders) {
-                console.log('Success', value);
-            }
-            
-            function onFail(httpResponse) {
-                console.log('Error');
+        function submitComment(comment, onSuccess, onError) {
+            if (angular.isDefined(lectureId)) {
+                lectureService.submitComment
+                    .save({id: lectureId}, {data: comment}, onSuccess, onError);
             }
         }
         
