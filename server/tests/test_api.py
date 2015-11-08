@@ -64,13 +64,13 @@ class PostCommentsApiTest(BaseTestCase):
 
     def test_success(self):
         rv = self.app.post('/api/0/lectures/1/comments', data=dict(
-            content='hello!'
+            data='hello!'
         ))
         assert rv.status_code == 200
 
     def test_response(self):
         rv = self.app.post('/api/0/lectures/1/comments', data=dict(
-            content='hello!'
+            data='hello!'
         ))
         assert rv.status_code == 200
 
@@ -82,6 +82,6 @@ class PostCommentsApiTest(BaseTestCase):
         rv = self.app.post('/api/0/lectures/2/comments')
         assert rv.status_code == 404
 
-    def test_no_content(self):
+    def test_no_data(self):
         rv = self.app.post('/api/0/lectures/1/comments')
         assert rv.status_code == 400
