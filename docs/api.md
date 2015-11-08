@@ -5,6 +5,7 @@
     * [API Version](#version)
     * [Base URL](#base)
 * [APIs](#api)
+    * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Example API](#example)
 * [Format](#format)
@@ -25,6 +26,89 @@ When designing new APIs, they should be added to this document in the format des
 Example: `hig.no/ifs/api/0`
 
 ## <a name="api"></a>APIs
+
+### <a name="add-comment"></a>Add comment
+
+Add a comment to a lecture.
+
+#### URL
+
+`/lectures/:lecture-id/comments`
+
+#### Method
+
+POST
+
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to add a new comment to.
+
+#### Data Parameters
+
+* `data=[string]` The comment to be added.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the added comment",
+            "type": "number"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ### <a name="get-comments"></a>Get Comments
 
