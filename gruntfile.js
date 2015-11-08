@@ -47,7 +47,6 @@ module.exports = function (grunt) {
         jshint: {
             student: ['*.js', student.jshint],
             lecturer: ['*.js', lecturer.jshint],
-            all: ['*.js', 'src/**/*.js']
         },
         watch: {
             student: student.watch.change,

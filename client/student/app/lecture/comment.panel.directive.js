@@ -8,6 +8,9 @@
     function commentPanel() {
         var directive = {
             restrict: 'E',
+            scope: {
+                list: '='
+            },
             templateUrl: 'app/lecture/comment.panel.html',
             link: link,
             controller: CommentPanelController,
@@ -23,24 +26,9 @@
     }
     
     /* @ngInject */
-    function CommentPanelController(lectureFactory) {
+    function CommentPanelController() {
         console.log('Ready (Comment Panel Controller)');
         
-        getComments();
-        
-        var commentPanel = this;
-        commentPanel.list = [];
-        
-        function getComments() {
-            lectureFactory
-                .getComments(function(response) {
-                    console.log('Success');
-                    commentPanel.list = response.comments;
-                    
-                }, function(response) {
-                    console.log('Error');
-                });
-        }
-       
+        var commentPanel = this;       
     }
 })();

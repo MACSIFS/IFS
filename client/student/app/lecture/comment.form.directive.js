@@ -8,6 +8,10 @@
     function commentForm() {
         var directive = {
             restrict: 'E',
+            scope: {
+                list: '=',
+                submitted: '='
+            },
             templateUrl: 'app/lecture/comment.form.html',
             link: link,
             controller: CommentFormController,
@@ -27,16 +31,27 @@
         console.log('Ready (Comment Form Controller)');
         
         var commentForm = this;
-        commentForm.comment = '';
         commentForm.submitComment = submitComment;
         
         function submitComment() {
-            lectureFactory.submitComment(commentForm.comment, function() {
+            commentForm.submitted = true;
+            lectureFactory.submitComment(commentForm.comment, function(response) {
                 console.log('Success');
-                // TODO: Show user feedback.
+                commentForm.feedbackMessage = 'Comment submitted!';
+                commentForm.feedbackType = 'alert-success';
+                commentForm.feedbackIcon = 'glyphicon-ok-sign';
+                
+                var comment = {
+                    id: response.id,
+                    content: commentForm.comment
+                };
+                
+                commentForm.list.push(comment);
             }, function() {
                 console.log('error');
-                // TODO: Show user feedback.
+                commentForm.feedbackMessage = 'An error occured!';
+                commentForm.feedbackType = 'alert-danger';
+                commentForm.feedbackIcon = 'glyphicon-exclamation-sign';
             });
         }
     }    
