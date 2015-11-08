@@ -1,5 +1,9 @@
 (function() {
     'use strict';
     
-    angular.module('student', ['ngResource', 'ngRoute']);
+    angular.module('student', [
+        'ngResource', 
+        'ngRoute',
+        'ifsShared'
+    ]);
 })();

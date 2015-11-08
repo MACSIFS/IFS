@@ -47,7 +47,11 @@ POST
 
 * `lecture-id=[integer]` ID of lecture to add a new comment to.
 
-#### Success Response
+#### Data Parameters
+
+* `data=[string]` The comment to be added.
+
+#### Success Responses
 
 ##### Success
 
@@ -61,6 +65,47 @@ Content:
         "id": {
             "description": "The primary id for the added comment",
             "type": "number"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
         }
     }
 }

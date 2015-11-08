@@ -13,7 +13,8 @@
         var service = {
             joinLecture: joinLecture,
             leaveLecture: leaveLecture,
-            loadLecture: loadLecture
+            loadLecture: loadLecture,
+            getComments: getComments
         };
         
         return service;
@@ -35,14 +36,21 @@
             } else {
                 $location.path('/');
             }
+            
+            function onSuccess(value, responseHeaders) {
+                console.log('Success', value);
+            }
+            
+            function onFail(httpResponse) {
+                console.log('Error');
+            }
         }
         
-        function onSuccess(value, responseHeaders) {
-            console.log('success', value);
-        }
-        
-        function onFail(httpResponse) {
-            console.log('error: ', httpResponse.status, httpResponse.statusText);
+        function getComments(onSuccess, onFail) {
+            if (angular.isDefined(lectureId)) {
+                lectureService.retrieveComments
+                    .get({id: lectureId}, onSuccess, onFail);
+            }
         }
     }
 })();
