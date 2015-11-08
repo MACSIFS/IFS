@@ -5,6 +5,21 @@ from .models import db, Comment, Lecture
 api = Api()
 
 
+class LectureResource(Resource):
+    def get(self, lecture_id):
+        db_lectures = Lecture.query.filter(Lecture.id == lecture_id).all()
+
+        if not db_lectures:
+            abort(404, message="Lecture {} does not exist".format(lecture_id))
+
+        lecture = db_lectures[0]
+        return {
+            'id': lecture.id,
+            'name': lecture.name,
+            'courseId': lecture.course_id
+        }
+
+
 class CommentListResource(Resource):
     def get(self, lecture_id):
         db_lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
@@ -46,4 +61,5 @@ class CommentListResource(Resource):
             'id': comment.id
         }
 
+api.add_resource(LectureResource, '/api/0/lectures/<lecture_id>')
 api.add_resource(CommentListResource, '/api/0/lectures/<lecture_id>/comments')
