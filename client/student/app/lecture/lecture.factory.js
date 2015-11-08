@@ -14,7 +14,8 @@
             submitComment: submitComment,
             joinLecture: joinLecture,
             leaveLecture: leaveLecture,
-            loadLecture: loadLecture
+            loadLecture: loadLecture,
+            getComments: getComments
         };
         
         return service;
@@ -48,6 +49,20 @@
         
         function submitComment() {
             
+            function onSuccess(value, responseHeaders) {
+                console.log('Success', value);
+            }
+            
+            function onFail(httpResponse) {
+                console.log('Error');
+            }
+        }
+        
+        function getComments(onSuccess, onFail) {
+            if (angular.isDefined(lectureId)) {
+                lectureService.retrieveComments
+                    .get({id: lectureId}, onSuccess, onFail);
+            }
         }
     }
 })();
