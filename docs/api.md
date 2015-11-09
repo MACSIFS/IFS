@@ -9,6 +9,7 @@
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Get Comment Rating](#get-rating)
+    * [Remove Comment Rating](#remove-rating)
     * [Rate Comment](#rate-comment)
     * [Example API](#example)
 * [Format](#format)
@@ -293,6 +294,51 @@ Content:
 }
 ```
 
+### <a name="remove-rating"></a>Remove Comment Rating
+
+Remove a rating from a comment
+
+#### URL
+
+`/lectures/:lecture-id/comments/:comment-id/ratings`
+
+#### Method
+
+DELETE
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture.
+* `comment-id=[integer]` ID of comment to retrieve its rating.
+
+#### Success Respones
+
+##### Success
+
+Code: 200
+
+#### Error Responses
+
+##### Resource Not Found
+
+The resource specified by the URL was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "error": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ### <a name="rate-comment"></a>Rate a comment
 
