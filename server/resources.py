@@ -24,9 +24,9 @@ class CommentListResource(Resource):
         }
 
     def post(self, lecture_id):
-        db_lectures = Lecture.query.filter(Lecture.id == lecture_id).all()
+        lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
-        if not db_lectures:
+        if not lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
         parser = reqparse.RequestParser()
@@ -37,7 +37,6 @@ class CommentListResource(Resource):
             abort(400, message="Comment has no data parameter")
 
         content = args.data
-        lecture = db_lectures[0]
 
         comment = Comment(content, lecture)
         db.session.add(comment)
