@@ -11,7 +11,6 @@
     * [Get Comment Rating](#get-rating)
     * [Remove Comment Rating](#remove-rating)
     * [Rate Comment](#rate-comment)
-    * [Example API](#example)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -452,64 +451,6 @@ Content:
     "type": "object",
     "properties": {
         "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-
-### <a name="example"></a>Example API (not implemented)
-Retrieve a sum of money.
-
-Performs a transaction and returns the sum of money successfully retrieved.
-
-#### URL
-
-`/bank/retrieve/:sum`
-
-#### Method
-
-POST
-
-#### URL Parameters
-
-##### Required
-
-* `sum=[number]` The sum that you want to retrieve.
-
-#### Success Responses
-
-##### Success
-
-Code: 200
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "sum": {
-            "description": "The actual sum retrieved. Might be less than the requested.",
-            "type": "number"
-        }
-    }
-}
-```
-
-#### Error Responses
-
-##### Bad Request
-
-Code: 400
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "error": {
             "description": "Error message",
             "type": "string"
         }
