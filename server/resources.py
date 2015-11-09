@@ -30,7 +30,7 @@ class CommentListResource(Resource):
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
         parser = reqparse.RequestParser()
-        parser.add_argument('data', help='Text content of comment')
+        parser.add_argument('data', help="Text content of comment")
         args = parser.parse_args()
 
         if not args.data:
