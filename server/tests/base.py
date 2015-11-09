@@ -9,8 +9,8 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.db_fd, self.test_db_path = tempfile.mkstemp('.db')
-        test_db_uri = 'sqlite:///{}'.format(self.test_db_path)
-        app.config['SQLALCHEMY_DATABASE_URI'] = test_db_uri
+        # test_db_uri = 'sqlite:///{}'.format(self.test_db_path)
+        # app.config['SQLALCHEMY_DATABASE_URI'] = test_db_uri
         app.config['TESTING'] = True
         self.app = app.test_client()
 

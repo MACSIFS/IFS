@@ -148,6 +148,10 @@ Content:
                 "description": "A comment",
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "description": "ID of comment",
+                        "type": "integer"
+                    },
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
@@ -158,6 +162,28 @@ Content:
     }
 }
 ```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
 
 ### <a name="example"></a>Example API (not implemented)
 Retrieve a sum of money.
