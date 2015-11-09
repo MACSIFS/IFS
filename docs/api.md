@@ -272,6 +272,27 @@ Content:
 }
 ```
 
+#### Error Responses
+
+##### Resource Not Found
+
+The resource specified by the URL was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "error": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
 
 ### <a name="rate-comment"></a>Rate a comment
 
