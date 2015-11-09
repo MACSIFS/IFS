@@ -8,9 +8,10 @@
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
+    * [Add Comment Rating](#add-rating)
     * [Get Comment Rating](#get-rating)
     * [Remove Comment Rating](#remove-rating)
-    * [Rate Comment](#rate-comment)
+    * [Update Comment Rating](#rate-comment)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -201,7 +202,7 @@ GET
 
 * `lecture-id=[integer]` ID of lecture to retrieve comments for.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -234,13 +235,99 @@ Content:
 }
 ```
 
-### <a name="get-rating"></a>Get Comment Rating
+### <a name="add-rating"></a>Add Comment Rating
 
-Get a comments rating.
+Add a rating to a comment
 
 #### URL
 
 `/lectures/:lecture-id/comments/:comment-id/ratings`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to rate a comment.
+* `comment-id=[integer]` ID of comment to rate.
+
+#### Data Parameters
+
+##### Required
+
+* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "ID of the rating",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Bad Request
+
+Data parameters were bad.
+See message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Resource Not Found
+
+Lecture or comment was not found.
+See message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-rating"></a>Get Comment Rating
+
+Get a comment rating.
+
+#### URL
+
+`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
 
 #### Method
 
@@ -252,8 +339,9 @@ GET
 
 * `lecture-id=[integer]` ID of lecture.
 * `comment-id=[integer]` ID of comment to retrieve its rating.
+* `rating-id=[integer]` ID of rating to retrieve.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -265,7 +353,7 @@ Content:
     "type": "object",
     "properties": {
         "rating": {
-            "description": "The rating of the comment",
+            "description": "The rating (-1 or 1)",
             "type": "number"
         }
     }
@@ -276,7 +364,8 @@ Content:
 
 ##### Resource Not Found
 
-The resource specified by the URL was not found.
+The lecture, comment or rating was not found.
+See error message for details.
 
 Code: 404
 
@@ -299,7 +388,7 @@ Remove a rating from a comment
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings`
+`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
 
 #### Method
 
@@ -309,10 +398,11 @@ DELETE
 
 ##### Required
 
-* `lecture-id=[integer]` ID of lecture.
-* `comment-id=[integer]` ID of comment to retrieve its rating.
+* `lecture-id=[integer]` ID of lecture where comment is.
+* `comment-id=[integer]` ID of comment where rating is.
+* `rating-id=[integer]` ID of rating to remove.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -339,9 +429,9 @@ Content:
 }
 ```
 
-### <a name="rate-comment"></a>Rate a comment
+### <a name="rate-comment"></a>Update Comment Rating
 
-Upvote or downvote a comment
+Change an individual rating of a comment
 
 #### URL
 
@@ -357,7 +447,7 @@ POST
 
 * `lecture-id=[integer]` ID of lecture to vote on a comment.
 * `comment-id=[integer]` ID of comment to vote on.
-* `rating-id=[integer]` ID of rating (simulating user).
+* `rating-id=[integer]` ID of rating.
 
 #### Data Parameters
 
