@@ -6,9 +6,9 @@ api = Api()
 
 class CommentListResource(Resource):
     def get(self, lecture_id):
-        db_lectures = Lecture.query.filter(Lecture.id == lecture_id).all()
+        db_lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
-        if not db_lectures:
+        if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
         db_comments = Comment.query.filter(Comment.lecture_id == lecture_id)
