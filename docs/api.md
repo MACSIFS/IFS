@@ -7,7 +7,7 @@
 * [APIs](#api)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
-    * [Get Comment Rating] (#get-rating)
+    * [Get Comment Rating](#get-rating)
     * [Rate Comment](#rate-comment)
     * [Example API](#example)
 * [Format](#format)
@@ -162,7 +162,7 @@ Content:
 ```
 
 
-### <a name="get-rating"></a>Get Rating
+### <a name="get-rating"></a>Get Comment Rating
 
 Get a comments rating.
 
@@ -223,9 +223,9 @@ POST
 
 #### Data Parameters
 
-* `data=[integer]` The number 1 or -1 for upvoting or downvoting.
+* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -244,12 +244,31 @@ Content:
 }
 ```
 
-##### Invalid Data
+#### Error Responses
 
-The data parameters in the request were invalid.
-See error message for details.
+##### Bad Request
 
 Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "error": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Not found
+
+The required url parameters cannot be found.
+See error message for details.
+
+Code: 404
 
 Content:
 ```
