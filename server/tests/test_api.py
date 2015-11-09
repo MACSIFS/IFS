@@ -1,6 +1,7 @@
+import json
 from server.tests.base import BaseTestCase
 from server.models import db, Lecturer, Course, Lecture, Comment
-import json
+
 
 class GetCommentsApiTest(BaseTestCase):
     def setUp(self):

@@ -3,6 +3,7 @@ from .models import Comment, Lecture
 
 api = Api()
 
+
 class CommentListResource(Resource):
     def get(self, lecture_id):
         db_lectures = Lecture.query.filter(Lecture.id == lecture_id).all()
@@ -12,10 +13,10 @@ class CommentListResource(Resource):
 
         db_comments = Comment.query.filter(Comment.lecture_id == lecture_id)
 
-        comments = [{
-            'id': c.id,
-            'content': c.content}
-            for c in db_comments]
+        comments = [
+            {'id': c.id, 'content': c.content}
+            for c in db_comments
+        ]
 
         return {
             'comments': comments
