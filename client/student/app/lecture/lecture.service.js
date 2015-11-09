@@ -12,5 +12,6 @@
         /* jshint validthis: true */
         this.retrieveSlides = $resource(CONSTANT.baseURL + '/API/:id', {id:'@lectureId'});
         this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:id/comments', {id:'@lectureId'});
+        this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:id/comments', {id:'@lectureId'});
     }
 })();

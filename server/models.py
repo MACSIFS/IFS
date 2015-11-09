@@ -43,6 +43,7 @@ class Lecture(db.Model):
     name = db.Column(db.String(), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     quizzes = db.relationship('Quiz', backref='lecture')
+    lectures = db.relationship('Comment', backref='lecture')
 
     def __init__(self, name, course):
         self.name = name
@@ -65,3 +66,16 @@ class Quiz(db.Model):
 
     def __repr__(self):
         return "<Quiz {}>".format(self.id)
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(), nullable=False)
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+
+    def __init__(self, content, lecture):
+        self.content = content
+        self.lecture = lecture
+
+    def __repr__(self):
+        return "<Comment {}>".format(self.id)

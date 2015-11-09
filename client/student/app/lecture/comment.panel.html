@@ -1,12 +1,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="panel-title">
-            <span>Comments And Questions</span>
+            <span>Comments</span>
         </div>
     </div>
     <ul class="list-group">
         <li class="list-group-item" 
-            data-ng-repeat="item in vm.list track by $index">
+            data-ng-repeat="item in commentPanel.list track by $index">
             <b>{{item.content}}</b>
         </li>
     </ul>

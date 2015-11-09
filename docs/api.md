@@ -150,6 +150,10 @@ Content:
                 "description": "A comment",
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "description": "ID of comment",
+                        "type": "integer"
+                    },
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
@@ -160,7 +164,6 @@ Content:
     }
 }
 ```
-
 
 ### <a name="get-rating"></a>Get Comment Rating
 
@@ -263,10 +266,47 @@ Content:
 }
 ```
 
-##### Not found
+##### Lecture Not Found
 
-The required url parameters cannot be found.
-See error message for details.
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Comment Not Found
+
+The `comment-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Rating Not Found
+
+The `rating-id` parameter provided was not found.
 
 Code: 404
 
