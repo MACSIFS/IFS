@@ -168,7 +168,7 @@ Get a comments rating.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/rating`
+`/lectures/:lecture-id/comments/:comment-id/ratings`
 
 #### Method
 
@@ -207,7 +207,7 @@ Upvote or downvote a comment
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/rating/:rating-id`
+`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
 
 #### Method
 
