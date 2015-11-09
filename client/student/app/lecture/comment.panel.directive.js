@@ -8,39 +8,27 @@
     function commentPanel() {
         var directive = {
             restrict: 'E',
+            scope: {
+                list: '='
+            },
             templateUrl: 'app/lecture/comment.panel.html',
             link: link,
             controller: CommentPanelController,
-            controllerAs: 'vm',
+            controllerAs: 'commentPanel',
             bindToController: true
         };
         
         return directive;
         
-        function link(scope, element, attrs, vm) {
-            console.log('Ready (Archive Link)');
+        function link(scope, element, attrs, commentPanel) {
+            console.log('Ready (Comment Panel Link)');
         }
     }
     
     /* @ngInject */
-    function CommentPanelController(lectureFactory) {
-        console.log('Ready (Simple List Panel Controller)');
+    function CommentPanelController() {
+        console.log('Ready (Comment Panel Controller)');
         
-        getComments();
-        
-        var vm = this;
-        vm.list = [];
-        
-        function getComments() {
-            lectureFactory
-                .getComments(function(response) {
-                    console.log('Success');
-                    vm.list = response.comments;
-                    
-                }, function(response) {
-                    console.log('Error');
-                });
-        }
-       
+        var commentPanel = this;       
     }
 })();

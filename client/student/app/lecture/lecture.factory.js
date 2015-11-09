@@ -11,6 +11,7 @@
         var lectureId;
     
         var service = {
+            submitComment: submitComment,
             joinLecture: joinLecture,
             leaveLecture: leaveLecture,
             loadLecture: loadLecture,
@@ -38,11 +39,18 @@
             }
             
             function onSuccess(value, responseHeaders) {
-                console.log('Success', value);
+                console.log('success', value);
             }
             
             function onFail(httpResponse) {
-                console.log('Error');
+                console.log('error: ', httpResponse.status, httpResponse.statusText);
+            }
+        }
+        
+        function submitComment(comment, onSuccess, onError) {
+            if (angular.isDefined(lectureId)) {
+                lectureService.submitComment
+                    .save({id: lectureId}, {data: comment}, onSuccess, onError);
             }
         }
         

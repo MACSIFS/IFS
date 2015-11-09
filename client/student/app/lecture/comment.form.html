@@ -1,0 +1,16 @@
+<form data-ng-submit="commentForm.submitComment()">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Comment..." data-ng-model="commentForm.comment">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">
+            <span class="glyphicon glyphicon-comment"></span>
+        </button>
+      </span>
+    </div>
+    <ifs-feedback
+        data-ng-show="commentForm.submitted"
+        message="commentForm.feedbackMessage"
+        type="commentForm.feedbackType"
+        icon="commentForm.feedbackIcon">
+    </ifs-feedback>
+</form>

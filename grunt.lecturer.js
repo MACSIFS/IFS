@@ -4,6 +4,7 @@ exports.concat = {
     js: {
         src: [
             'client/lecturer/app/lecturer.module.js',
+            'client/shared/shared.module.js',
             'release/concat/lecturer.js'
         ],
         dest: 'release/concat/lecturer.js'
@@ -50,6 +51,7 @@ exports.tags = {
                 'bower_components/angular-route/angular-route.js',
                 'client/lecturer/app/lecturer.module.js',
                 'client/lecturer/app/**/*.js',
+                'client/shared/shared.module.js',
                 'client/shared/**/*.js'
             ],
             dest: 'client/lecturer/index.html'

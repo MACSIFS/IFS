@@ -4,7 +4,8 @@ exports.concat = {
     js: {
         src: [
             'client/student/app/student.module.js',
-            'release/concat/student.js'
+            'client/shared/shared.module.js',
+            'release/concat/student.js',
         ],
         dest: 'release/concat/student.js'
     },
@@ -51,6 +52,7 @@ exports.tags = {
                 'bower_components/angular-route/angular-route.js',
                 'client/student/app/student.module.js',
                 'client/student/app/**/*.js',
+                'client/shared/shared.module.js',
                 'client/shared/**/*.js'
             ],
             dest: 'client/student/index.html'
@@ -101,7 +103,8 @@ exports.ngAnnotate = {
         'release/concat/student.js': [
             'client/student/app/**/*.js', 
             '!client/student/app/student.module.js',
-            'client/shared/**/*.js'
+            'client/shared/**/*.js',
+            '!client/shared/shared.module.js'
         ]
     }
 };
