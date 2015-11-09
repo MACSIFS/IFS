@@ -314,7 +314,7 @@ Content:
     "type": "object",
     "properties": {
         "message": {
-            "description": "Error message",
+            "description": "Lecture, comment, or rating was not found",
             "type": "string"
         }
     }
