@@ -286,7 +286,7 @@ Content:
 {
     "type": "object",
     "properties": {
-        "error": {
+        "message": {
             "description": "Error message",
             "type": "string"
         }
@@ -332,7 +332,7 @@ Content:
 {
     "type": "object",
     "properties": {
-        "error": {
+        "message": {
             "description": "Error message",
             "type": "string"
         }
@@ -394,7 +394,7 @@ Content:
 {
     "type": "object",
     "properties": {
-        "error": {
+        "message": {
             "description": "Error message",
             "type": "string"
         }
