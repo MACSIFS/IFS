@@ -28,18 +28,17 @@
                     }
                 }
             })
-            .when('/lecture', {
+            .when('/lecture/:lectureId', {
                 templateUrl: 'app/lecture/lecture.html',
                 controller: 'LectureCtrl',
                 controllerAs: 'vm',
                 resolve: { /* @ngInject */
                     loadLecture: function(lectureFactory) {
                         
-                        // NOTE(Thomas): Loading the lecture on 'resolve'
-                        // ensures it being loaded on page refresh,
-                        // although data needs to be stored locally to
-                        // prevent users (students) being re-directed to home.
-                        lectureFactory.loadLecture();
+                        // NOTE(Thomas): Get lecture on 'resolve'
+                        // ensures it being called on page refresh.
+                        // Although, the lectureId needs to be locally stored.
+                        lectureFactory.joinLecture();
                     }
                 }
             })

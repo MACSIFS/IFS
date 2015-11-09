@@ -10,8 +10,8 @@
         console.log('Ready (Lecture Service)');
         
         /* jshint validthis: true */
-        this.retrieveSlides = $resource(CONSTANT.baseURL + '/API/:id', {id:'@lectureId'});
-        this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:id/comments', {id:'@lectureId'});
-        this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:id/comments', {id:'@lectureId'});
+        this.retrieveLecture = $resource(CONSTANT.baseURL + '/lectures/:lectureId', {lectureId:'@lectureId'});
+        this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
+        this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
     }
 })();
