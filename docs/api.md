@@ -5,6 +5,7 @@
     * [API Version](#version)
     * [Base URL](#base)
 * [APIs](#api)
+    * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Get Comment Rating](#get-rating)
@@ -28,6 +29,74 @@ When designing new APIs, they should be added to this document in the format des
 Example: `hig.no/ifs/api/0`
 
 ## <a name="api"></a>APIs
+
+### <a name="get-lecture"></a>Get Lecture
+
+Get a lecture.
+
+#### URL
+
+`/lectures/:lecture-id`
+
+
+#### Method
+
+GET
+
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to get.
+
+#### Success Respones
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "ID of lecture. Same as ID from parameter",
+            "type": "integer"
+        },
+        "name": {
+            "description": "Name of the lecture",
+            "type": "string"
+        },
+        "courseId": {
+            "description": "ID of course that the lecture is part of",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The `lecture-id` parameter provided was not found.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ### <a name="add-comment"></a>Add comment
 
