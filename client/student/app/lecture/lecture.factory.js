@@ -25,15 +25,10 @@
         
         function joinLecture(id, error) {
 
-            // Only get lecture if no lecture is present.
-            if (angular.isUndefined(lecture.id)) {
-                if (angular.isDefined(id)) {
-                    lectureId = id;
-                }
-                
-                lectureService.retrieveLecture
-                    .get({lectureId: lectureId}, onSuccess, onFail);
-            }
+            lectureId = id;
+            
+            lectureService.retrieveLecture
+                .get({lectureId: lectureId}, onSuccess, onFail);
             
             function onSuccess(response) {
                 console.log('Success');

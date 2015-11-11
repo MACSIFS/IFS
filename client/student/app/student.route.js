@@ -31,16 +31,7 @@
             .when('/lecture/:lectureId', {
                 templateUrl: 'app/lecture/lecture.html',
                 controller: 'LectureCtrl',
-                controllerAs: 'vm',
-                resolve: { /* @ngInject */
-                    loadLecture: function(lectureFactory) {
-                        
-                        // NOTE(Thomas): Get lecture on 'resolve'
-                        // ensures it being called on page refresh.
-                        // Although, the lectureId needs to be locally stored.
-                        lectureFactory.joinLecture();
-                    }
-                }
+                controllerAs: 'vm'
             })
             .otherwise({
                 redirectTo: '/'
