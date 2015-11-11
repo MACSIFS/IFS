@@ -21,7 +21,10 @@
         return service;
         
         function joinLecture(id, error) {
-            lectureId = id;
+            if (angular.isDefined(id)) {
+                lectureId = id;
+            }
+
             lectureService.retrieveLecture
                 .get({lectureId: lectureId}, onSuccess, onFail);
             
