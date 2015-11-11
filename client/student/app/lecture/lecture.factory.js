@@ -57,6 +57,7 @@
         
         function leaveLecture() {
             lectureId = undefined;
+            lecture = {};
             $location.path('/');
         }
         
