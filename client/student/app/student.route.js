@@ -28,20 +28,10 @@
                     }
                 }
             })
-            .when('/lecture', {
+            .when('/lecture/:lectureId', {
                 templateUrl: 'app/lecture/lecture.html',
                 controller: 'LectureCtrl',
-                controllerAs: 'vm',
-                resolve: { /* @ngInject */
-                    loadLecture: function(lectureFactory) {
-                        
-                        // NOTE(Thomas): Loading the lecture on 'resolve'
-                        // ensures it being loaded on page refresh,
-                        // although data needs to be stored locally to
-                        // prevent users (students) being re-directed to home.
-                        lectureFactory.loadLecture();
-                    }
-                }
+                controllerAs: 'vm'
             })
             .otherwise({
                 redirectTo: '/'

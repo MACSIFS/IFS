@@ -8,6 +8,7 @@
     /* @ngInject */
     function LectureController(lectureFactory) {
         console.log('Ready (Lecture Controller)');
+        lectureFactory.joinLecture();
         getComments();
         
         var vm = this;
