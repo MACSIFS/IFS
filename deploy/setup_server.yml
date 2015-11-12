@@ -38,11 +38,12 @@
     - name: install grunt-cli
       npm: name=grunt-cli global=yes
 
-#    - name: install dependencies with npm
-#      command: /usr/bin/npm install --silent --no-bin-links
-#      args:
-#        chdir: "{{srv_dir}}/{{app_name}}/src"
-#      sudo: no
+    - name: install dependencies with npm
+      command: /usr/bin/npm install --silent --no-bin-links
+      args:
+        chdir: "{{srv_dir}}/{{app_name}}/src"
+      sudo: no
+      when: os == "linux"
 
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
