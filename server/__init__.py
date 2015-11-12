@@ -37,9 +37,7 @@ def create_app(config=None):
 
     @app.after_request
     def set_client_id(response):
-        print('maybe setting cookie')
         if g.get('set_client_id_cookie', False):
-            print('setting cookie')
             response.set_cookie('client_id', g.client_id)
         return response
 
