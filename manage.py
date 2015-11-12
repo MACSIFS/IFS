@@ -3,12 +3,12 @@ import unittest
 
 from flask.ext.script import Manager
 
-from server import app
+from server import create_app
 from server.models import db
 
 from server.models import Lecturer, Course, Lecture, Comment
 
-manager = Manager(app)
+manager = Manager(create_app)
 
 
 @manager.command
