@@ -1,4 +1,4 @@
-from os import path
+import os
 
 from flask import Flask
 
@@ -6,15 +6,22 @@ from .models import db
 from .main.main import main
 from .resources import api
 
-app = Flask(__name__)
 
-app.config.from_object('config')
-if not app.config.from_envvar('IFS_SETTINGS', silent=True):
-    app.config.from_pyfile('/etc/ifs.cfg', silent=True)
-    app.config.from_pyfile(path.expanduser('~/.ifs.cfg'), silent=True)
+def create_app(config=None):
+    app = Flask(__name__)
 
-app.register_blueprint(main)
+    app.config.from_object('config')
 
-db.init_app(app)
+    if not app.config.from_envvar('IFS_SETTINGS', silent=True):
+        app.config.from_pyfile('/etc/ifs.cfg', silent=True)
+        app.config.from_pyfile(os.path.expanduser('~/.ifs.cfg'), silent=True)
 
-api.init_app(app)
+    if config:
+        app.config.update(config)
+
+    app.register_blueprint(main)
+
+    db.init_app(app)
+    api.init_app(app)
+
+    return app
