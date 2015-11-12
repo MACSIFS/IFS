@@ -8,10 +8,8 @@
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
-    * [Add Comment Rating](#add-rating)
+    * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
-    * [Remove Comment Rating](#remove-rating)
-    * [Update Comment Rating](#rate-comment)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -235,13 +233,13 @@ Content:
 }
 ```
 
-### <a name="add-rating"></a>Add Comment Rating
+### <a name="set-rating"></a>Set Comment Rating
 
-Add a rating to a comment
+Set the client's rating on a comment.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings`
+`/lectures/:lecture-id/comments/:comment-id/rating`
 
 #### Method
 
@@ -258,26 +256,13 @@ POST
 
 ##### Required
 
-* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
+* `rating=[integer]` The number 1, 0 or -1 for up vote, no vote or down vote.
 
 #### Success Responses
 
 ##### Success
 
 Code: 200
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "id": {
-            "description": "ID of the rating",
-            "type": "integer"
-        }
-    }
-}
-```
 
 #### Error Responses
 
@@ -323,11 +308,11 @@ Content:
 
 ### <a name="get-rating"></a>Get Comment Rating
 
-Get a comment rating.
+Get a client's comment rating.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
+`/lectures/:lecture-id/comments/:comment-id/rating`
 
 #### Method
 
@@ -339,7 +324,6 @@ GET
 
 * `lecture-id=[integer]` ID of lecture.
 * `comment-id=[integer]` ID of comment to retrieve its rating.
-* `rating-id=[integer]` ID of rating to retrieve.
 
 #### Success Responses
 
@@ -353,7 +337,7 @@ Content:
     "type": "object",
     "properties": {
         "rating": {
-            "description": "The rating (-1 or 1)",
+            "description": "The rating (-1, 0 or 1)",
             "type": "number"
         }
     }
@@ -364,174 +348,8 @@ Content:
 
 ##### Resource Not Found
 
-The lecture, comment or rating was not found.
+The lecture or comment was not found.
 See error message for details.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-### <a name="remove-rating"></a>Remove Comment Rating
-
-Remove a rating from a comment
-
-#### URL
-
-`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
-
-#### Method
-
-DELETE
-
-#### URL Parameters
-
-##### Required
-
-* `lecture-id=[integer]` ID of lecture where comment is.
-* `comment-id=[integer]` ID of comment where rating is.
-* `rating-id=[integer]` ID of rating to remove.
-
-#### Success Responses
-
-##### Success
-
-Code: 200
-
-#### Error Responses
-
-##### Resource Not Found
-
-The resource specified by the URL was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-### <a name="rate-comment"></a>Update Comment Rating
-
-Change an individual rating of a comment
-
-#### URL
-
-`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
-
-#### Method
-
-POST
-
-#### URL Parameters
-
-##### Required
-
-* `lecture-id=[integer]` ID of lecture to vote on a comment.
-* `comment-id=[integer]` ID of comment to vote on.
-* `rating-id=[integer]` ID of rating.
-
-#### Data Parameters
-
-* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
-
-#### Success Responses
-
-##### Success
-
-Code: 200
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "rating": {
-            "description": "The new rating of the comment",
-            "type": "number"
-        }
-    }
-}
-```
-
-#### Error Responses
-
-##### Bad Request
-
-Code: 400
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Lecture Not Found
-
-The `lecture-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Comment Not Found
-
-The `comment-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Rating Not Found
-
-The `rating-id` parameter provided was not found.
 
 Code: 404
 
