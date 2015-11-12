@@ -1,5 +1,0 @@
-[local]
-localhost ansible_connection=local
-
-[local:vars]
-src_dir=/vagrant
