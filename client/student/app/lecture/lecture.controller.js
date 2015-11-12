@@ -8,6 +8,10 @@
     /* @ngInject */
     function LectureController(lectureFactory) {
         console.log('Ready (Lecture Controller)');
+        angular.element('#engagement-btn').addClass('active');
+        
+        lectureFactory.setShowComment(showComments);
+        lectureFactory.setShowEngagement(showEngagement);
         lectureFactory.joinLecture();
         getComments();
         
@@ -15,11 +19,8 @@
         vm.comment = '';
         vm.comments = [];
         vm.submitted = false;
-        vm.leave = leave;
-        
-        function leave() {
-            lectureFactory.leaveLecture();
-        }
+        vm.showEngagement = true;
+        vm.showComments = false;
         
         function getComments() {
             lectureFactory
@@ -30,6 +31,16 @@
                 }, function(response) {
                     console.log('Error');
                 });
+        }
+        
+        function showComments() {
+            vm.showComments = true;
+            vm.showEngagement = false;
+        }
+        
+        function showEngagement() {
+            vm.showComments = false;
+            vm.showEngagement = true;
         }
     }
 })();
