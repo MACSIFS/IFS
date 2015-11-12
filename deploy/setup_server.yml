@@ -43,6 +43,7 @@
       args:
         chdir: "{{srv_dir}}/{{app_name}}/src"
       sudo: no
+      when: os == "linux"
 
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
