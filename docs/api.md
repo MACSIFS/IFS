@@ -4,6 +4,7 @@
 * [Introduction](#intro)
     * [API Version](#version)
     * [Base URL](#base)
+    * [Client ID](#id)
 * [APIs](#api)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
@@ -27,6 +28,14 @@ When designing new APIs, they should be added to this document in the format des
 
 Example: `hig.no/ifs/api/0`
 
+### <a name="id"></a>Client ID
+
+`client_id=[string]`
+
+Each user of the API gets a unique client ID to identify them.
+This ID is generated and set as a Cookie called `client_id` by the server with the first request.
+Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
+This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
 
 ### <a name="get-lecture"></a>Get Lecture
