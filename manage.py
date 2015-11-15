@@ -1,7 +1,12 @@
+import os
+import unittest
+
 from flask.ext.script import Manager
 
 from server import app
 from server.models import db
+
+from server.models import Lecturer, Course, Lecture, Comment
 
 manager = Manager(app)
 
@@ -13,5 +18,34 @@ def init_db():
     db.create_all()
 
 
-if __name__ == "__main__":
+@manager.command
+def mock_db():
+    """ Insert mock data into database """
+    init_db()
+
+    simon = Lecturer('Simon', 'McCallum')
+    db.session.add(simon)
+
+    imt3601 = Course('IMT3601 - Game Programming', simon)
+    db.session.add(imt3601)
+
+    imt3601_l1 = Lecture('Lecture 1', imt3601)
+    db.session.add(imt3601_l1)
+
+    imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
+    db.session.add(imt3601_l1_c1)
+    imt3601_l1_c2 = Comment('This is fun!', imt3601_l1)
+    db.session.add(imt3601_l1_c2)
+
+    db.session.commit()
+
+
+@manager.command
+def test():
+    tests_path = os.path.join(os.path.dirname(__file__), 'server', 'tests')
+    tests = unittest.defaultTestLoader.discover(tests_path)
+    runner = unittest.TextTestRunner()
+    runner.run(tests)
+
+if __name__ == '__main__':
     manager.run()

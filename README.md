@@ -5,6 +5,8 @@ Build Master: Magnus
 
 Product Owner: Simon MC
 
+[![Build Status](https://travis-ci.org/MACSIFS/IFS.svg)](https://travis-ci.org/MACSIFS/IFS)
+
 ## Installation
 Vagrant and ansible should be installed on the system. For example on Ubuntu:
 

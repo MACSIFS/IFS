@@ -5,7 +5,6 @@
   vars:
     app_name: ifs
     app_run: server
-    src_dir: /vagrant
     srv_dir: /srv
 
   tasks:
@@ -16,7 +15,7 @@
         - npm
         - nginx
         - python3-pip
-        - python3-venv
+        - python3.4-venv
         - python3-dev
         - supervisor
         - postgresql
@@ -33,9 +32,6 @@
     - name: install bower
       npm: name=bower global=yes
 
-    - name: install grunt
-      npm: name=grunt global=yes
-
     - name: install node
       npm: name=node global=yes
 
@@ -50,9 +46,10 @@
 
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
+      sudo: no
 
     - name: install backend dependencies with pip
-      pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv
+      pip: requirements={{srv_dir}}/{{app_name}}/src/requirements.txt virtualenv={{srv_dir}}/{{app_name}}/env state=present virtualenv_command=pyvenv-3.4
 
     - name: install gunicorn into the env
       pip:  name=gunicorn virtualenv={{srv_dir}}/{{app_name}}/env state=present
@@ -86,6 +83,9 @@
 
     - name: enable supervisor
       service: name=supervisor state=started enabled=yes
+
+    - name: create manage command
+      template: src=template/manage dest=/bin/manage mode=755
 
   handlers:
     - name: restart nginx

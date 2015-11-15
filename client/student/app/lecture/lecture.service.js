@@ -6,10 +6,12 @@
         .service('lectureService', lectureService);
         
     /* @ngInject */
-    function lectureService($resource) {
+    function lectureService($resource, CONSTANT) {
         console.log('Ready (Lecture Service)');
         
         /* jshint validthis: true */
-        this.retrieveSlides = $resource('../../server/lecture/:id', {id:'@lectureId'});
+        this.retrieveLecture = $resource(CONSTANT.baseURL + '/lectures/:lectureId', {lectureId:'@lectureId'});
+        this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
+        this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
     }
 })();
