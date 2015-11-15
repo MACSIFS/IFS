@@ -11,6 +11,7 @@
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
+    * [Add Engagement Update](#add-engagement)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -374,6 +375,77 @@ Content:
     }
 }
 ```
+
+### <a name="add-engagement"></a>Add Engagement Update
+
+Add an update to a student's engagement in the class.
+
+#### URL
+
+`/lectures/:lecture-id/engagements`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture the engagement is for.
+
+#### Data Parameters
+
+##### Required
+
+* `challenge=[number]` The amount of challenge in range [0, 1].
+* `interest=[number]` The amount of interest in range [0, 1].
+* `time=[integer]` UTC time point of engagement update in UNIX time.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "ID of the engagement update",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The lecture was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+#### Notes
+
+Students are identified by the `client_id` Cookie.
 
 ## <a name="format"></a>Format
 
