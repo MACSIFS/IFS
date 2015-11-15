@@ -1,6 +1,7 @@
 import dateutil.parser
+from flask import g
 from flask_restful import Resource, Api, abort, reqparse
-from .models import db, Comment, Lecture, Engagement
+from .models import db, Comment, Lecture, Engagement, CommentRating
 
 api = Api()
 
@@ -98,6 +99,55 @@ class EngagementListResource(Resource):
         }
 
 
+class CommentRatingResource(Resource):
+    def post(self, lecture_id, comment_id):
+        lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
+
+        if not lecture:
+            abort(404, message="Lecture {} does not exist".format(lecture_id))
+
+        comment = Comment.query.filter(Comment.id == comment_id).first()
+
+        if not comment:
+            abort(404, message="Comment {} does not exist".format(comment_id))
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('rating', required=True, type=int)
+        args = parser.parse_args()
+
+        if args.rating is None:
+            abort(400, message="Comment has no rating parameter")
+
+        if not isinstance(args.rating, int):
+            abort(400, message="Comment rating must be an integer")
+
+        if args.rating > 1 or args.rating < -1:
+            abort(400, message="Comment rating must be -1, 0 or 1")
+
+        if not g.client_id:
+            abort(500, message="No client_id Cookie")
+
+        rating = args.rating
+        user = g.client_id
+
+        comment_rating = CommentRating.query.filter(
+            CommentRating.lecture_id == lecture.id,
+            CommentRating.comment_id == comment.id,
+            CommentRating.user == user
+        ).first()
+
+        if comment_rating:
+            comment_rating.rating = rating
+        else:
+            comment_rating = CommentRating(rating, user, comment, lecture)
+            db.session.add(comment_rating)
+
+        db.session.commit()
+
+        return None
+
+
 api.add_resource(LectureResource, '/api/0/lectures/<lecture_id>')
 api.add_resource(CommentListResource, '/api/0/lectures/<lecture_id>/comments')
 api.add_resource(EngagementListResource, '/api/0/lectures/<lecture_id>/engagements')
+api.add_resource(CommentRatingResource, '/api/0/lectures/<lecture_id>/comments/<comment_id>/rating')
