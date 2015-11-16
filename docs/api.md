@@ -4,13 +4,14 @@
 * [Introduction](#intro)
     * [API Version](#version)
     * [Base URL](#base)
+    * [Client ID](#id)
 * [APIs](#api)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
+    * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
-    * [Rate Comment](#rate-comment)
-    * [Example API](#example)
+    * [Add Engagement Update](#add-engagement)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -28,6 +29,14 @@ When designing new APIs, they should be added to this document in the format des
 
 Example: `hig.no/ifs/api/0`
 
+### <a name="id"></a>Client ID
+
+`client_id=[string]`
+
+Each user of the API gets a unique client ID to identify them.
+This ID is generated and set as a Cookie called `client_id` by the server with the first request.
+Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
+This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
 
 ### <a name="get-lecture"></a>Get Lecture
@@ -201,7 +210,7 @@ GET
 
 * `lecture-id=[integer]` ID of lecture to retrieve comments for.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -234,13 +243,86 @@ Content:
 }
 ```
 
-### <a name="get-rating"></a>Get Comment Rating
+### <a name="set-rating"></a>Set Comment Rating
 
-Get a comments rating.
+Set the client's rating on a comment.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings`
+`/lectures/:lecture-id/comments/:comment-id/rating`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to rate a comment.
+* `comment-id=[integer]` ID of comment to rate.
+
+#### Data Parameters
+
+##### Required
+
+* `rating=[integer]` The number 1, 0 or -1 for up vote, no vote or down vote.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+#### Error Responses
+
+##### Bad Request
+
+Data parameters were bad.
+See message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Resource Not Found
+
+Lecture or comment was not found.
+See message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Message detailing which resource could not be found and what you might do to fix the issue",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-rating"></a>Get Comment Rating
+
+Get a client's comment rating.
+
+#### URL
+
+`/lectures/:lecture-id/comments/:comment-id/rating`
 
 #### Method
 
@@ -253,7 +335,7 @@ GET
 * `lecture-id=[integer]` ID of lecture.
 * `comment-id=[integer]` ID of comment to retrieve its rating.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -265,21 +347,42 @@ Content:
     "type": "object",
     "properties": {
         "rating": {
-            "description": "The rating of the comment",
+            "description": "The rating (-1, 0 or 1)",
             "type": "number"
         }
     }
 }
 ```
 
+#### Error Responses
 
-### <a name="rate-comment"></a>Rate a comment
+##### Resource Not Found
 
-Upvote or downvote a comment
+The lecture or comment was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="add-engagement"></a>Add Engagement Update
+
+Add an update to a student's engagement in the class.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
+`/lectures/:lecture-id/engagements`
 
 #### Method
 
@@ -289,13 +392,15 @@ POST
 
 ##### Required
 
-* `lecture-id=[integer]` ID of lecture to vote on a comment.
-* `comment-id=[integer]` ID of comment to vote on.
-* `rating-id=[integer]` ID of rating (simulating user).
+* `lecture-id=[integer]` ID of lecture the engagement is for.
 
 #### Data Parameters
 
-* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
+##### Required
+
+* `challenge=[number]` The amount of challenge in range [0, 1].
+* `interest=[number]` The amount of interest in range [0, 1].
+* `time=[integer]` UTC time point of engagement update in UNIX time.
 
 #### Success Responses
 
@@ -308,36 +413,20 @@ Content:
 {
     "type": "object",
     "properties": {
-        "rating": {
-            "description": "The new rating of the comment",
-            "type": "number"
+        "id": {
+            "description": "ID of the engagement update",
+            "type": "integer"
         }
     }
 }
 ```
 
 #### Error Responses
-
-##### Bad Request
-
-Code: 400
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "error": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
 
 ##### Lecture Not Found
 
-The `lecture-id` parameter provided was not found.
+The lecture was not found.
+See error message for details.
 
 Code: 404
 
@@ -354,101 +443,9 @@ Content:
 }
 ```
 
-##### Comment Not Found
+#### Notes
 
-The `comment-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Rating Not Found
-
-The `rating-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-
-### <a name="example"></a>Example API (not implemented)
-Retrieve a sum of money.
-
-Performs a transaction and returns the sum of money successfully retrieved.
-
-#### URL
-
-`/bank/retrieve/:sum`
-
-#### Method
-
-POST
-
-#### URL Parameters
-
-##### Required
-
-* `sum=[number]` The sum that you want to retrieve.
-
-#### Success Responses
-
-##### Success
-
-Code: 200
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "sum": {
-            "description": "The actual sum retrieved. Might be less than the requested.",
-            "type": "number"
-        }
-    }
-}
-```
-
-#### Error Responses
-
-##### Bad Request
-
-Code: 400
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "error": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
+Students are identified by the `client_id` Cookie.
 
 ## <a name="format"></a>Format
 
