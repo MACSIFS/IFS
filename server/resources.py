@@ -151,9 +151,6 @@ class CommentRatingResource(Resource):
         if args.rating > 1 or args.rating < -1:
             abort(400, message="Comment rating must be -1, 0 or 1")
 
-        if not g.client_id:
-            abort(500, message="No client_id Cookie")
-
         rating = args.rating
         user = g.client_id
 
