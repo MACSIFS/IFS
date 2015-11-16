@@ -443,6 +443,26 @@ Content:
 }
 ```
 
+##### Invalid or Missing Data
+
+The data parameters were invalid or missing.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
 #### Notes
 
 Students are identified by the `client_id` Cookie.
