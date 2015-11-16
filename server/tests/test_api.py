@@ -237,9 +237,9 @@ class AddEngagementApiTest(BaseTestCase):
         assert response['id'] == 1
 
 
-class SetCommentRatingApiTetst(BaseTestCase):
+class SetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
-        super(SetCommentRatingApiTetst, self).setUp()
+        super(SetCommentRatingApiTest, self).setUp()
 
         simon = Lecturer('Simon', 'McCallum')
         db.session.add(simon)
