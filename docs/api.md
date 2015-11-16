@@ -4,12 +4,14 @@
 * [Introduction](#intro)
     * [API Version](#version)
     * [Base URL](#base)
+    * [Client ID](#id)
 * [APIs](#api)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
+    * [Add Engagement Update](#add-engagement)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -27,6 +29,14 @@ When designing new APIs, they should be added to this document in the format des
 
 Example: `hig.no/ifs/api/0`
 
+### <a name="id"></a>Client ID
+
+`client_id=[string]`
+
+Each user of the API gets a unique client ID to identify them.
+This ID is generated and set as a Cookie called `client_id` by the server with the first request.
+Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
+This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
 
 ### <a name="get-lecture"></a>Get Lecture
@@ -365,6 +375,77 @@ Content:
     }
 }
 ```
+
+### <a name="add-engagement"></a>Add Engagement Update
+
+Add an update to a student's engagement in the class.
+
+#### URL
+
+`/lectures/:lecture-id/engagements`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture the engagement is for.
+
+#### Data Parameters
+
+##### Required
+
+* `challenge=[number]` The amount of challenge in range [0, 1].
+* `interest=[number]` The amount of interest in range [0, 1].
+* `time=[integer]` UTC time point of engagement update in UNIX time.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "ID of the engagement update",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Lecture Not Found
+
+The lecture was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+#### Notes
+
+Students are identified by the `client_id` Cookie.
 
 ## <a name="format"></a>Format
 
