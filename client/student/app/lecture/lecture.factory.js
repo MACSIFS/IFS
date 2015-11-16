@@ -23,7 +23,8 @@
             setShowComment: setShowComment,
             setShowEngagement: setShowEngagement,
             linkShowComment: linkShowComment,
-            linkShowEngagement: linkShowEngagement
+            linkShowEngagement: linkShowEngagement,
+            submitEngagement: submitEngagement
         };
         
         return service;
@@ -48,20 +49,6 @@
             }
             
             function onFail(response) {
-                
-                lecture = {
-                    id: 1,
-                    name: 'Lecture1',
-                    courseId: 1
-                };
-                
-                angular.forEach(observerCallbacks, function(callback) {
-                    callback(lecture);
-                });
-                
-                $location.path('/lecture/' + lectureId);
-                
-                /*
                 console.log('Error');
 
                 // Show user feedback.
@@ -72,7 +59,6 @@
                 // When manually typing the route with an id,
                 // Redirect user to default route.
                 $location.path('/');
-                */
             }
         }
         
@@ -115,6 +101,11 @@
             angular.element('#comment-btn').removeClass('active');
             angular.element('#engagement-btn').addClass('active');
             showEngagementFn();
+        }
+        
+        function submitEngagement(engagement, onSuccess, onFail) {
+            lectureService.submitEngagement
+                .save({lectureId: lectureId}, engagement, onSuccess, onFail);
         }
     }
 })();
