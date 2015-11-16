@@ -1,6 +1,7 @@
+import dateutil.parser
 from flask import request
 from flask_restful import Resource, Api, abort, reqparse
-from .models import db, Comment, Lecture
+from .models import db, Comment, Lecture, Engagement
 
 api = Api()
 
@@ -61,5 +62,43 @@ class CommentListResource(Resource):
             'id': comment.id
         }
 
+
+class EngagementListResource(Resource):
+    def post(self, lecture_id):
+        lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
+
+        if not lecture:
+            abort(404, message="Lecture {} does not exist".format(lecture_id))
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('challenge', required=True, type=float)
+        parser.add_argument('interest', required=True, type=float)
+        parser.add_argument('time', required=True, type=str)
+        args = parser.parse_args()
+
+        if (args.challenge < 0.0 or args.challenge > 1.0):
+            abort(400, message="Challenge must be in range [0,1]")
+
+        if (args.interest < 0.0 or args.interest > 1.0):
+            abort(400, message="Interest must be in range [0,1]")
+
+        challenge = args.challenge
+        interest = args.interest
+
+        try:
+            time = dateutil.parser.parse(args.time)
+        except ValueError as e:
+            abort(400, message="Time could not be parsed: {}".format(e))
+
+        engagement = Engagement(challenge, interest, time, lecture)
+        db.session.add(engagement)
+        db.session.commit()
+
+        return {
+            'id': engagement.id
+        }
+
+
 api.add_resource(LectureResource, '/api/0/lectures/<lecture_id>')
 api.add_resource(CommentListResource, '/api/0/lectures/<lecture_id>/comments')
+api.add_resource(EngagementListResource, '/api/0/lectures/<lecture_id>/engagements')

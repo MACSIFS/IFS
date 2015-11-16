@@ -44,6 +44,7 @@ class Lecture(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     quizzes = db.relationship('Quiz', backref='lecture')
     lectures = db.relationship('Comment', backref='lecture')
+    engagements = db.relationship('Engagement', backref='lecture')
 
     def __init__(self, name, course):
         self.name = name
@@ -79,3 +80,21 @@ class Comment(db.Model):
 
     def __repr__(self):
         return "<Comment {}>".format(self.id)
+
+
+class Engagement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    challenge = db.Column(db.Float, nullable=False)
+    interest = db.Column(db.Float, nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+
+    def __init__(self, challenge, interest, time, lecture):
+        self.challenge = challenge
+        self.interest = interest
+        self.time = time
+        self.lecture = lecture
+        self.lecture_id = lecture.id
+
+    def __repr__(self):
+        return "<Engagement {}>".format(self.id)
