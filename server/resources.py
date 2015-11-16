@@ -100,6 +100,33 @@ class EngagementListResource(Resource):
 
 
 class CommentRatingResource(Resource):
+    def get(self, lecture_id, comment_id):
+        lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
+
+        if not lecture:
+            abort(404, message="Lecture {} does not exist".format(lecture_id))
+
+        comment = Comment.query.filter(Comment.id == comment_id).first()
+
+        if not comment:
+            abort(404, message="Comment {} does not exist".format(comment_id))
+
+        user = g.client_id
+
+        comment_rating = CommentRating.query.filter(
+            CommentRating.lecture_id == lecture.id,
+            CommentRating.comment_id == comment.id,
+            CommentRating.user == user
+        ).first()
+
+        if not comment_rating:
+            abort(404, message="CommentRating does not exist")
+
+        return {
+            'rating': comment_rating.rating
+        }
+
+
     def post(self, lecture_id, comment_id):
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 

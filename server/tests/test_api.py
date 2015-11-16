@@ -297,3 +297,47 @@ class SetCommentRatingApiTetst(BaseTestCase):
 
         rv = post_rating(0.5)
         assert rv.status_code == 400
+
+
+class GetCommentRatingApiTest(BaseTestCase):
+    def setUp(self):
+        super(GetCommentRatingApiTest, self).setUp()
+        simon = Lecturer('Simon', 'McCallum')
+        db.session.add(simon)
+
+        imt3601 = Course('IMT3601 - Game Programming', simon)
+        db.session.add(imt3601)
+
+        imt3601_l1 = Lecture('Lecture 1', imt3601)
+        db.session.add(imt3601_l1)
+
+        comment = Comment('This is boring', imt3601_l1)
+        db.session.add(comment)
+
+        db.session.commit()
+
+        # Using the POST API is required to make server use the correct
+        # client_id. See API doc for info about the client_id Cookie.
+        self.client.post('/api/0/lectures/1/comments/1/rating', data=dict(
+            rating=1
+        ))
+
+    def test_success(self):
+        rv = self.client.get('/api/0/lectures/1/comments/1/rating')
+        assert rv.status_code == 200
+
+    def test_lecture_not_found(self):
+        rv = self.client.get('/api/0/lectures/2/comments/1/rating')
+        assert rv.status_code == 404
+
+    def test_comment_not_found(self):
+        rv = self.client.get('/api/0/lectures/1/comments/2/rating')
+        assert rv.status_code == 404
+
+    def test_content(self):
+        rv = self.client.get('/api/0/lectures/1/comments/1/rating')
+        assert rv.headers['Content-Type'] == 'application/json'
+
+        response = json.loads(rv.data.decode('utf-8'))
+        assert 'rating' in response
+        assert response['rating'] == 1
