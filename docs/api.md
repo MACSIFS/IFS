@@ -400,7 +400,7 @@ POST
 
 * `challenge=[number]` The amount of challenge in range [0, 1].
 * `interest=[number]` The amount of interest in range [0, 1].
-* `time=[integer]` UTC time point of engagement update in UNIX time.
+* `time=[string]` UTC time point of engagement update in ISO format (ISO 8601).
 
 #### Success Responses
 
