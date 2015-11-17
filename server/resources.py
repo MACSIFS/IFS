@@ -44,15 +44,14 @@ class CommentListResource(Resource):
             .all()
         )
 
-        comments = []
-        for row in rows:
-            comment = {
+        comments = [
+            {
                 'id': row.id,
                 'content': row.content,
                 'rating': row.rating or 0
             }
-
-            comments.append(comment)
+            for row in rows
+        ]
 
         return {
             'comments': comments
