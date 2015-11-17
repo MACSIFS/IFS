@@ -162,16 +162,17 @@ class CommentRatingResource(Resource):
         parser.add_argument('rating', required=True, type=int)
         args = parser.parse_args()
 
-        if args.rating is None:
+        rating = args.rating
+
+        if rating is None:
             abort(400, message="Comment has no rating parameter")
 
-        if not isinstance(args.rating, int):
+        if not isinstance(rating, int):
             abort(400, message="Comment rating must be an integer")
 
-        if args.rating > 1 or args.rating < -1:
+        if rating > 1 or rating < -1:
             abort(400, message="Comment rating must be -1, 0 or 1")
 
-        rating = args.rating
         user_id = g.client_id
 
         with db.session.begin(subtransactions=True):
