@@ -43,7 +43,8 @@
                 
                 var comment = {
                     id: response.id,
-                    content: commentForm.comment
+                    content: commentForm.comment,
+                    submissionTime: new Date()
                 };
                 
                 commentForm.list.push(comment);
