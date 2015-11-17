@@ -235,6 +235,10 @@ Content:
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
+                    },
+                    "rating": {
+                        "description": "Rating from the current client. See 'Get Comment Rating' API",
+                        "type": "integer"
                     }
                 }
             }
