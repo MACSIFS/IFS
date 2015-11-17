@@ -1,6 +1,9 @@
 import dateutil.parser
+
 from flask import g
 from flask_restful import Resource, Api, abort, reqparse
+from sqlalchemy import and_
+
 from .models import db, Comment, Lecture, Engagement, CommentRating
 
 api = Api()
@@ -28,10 +31,16 @@ class CommentListResource(Resource):
         if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
-        rows = db.session.query(Comment, CommentRating) \
-                         .outerjoin(CommentRating, CommentRating.user == g.client_id) \
-                         .filter(Comment.lecture_id == lecture_id) \
-                         .all()
+        rows = (db.session.query(Comment, CommentRating)
+                .outerjoin(
+                    CommentRating,
+                    and_(
+                        CommentRating.comment_id == Comment.id,
+                        CommentRating.user == g.client_id
+                    )
+                )
+                .filter(Comment.lecture_id == lecture_id)
+                .all())
 
         comments = []
         for row in rows:
