@@ -28,12 +28,26 @@ class CommentListResource(Resource):
         if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
-        db_comments = Comment.query.filter(Comment.lecture_id == lecture_id)
+        rows = db.session.query(Comment, CommentRating) \
+                         .outerjoin(CommentRating, CommentRating.user == g.client_id) \
+                         .filter(Comment.lecture_id == lecture_id) \
+                         .all()
 
-        comments = [
-            {'id': c.id, 'content': c.content}
-            for c in db_comments
-        ]
+        comments = []
+        for row in rows:
+            db_comment = row[0]
+            db_rating = row[1]
+
+            comment = {
+                'id': db_comment.id,
+                'content': db_comment.content,
+                'rating': 0
+            }
+
+            if db_rating is not None:
+                comment['rating'] = db_rating.rating
+
+            comments.append(comment)
 
         return {
             'comments': comments

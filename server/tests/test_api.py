@@ -1,7 +1,13 @@
 import json
 from datetime import datetime
 from server.tests.base import BaseTestCase
-from server.models import db, Lecturer, Course, Lecture, Comment, Engagement
+from server.models import (db, Lecturer, Course, Lecture, Comment, Engagement,
+                           CommentRating)
+from uuid import uuid1
+
+
+def generate_client_id():
+    return str(uuid1())
 
 
 class GetCommentsApiTest(BaseTestCase):
@@ -46,6 +52,87 @@ class GetCommentsApiTest(BaseTestCase):
         response = json.loads(rv.data.decode('utf-8'))
 
         assert response['comments'][0]['content'] == 'This is boring'
+
+
+class GetCommentsWithRatingApiTest(BaseTestCase):
+    def _find_client_id_cookie(self):
+        client_id = None
+        for cookie in self.client.cookie_jar:
+            if cookie.name == 'client_id':
+                client_id = cookie.value
+        return client_id
+
+    def _set_client_id_cookie(self, id):
+        self.client.set_cookie('localhost', 'client_id', id)
+
+    def _set_generated_client_id_cookie(self):
+        id = generate_client_id()
+        self._set_client_id_cookie(id)
+        return id
+
+    def setUp(self):
+        super(GetCommentsWithRatingApiTest, self).setUp()
+
+        simon = Lecturer('Simon', 'McCallum')
+        db.session.add(simon)
+
+        imt3601 = Course('IMT3601 - Game Programming', simon)
+        db.session.add(imt3601)
+
+        imt3601_l1 = Lecture('Lecture 1', imt3601)
+        db.session.add(imt3601_l1)
+
+        imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
+        db.session.add(imt3601_l1_c1)
+
+        db.session.commit()
+
+        self.comment = imt3601_l1_c1
+        self.lecture = imt3601_l1
+
+    def test_no_rating(self):
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['rating'] == 0
+
+    def test_one_rating(self):
+        user = self._set_generated_client_id_cookie()
+
+        db.session.add(CommentRating(1, user, self.comment, self.lecture))
+        db.session.commit()
+
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['rating'] == 1
+
+    def test_two_ratings(self):
+        user1 = generate_client_id()
+        user2 = generate_client_id()
+
+        db.session.add(CommentRating(1, user1, self.comment, self.lecture))
+        db.session.add(CommentRating(-1, user2, self.comment, self.lecture))
+        db.session.commit()
+
+        self._set_client_id_cookie(user1)
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['rating'] == 1
+
+        self._set_client_id_cookie(user2)
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['rating'] == -1
+
+    def test_default_rating(self):
+        user = generate_client_id()
+
+        db.session.add(CommentRating(1, user, self.comment, self.lecture))
+        db.session.commit()
+
+        self._set_generated_client_id_cookie()
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['rating'] == 0
 
 
 class PostCommentsApiTest(BaseTestCase):
