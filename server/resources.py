@@ -1,5 +1,4 @@
 import dateutil.parser
-from flask import request
 from flask_restful import Resource, Api, abort, reqparse
 from .models import db, Comment, Lecture, Engagement
 
