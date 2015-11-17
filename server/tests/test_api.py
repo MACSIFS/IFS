@@ -422,6 +422,8 @@ class GetCommentRatingApiTest(BaseTestCase):
 
         db.session.commit()
 
+        self.lecture = imt3601_l1
+
         # Using the POST API is required to make server use the correct
         # client_id. See API doc for info about the client_id Cookie.
         self.client.post('/api/0/lectures/1/comments/1/rating', data=dict(
@@ -447,3 +449,14 @@ class GetCommentRatingApiTest(BaseTestCase):
         response = json.loads(rv.data.decode('utf-8'))
         assert 'rating' in response
         assert response['rating'] == 1
+
+    def test_default_value(self):
+        comment = Comment('Awesome', self.lecture)
+        db.session.add(comment)
+
+        rv = self.client.get('/api/0/lectures/1/comments/2/rating')
+        assert rv.headers['Content-Type'] == 'application/json'
+
+        response = json.loads(rv.data.decode('utf-8'))
+        assert 'rating' in response
+        assert response['rating'] == 0

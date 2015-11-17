@@ -138,11 +138,13 @@ class CommentRatingResource(Resource):
             CommentRating.user_id == user_id
         ).first()
 
-        if not comment_rating:
-            abort(404, message="CommentRating does not exist")
+        rating = 0
+
+        if comment_rating:
+            rating = comment_rating.rating
 
         return {
-            'rating': comment_rating.rating
+            'rating': rating
         }
 
 
