@@ -78,10 +78,10 @@ class EngagementListResource(Resource):
         challenge = args.challenge
         interest = args.interest
 
-        if (challenge < 0.0 or challenge > 1.0):
+        if not (0.0 <= challenge <= 1.0):
             abort(400, message="Challenge must be in range [0,1]")
 
-        if (interest < 0.0 or interest > 1.0):
+        if not (0.0 <= interest <= 1.0):
             abort(400, message="Interest must be in range [0,1]")
 
         try:
