@@ -45,6 +45,7 @@ class Lecture(db.Model):
     quizzes = db.relationship('Quiz', backref='lecture')
     lectures = db.relationship('Comment', backref='lecture')
     engagements = db.relationship('Engagement', backref='lecture')
+    comment_ratings = db.relationship('CommentRating', backref='lecture')
 
     def __init__(self, name, course):
         self.name = name
@@ -73,6 +74,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+    comment_ratings = db.relationship('CommentRating', backref='comment')
 
     def __init__(self, content, lecture):
         self.content = content
@@ -98,3 +100,19 @@ class Engagement(db.Model):
 
     def __repr__(self):
         return "<Engagement {}>".format(self.id)
+
+
+class CommentRating(db.Model):
+    user_id = db.Column(db.String(), primary_key=True)
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, rating, user_id, comment, lecture):
+        self.rating = rating
+        self.user_id = user_id
+        self.comment_id = comment.id
+        self.lecture_id = lecture.id
+
+    def __repr__(self):
+        return "<CommentRating {} {} {}>".format(self.user_id, self.comment_id, self.lecture_id)
