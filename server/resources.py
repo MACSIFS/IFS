@@ -31,7 +31,7 @@ class CommentListResource(Resource):
         if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
-        rows = (db.session.query(Comment, CommentRating)
+        rows = (db.session.query(Comment.id, Comment.content, CommentRating.rating)
                 .outerjoin(
                     CommentRating,
                     and_(
@@ -44,17 +44,11 @@ class CommentListResource(Resource):
 
         comments = []
         for row in rows:
-            db_comment = row[0]
-            db_rating = row[1]
-
             comment = {
-                'id': db_comment.id,
-                'content': db_comment.content,
-                'rating': 0
+                'id': row.id,
+                'content': row.content,
+                'rating': row.rating or 0
             }
-
-            if db_rating is not None:
-                comment['rating'] = db_rating.rating
 
             comments.append(comment)
 
