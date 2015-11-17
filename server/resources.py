@@ -169,7 +169,7 @@ class CommentRatingResource(Resource):
         if not isinstance(rating, int):
             abort(400, message="Comment rating must be an integer")
 
-        if rating > 1 or rating < -1:
+        if rating not in {-1, 0, 1}:
             abort(400, message="Comment rating must be -1, 0 or 1")
 
         user_id = g.client_id
