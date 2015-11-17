@@ -37,7 +37,7 @@ class CommentListResource(Resource):
                 CommentRating,
                 and_(
                     CommentRating.comment_id == Comment.id,
-                    CommentRating.user == g.client_id
+                    CommentRating.user_id == g.client_id
                 )
             )
             .filter(Comment.lecture_id == lecture_id)
@@ -129,12 +129,12 @@ class CommentRatingResource(Resource):
         if not comment:
             abort(404, message="Comment {} does not exist".format(comment_id))
 
-        user = g.client_id
+        user_id = g.client_id
 
         comment_rating = CommentRating.query.filter(
             CommentRating.lecture_id == lecture.id,
             CommentRating.comment_id == comment.id,
-            CommentRating.user == user
+            CommentRating.user_id == user_id
         ).first()
 
         if not comment_rating:
@@ -170,18 +170,18 @@ class CommentRatingResource(Resource):
             abort(400, message="Comment rating must be -1, 0 or 1")
 
         rating = args.rating
-        user = g.client_id
+        user_id = g.client_id
 
         comment_rating = CommentRating.query.filter(
             CommentRating.lecture_id == lecture.id,
             CommentRating.comment_id == comment.id,
-            CommentRating.user == user
+            CommentRating.user_id == user_id
         ).first()
 
         if comment_rating:
             comment_rating.rating = rating
         else:
-            comment_rating = CommentRating(rating, user, comment, lecture)
+            comment_rating = CommentRating(rating, user_id, comment, lecture)
             db.session.add(comment_rating)
 
         db.session.commit()

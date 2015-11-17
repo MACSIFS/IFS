@@ -103,16 +103,16 @@ class Engagement(db.Model):
 
 
 class CommentRating(db.Model):
-    user = db.Column(db.String(), primary_key=True)
+    user_id = db.Column(db.String(), primary_key=True)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, rating, user, comment, lecture):
+    def __init__(self, rating, user_id, comment, lecture):
         self.rating = rating
-        self.user = user
+        self.user_id = user_id
         self.comment_id = comment.id
         self.lecture_id = lecture.id
 
     def __repr__(self):
-        return "<CommentRating {} {} {}>".format(self.user, self.comment_id, self.lecture_id)
+        return "<CommentRating {} {} {}>".format(self.user_id, self.comment_id, self.lecture_id)

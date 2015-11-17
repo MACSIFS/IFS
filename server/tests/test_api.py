@@ -96,9 +96,9 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         assert response['comments'][0]['rating'] == 0
 
     def test_one_rating(self):
-        user = self._set_generated_client_id_cookie()
+        user_id = self._set_generated_client_id_cookie()
 
-        db.session.add(CommentRating(1, user, self.comment, self.lecture))
+        db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
         db.session.commit()
 
         rv = self.client.get('/api/0/lectures/1/comments')
@@ -106,27 +106,27 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         assert response['comments'][0]['rating'] == 1
 
     def test_two_ratings(self):
-        user1 = generate_client_id()
-        user2 = generate_client_id()
+        user_id1 = generate_client_id()
+        user_id2 = generate_client_id()
 
-        db.session.add(CommentRating(1, user1, self.comment, self.lecture))
-        db.session.add(CommentRating(-1, user2, self.comment, self.lecture))
+        db.session.add(CommentRating(1, user_id1, self.comment, self.lecture))
+        db.session.add(CommentRating(-1, user_id2, self.comment, self.lecture))
         db.session.commit()
 
-        self._set_client_id_cookie(user1)
+        self._set_client_id_cookie(user_id1)
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
         assert response['comments'][0]['rating'] == 1
 
-        self._set_client_id_cookie(user2)
+        self._set_client_id_cookie(user_id2)
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
         assert response['comments'][0]['rating'] == -1
 
     def test_default_rating(self):
-        user = generate_client_id()
+        user_id = generate_client_id()
 
-        db.session.add(CommentRating(1, user, self.comment, self.lecture))
+        db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
         db.session.commit()
 
         self._set_generated_client_id_cookie()
@@ -135,18 +135,18 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         assert response['comments'][0]['rating'] == 0
 
     def test_one_user_two_ratings(self):
-        user = generate_client_id()
+        user_id = generate_client_id()
 
         comment2 = Comment('Great!', self.lecture)
         db.session.add(comment2)
 
-        db.session.add(CommentRating(1, user, self.comment, self.lecture))
+        db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
         db.session.commit()
 
-        db.session.add(CommentRating(-1, user, comment2, self.lecture))
+        db.session.add(CommentRating(-1, user_id, comment2, self.lecture))
         db.session.commit()
 
-        self._set_client_id_cookie(user)
+        self._set_client_id_cookie(user_id)
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
         assert len(response['comments']) == 2
