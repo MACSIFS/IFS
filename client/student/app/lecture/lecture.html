@@ -1,13 +1,10 @@
 <div class="row">
     <!-- Desktop layout -->
     <div class="hidden-xs hidden-sm col-md-6 col-lg-6">
-        <h3>features</h3>
-        <ul class="list-group">
-            <li class="list-group-item">Mood indicator</li>
-            <li class="list-group-item">Answer questions (quiz)</li>
-            <li class="list-group-item">The entire entry page needs to be mobile friendly (should not be a big deal)</li>
-            <li class="list-group-item">Hide / replace / keep header?</li>
-        </ul>
+        <engagement-canvas
+            current-position="vm.currentPosition"
+            last-position="vm.lastPosition">
+        </engagement-canvas>
     </div>
     <div class="hidden-xs hidden-sm col-md-4 col-lg-4">
         <comment-panel
@@ -20,7 +17,10 @@
     </div>
     <!-- Mobile layout -->
     <div class="visible-xs visible-sm col-xs-12 col-sm-10" data-ng-show="vm.showEngagement">
-        <engagement-canvas></engagement-canvas>
+        <engagement-canvas 
+            current-position="vm.currentPosition"
+            last-position="vm.lastPosition">
+        </engagement-canvas>
     </div>
     <div class="visible-xs visible-sm col-xs-12 col-sm-10" data-ng-show="vm.showComments">
         <comment-panel
