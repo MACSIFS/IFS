@@ -1,5 +1,8 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+
+import dateutil.parser
+
 from server.tests.base import BaseTestCase
 from server.models import (db, Lecturer, Course, Lecture, Comment, Engagement,
                            CommentRating)
@@ -23,8 +26,10 @@ class GetCommentsApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
-        imt3601_l1_c2 = Comment('This is fun!', imt3601_l1)
+        self.submissionTime = datetime.utcnow()
+
+        imt3601_l1_c1 = Comment('This is boring', self.submissionTime, imt3601_l1)
+        imt3601_l1_c2 = Comment('This is fun!', self.submissionTime, imt3601_l1)
         db.session.add(imt3601_l1_c1)
         db.session.add(imt3601_l1_c2)
 
@@ -52,6 +57,16 @@ class GetCommentsApiTest(BaseTestCase):
         response = json.loads(rv.data.decode('utf-8'))
 
         assert response['comments'][0]['content'] == 'This is boring'
+
+    def test_submission_time(self):
+        rv = self.client.get('/api/0/lectures/1/comments')
+        assert rv.headers['Content-Type'] == 'application/json'
+
+        response = json.loads(rv.data.decode('utf-8'))
+
+        timeString = response['comments'][0]['submissionTime']
+        time = dateutil.parser.parse(timeString)
+        assert time == self.submissionTime
 
 
 class GetCommentsWithRatingApiTest(BaseTestCase):
@@ -82,7 +97,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
+        imt3601_l1_c1 = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(imt3601_l1_c1)
 
         db.session.commit()
@@ -137,7 +152,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
     def test_one_user_two_ratings(self):
         user_id = generate_client_id()
 
-        comment2 = Comment('Great!', self.lecture)
+        comment2 = Comment('Great!', datetime.utcnow(), self.lecture)
         db.session.add(comment2)
 
         db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
@@ -193,6 +208,16 @@ class PostCommentsApiTest(BaseTestCase):
         rv = self.client.post('/api/0/lectures/1/comments')
         assert rv.status_code == 400
 
+    def test_submission_time(self):
+        rv = self.client.post('/api/0/lectures/1/comments', data=dict(
+            data='hello!'
+        ))
+        assert rv.status_code == 200
+
+        presubmission_time = datetime.utcnow()
+        comment = Comment.query.filter(Comment.id == 1).first()
+
+        assert (comment.submissiontime - presubmission_time) < timedelta(minutes = 1)
 
 class GetLectureApiTest(BaseTestCase):
     def setUp(self):
@@ -356,7 +381,7 @@ class SetCommentRatingApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
+        imt3601_l1_c1 = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(imt3601_l1_c1)
 
         db.session.commit()
@@ -417,7 +442,7 @@ class GetCommentRatingApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        comment = Comment('This is boring', imt3601_l1)
+        comment = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(comment)
 
         db.session.commit()
@@ -451,7 +476,7 @@ class GetCommentRatingApiTest(BaseTestCase):
         assert response['rating'] == 1
 
     def test_default_value(self):
-        comment = Comment('Awesome', self.lecture)
+        comment = Comment('Awesome', datetime.utcnow(), self.lecture)
         db.session.add(comment)
 
         rv = self.client.get('/api/0/lectures/1/comments/2/rating')

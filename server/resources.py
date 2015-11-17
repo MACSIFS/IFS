@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import dateutil.parser
 
 from flask import g
@@ -32,7 +34,12 @@ class CommentListResource(Resource):
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
         rows = (
-            db.session.query(Comment.id, Comment.content, CommentRating.rating)
+            db.session.query(
+                Comment.id,
+                Comment.content,
+                Comment.submissiontime,
+                CommentRating.rating
+            )
             .outerjoin(
                 CommentRating,
                 and_(
@@ -48,6 +55,7 @@ class CommentListResource(Resource):
             {
                 'id': row.id,
                 'content': row.content,
+                'submissionTime': row.submissiontime.isoformat(),
                 'rating': row.rating or 0
             }
             for row in rows
@@ -72,7 +80,7 @@ class CommentListResource(Resource):
 
         content = args.data
 
-        comment = Comment(content, lecture)
+        comment = Comment(content, datetime.utcnow(), lecture)
         db.session.add(comment)
         db.session.commit()
 
