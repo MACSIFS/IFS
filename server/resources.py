@@ -41,7 +41,8 @@ class CommentListResource(Resource):
                 )
             )
             .filter(Comment.lecture_id == lecture_id)
-            .all())
+            .all()
+        )
 
         comments = []
         for row in rows:
