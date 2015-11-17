@@ -175,19 +175,18 @@ class CommentRatingResource(Resource):
         rating = args.rating
         user_id = g.client_id
 
-        comment_rating = CommentRating.query.filter(
-            CommentRating.lecture_id == lecture.id,
-            CommentRating.comment_id == comment.id,
-            CommentRating.user_id == user_id
-        ).first()
+        with db.session.begin(subtransactions=True):
+            comment_rating = CommentRating.query.filter(
+                CommentRating.lecture_id == lecture.id,
+                CommentRating.comment_id == comment.id,
+                CommentRating.user_id == user_id
+            ).first()
 
-        if comment_rating:
-            comment_rating.rating = rating
-        else:
-            comment_rating = CommentRating(rating, user_id, comment, lecture)
-            db.session.add(comment_rating)
-
-        db.session.commit()
+            if comment_rating:
+                comment_rating.rating = rating
+            else:
+                comment_rating = CommentRating(rating, user_id, comment, lecture)
+                db.session.add(comment_rating)
 
         return None
 
