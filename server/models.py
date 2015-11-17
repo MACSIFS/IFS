@@ -111,9 +111,7 @@ class CommentRating(db.Model):
     def __init__(self, rating, user, comment, lecture):
         self.rating = rating
         self.user = user
-        self.comment = comment
         self.comment_id = comment.id
-        self.lecture = lecture
         self.lecture_id = lecture.id
 
     def __repr__(self):
