@@ -146,7 +146,6 @@ class CommentRatingResource(Resource):
             'rating': rating
         }
 
-
     def post(self, lecture_id, comment_id):
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
