@@ -31,16 +31,17 @@ class CommentListResource(Resource):
         if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
-        rows = (db.session.query(Comment.id, Comment.content, CommentRating.rating)
-                .outerjoin(
-                    CommentRating,
-                    and_(
-                        CommentRating.comment_id == Comment.id,
-                        CommentRating.user == g.client_id
-                    )
+        rows = (
+            db.session.query(Comment.id, Comment.content, CommentRating.rating)
+            .outerjoin(
+                CommentRating,
+                and_(
+                    CommentRating.comment_id == Comment.id,
+                    CommentRating.user == g.client_id
                 )
-                .filter(Comment.lecture_id == lecture_id)
-                .all())
+            )
+            .filter(Comment.lecture_id == lecture_id)
+            .all())
 
         comments = []
         for row in rows:
