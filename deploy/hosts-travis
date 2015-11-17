@@ -2,5 +2,5 @@
 localhost ansible_connection=local
 
 [local:vars]
-travis=true
 src_dir=/home/travis/build/MACSIFS/IFS
+os=linux

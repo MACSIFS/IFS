@@ -32,17 +32,18 @@
     - name: install bower
       npm: name=bower global=yes
 
-    - name: install node
-      npm: name=node global=yes
-
     - name: make node -> nodejs link
       file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
 
     - name: install grunt-cli
       npm: name=grunt-cli global=yes
 
-    - name: install clientside dependencies with npm
-      npm: path={{srv_dir}}/{{app_name}}/src
+    - name: install dependencies with npm
+      command: /usr/bin/npm install --silent --no-bin-links
+      args:
+        chdir: "{{srv_dir}}/{{app_name}}/src"
+      sudo: no
+      when: os == "linux"
 
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
