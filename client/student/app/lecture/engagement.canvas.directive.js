@@ -32,7 +32,6 @@
             engagementCanvas.canvas.addEventListener('mouseup', engagementCanvas.mouseUpListener, false);
             engagementCanvas.canvas.addEventListener('mousedown', engagementCanvas.mouseDownListener, false);
             engagementCanvas.canvas.addEventListener('mousemove', engagementCanvas.mouseMoveListener, false);
-            engagementCanvas.canvas.addEventListener('click', engagementCanvas.clickListener, false);
             engagementCanvas.canvas.addEventListener('touchmove', engagementCanvas.touchMoveListener, false);
             engagementCanvas.canvas.addEventListener('touchend', engagementCanvas.touchendListener, false);
             
@@ -49,7 +48,6 @@
         engagementCanvas.rect = {};
         engagementCanvas.currentMousePos = {};
         
-        engagementCanvas.clickListener = clickListener;
         engagementCanvas.mouseUpListener = mouseUpListener;
         engagementCanvas.mouseDownListener = mouseDownListener;
         engagementCanvas.mouseMoveListener = mouseMoveListener;
@@ -63,6 +61,15 @@
         
         function mouseDownListener(event) {
             trackMovement = true;
+
+            engagementCanvas.rect = engagementCanvas.canvas.getBoundingClientRect();
+            engagementCanvas.currentMousePos = {
+                x: event.clientX - engagementCanvas.rect.left,
+                y: event.clientY - engagementCanvas.rect.top,
+                t: event.timeStamp
+            };
+
+            updateMovement();
         }
         
         function mouseUpListener(event) {
@@ -73,39 +80,15 @@
             engagementCanvas.rect = engagementCanvas.canvas.getBoundingClientRect();
             engagementCanvas.currentMousePos = {
                 x: event.clientX - engagementCanvas.rect.left,
-                y: event.clientY - engagementCanvas.rect.top
-            };
-            
-            if (trackMovement) {
-                engagementCanvas.currentPosition = engagementCanvas.currentMousePos;
-            }
-            
-            drawMovement(true);
-        }
-        
-        function clickListener(event) {
-            event.preventDefault();
-            
-            engagementCanvas.rect = engagementCanvas.canvas.getBoundingClientRect();
-            engagementCanvas.currentMousePos = {
-                x: event.pageX - engagementCanvas.rect.left,
-                y: event.pageY - engagementCanvas.rect.top,
+                y: event.clientY - engagementCanvas.rect.top,
                 t: event.timeStamp
             };
             
-            updateMovement(false);
-            
-            /*
-            var xBoundry = (engagementCanvas.currentMousePos.x >= 30 && engagementCanvas.currentMousePos.x <= 270);
-            var yBoundry = (engagementCanvas.currentMousePos.y >= 30 && engagementCanvas.currentMousePos.y <= 270);
-            if (xBoundry && yBoundry) {
-            
-                $scope.$apply(function() {
-                    engagementCanvas.currentPosition = engagementCanvas.currentMousePos;
-                });
-                
-                drawMovement(false);
-            }*/
+            if (trackMovement) {
+                updateMovement();
+            } else {
+                drawMovement();
+            }
         }
         
         function touchMoveListener(event) {
@@ -118,7 +101,7 @@
                 t: event.timeStamp
             };
             
-            updateMovement(true);
+            updateMovement();
         }
         
         function touchendListener(event) {
@@ -131,10 +114,10 @@
                 t: event.timeStamp
             };
             
-            updateMovement(true);
+            updateMovement();
         }
         
-        function updateMovement(onTouch) {
+        function updateMovement() {
             var xBoundry = (engagementCanvas.currentMousePos.x >= 30 && engagementCanvas.currentMousePos.x <= 270);
             var yBoundry = (engagementCanvas.currentMousePos.y >= 30 && engagementCanvas.currentMousePos.y <= 270);
             if (xBoundry && yBoundry) {
@@ -143,11 +126,11 @@
                     engagementCanvas.currentPosition = engagementCanvas.currentMousePos;
                 });
 
-                drawMovement(onTouch);
+                drawMovement();
             }
         }
         
-        function drawMovement(onTouch) {
+        function drawMovement() {
             engagementCanvas.ctx.clearRect(
                 0,
                 0,
@@ -157,9 +140,7 @@
             
             drawBackground(engagementCanvas.ctx);
             
-            if (onTouch) {
-                drawDot();
-            }
+            drawDot();
         }
         
         function drawBackground() {
