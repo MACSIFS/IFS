@@ -74,11 +74,13 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+    submissiontime = db.Column(db.DateTime, nullable=False)
     comment_ratings = db.relationship('CommentRating', backref='comment')
 
-    def __init__(self, content, lecture):
+    def __init__(self, content, submissiontime, lecture):
         self.content = content
         self.lecture = lecture
+        self.submissiontime = submissiontime
 
     def __repr__(self):
         return "<Comment {}>".format(self.id)
