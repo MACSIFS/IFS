@@ -6,9 +6,9 @@
         .factory('lectureFactory', lectureFactory);
 
     /* @ngInject */
-    function lectureFactory(lectureService, $location, $routeParams) {
+    function lectureFactory(lectureService, $location) {
         console.log('Ready (Lecture Factory)');
-        var lectureId = $routeParams.lectureId;
+        var lectureId;
         var lecture = {};
         var observerCallbacks = [];
         var showCommentFn = false;
@@ -30,9 +30,7 @@
         return service;
         
         function joinLecture(id, error) {
-            if (angular.isDefined(id)) {
-                lectureId = id;
-            }
+            lectureId = id;
 
             lectureService.retrieveLecture
                 .get({lectureId: lectureId}, onSuccess, onFail);

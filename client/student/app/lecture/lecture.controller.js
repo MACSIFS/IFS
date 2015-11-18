@@ -6,13 +6,13 @@
         .controller('LectureCtrl', LectureController);
 
     /* @ngInject */
-    function LectureController($scope, $interval, lectureFactory) {
+    function LectureController($scope, $interval, $routeParams, lectureFactory) {
         console.log('Ready (Lecture Controller)');
         angular.element('#engagement-btn').addClass('active');
         
         lectureFactory.setShowComment(showComments);
         lectureFactory.setShowEngagement(showEngagement);
-        lectureFactory.joinLecture();
+        lectureFactory.joinLecture($routeParams.lectureId);
         getComments();
         
         var vm = this;
