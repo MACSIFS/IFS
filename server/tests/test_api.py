@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import dateutil.parser
 
 from server.tests.base import BaseTestCase
-from server.models import (db, Lecturer, Course, Lecture, Comment, Engagement,
+from server.models import (db, Lecturer, Course, Lecture, Comment,
                            CommentRating)
 from uuid import uuid1
 
@@ -218,7 +218,8 @@ class PostCommentsApiTest(BaseTestCase):
 
         comment = Comment.query.filter(Comment.id == 1).first()
 
-        assert (comment.submissiontime - presubmission_time) < timedelta(minutes = 1)
+        assert (comment.submissiontime - presubmission_time) < timedelta(minutes=1)
+
 
 class GetLectureApiTest(BaseTestCase):
     def setUp(self):
