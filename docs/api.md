@@ -235,6 +235,10 @@ Content:
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
+                    },
+                    "rating": {
+                        "description": "Rating from the current client. See 'Get Comment Rating' API",
+                        "type": "integer"
                     }
                 }
             }
@@ -400,7 +404,7 @@ POST
 
 * `challenge=[number]` The amount of challenge in range [0, 1].
 * `interest=[number]` The amount of interest in range [0, 1].
-* `time=[integer]` UTC time point of engagement update in UNIX time.
+* `time=[string]` UTC time point of engagement update in ISO format (ISO 8601).
 
 #### Success Responses
 
@@ -429,6 +433,26 @@ The lecture was not found.
 See error message for details.
 
 Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Invalid or Missing Data
+
+The data parameters were invalid or missing.
+See error message for details.
+
+Code: 400
 
 Content:
 ```
