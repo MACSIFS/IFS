@@ -6,7 +6,7 @@
         .controller('StudentCtrl', StudentController);
     
     /* @ngInject */
-    function StudentController() {
+    function StudentController(lectureFactory) {
         console.log('Ready (Student Controller)');
         
         var vm = this;

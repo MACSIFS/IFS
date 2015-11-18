@@ -6,20 +6,33 @@
         .controller('LectureCtrl', LectureController);
 
     /* @ngInject */
-    function LectureController(lectureFactory) {
+    function LectureController($scope, $interval, $routeParams, lectureFactory) {
         console.log('Ready (Lecture Controller)');
-        lectureFactory.joinLecture();
+        angular.element('#engagement-btn').addClass('active');
+        
+        lectureFactory.setShowComment(showComments);
+        lectureFactory.setShowEngagement(showEngagement);
+        lectureFactory.joinLecture($routeParams.lectureId);
         getComments();
         
         var vm = this;
         vm.comment = '';
         vm.comments = [];
         vm.submitted = false;
-        vm.leave = leave;
+        vm.showEngagement = true;
+        vm.showComments = false;
         
-        function leave() {
-            lectureFactory.leaveLecture();
-        }
+        vm.lastPosition = {
+            x: -100, 
+            y: -100,
+            t: null
+        };       
+        
+        vm.currentPosition = {
+            x: -100, 
+            y: -100,
+            t: null
+        };
         
         function getComments() {
             lectureFactory
@@ -31,5 +44,43 @@
                     console.log('Error');
                 });
         }
+        
+        function showComments() {
+            vm.showComments = true;
+            vm.showEngagement = false;
+        }
+        
+        function showEngagement() {
+            vm.showComments = false;
+            vm.showEngagement = true;
+        }
+        
+        $interval(function() {
+            if (vm.currentPosition.x != vm.lastPosition.x || vm.currentPosition.y != vm.lastPosition.y) {
+                
+                vm.lastPosition = {
+                    x: vm.currentPosition.x,
+                    y: vm.currentPosition.y,
+                    t: vm.currentPosition.t
+                };
+                
+                var postData = {
+                    challenge: ((240 - (vm.currentPosition.y - 30))/240).toFixed(2),
+                    interest: ((vm.currentPosition.x - 30)/240).toFixed(2),
+                    time: (new Date(vm.currentPosition.t)).toISOString()
+                };
+                
+                lectureFactory.submitEngagement(
+                    postData,
+                    function() {
+                        console.log('Success');
+                    },
+                    function() {
+                        console.log('Error');
+                    }
+                );
+            }
+        }, 2000);
+        
     }
 })();
