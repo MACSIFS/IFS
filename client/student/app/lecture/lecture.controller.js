@@ -38,7 +38,13 @@
             lectureFactory
                 .getComments(function(response) {
                     console.log('Success');
-                    vm.comments = response.comments;
+                    vm.comments = response.comments.map(function(comment) {
+                        return {
+                            id: comment.id,
+                            content: comment.content,
+                            submissionTime: new Date(comment.submissionTime)
+                        };
+                    });
                     
                 }, function(response) {
                     console.log('Error');
