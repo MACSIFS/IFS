@@ -13,12 +13,26 @@
             .when('/', {
                 templateUrl: 'app/login/login.html',
                 controller: 'LoginCtrl',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                loginRequired: false
             })
             .when('/register', {
                 templateUrl: 'app/register/register.html',
                 controller: 'RegisterCtrl',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                loginRequired: false
+            })
+            .when('/courses', {
+                templateUrl: 'app/courses/courses.html',
+                controller: 'CoursesCtrl',
+                controllerAs: 'vm',
+                loginRequired: true
+            })
+            .when('/lectures', {
+                templateUrl: 'app/lectures/lectures.html',
+                controller: 'LecturesCtrl',
+                controllerAs: 'vm',
+                loginRequired: true
             })
             .otherwise({
                 redirectTo: '/'

@@ -23,11 +23,16 @@
     }
     
     /* @ngInject */
-    function LecturerHeaderController($scope) {
+    function LecturerHeaderController($scope, $location, userFactory) {
         console.log('Ready (Header Controller)');
  
         var vm = this;
-        vm.title = 'Lecturer';
+        vm.title = 'Interactive Feedback System';
+        vm.homeRoute = '#/';
+        vm.isLoggedIn = false;
+        vm.logout = logout;
+        
+        userFactory.registerObserverCallback(updateHeader);
         
         // Catch location change in order to change highligting:
         $scope.$on("$routeChangeStart", function(event, next, current) {
@@ -35,22 +40,44 @@
             
             // Current route exists (does not exist on page refresh):
             if (angular.isDefined(current)  &&  angular.isDefined(current.$$route)) {
-                
                 var currentButton = getButtonElement(current.$$route.originalPath);
                 if (currentButton) {
                     currentButton.removeClass('active');
                 }
             }
+            
         });
+        
+        function updateHeader(loggedIn) {
+            if (loggedIn) {
+                vm.isLoggedIn = loggedIn;
+                vm.homeRoute = '#/courses';
+                $location.path('/courses');
+            } else {
+                vm.isLoggedIn = false;
+                vm.homeRoute = '#/';
+                $location.path('/');
+            }
+        }
+        
+        function logout() {
+            userFactory.logout();
+        }
     }
     
     function getButtonElement(path) {
         switch(path) {
             case '/': {
-                return $('#login-btn');
+                return angular.element('#login-btn');
             } break;
             case '/register': {
-                return $('#register-btn');
+                return angular.element('#register-btn');
+            } break;
+            case '/courses': {
+                return angular.element('#courses-btn');
+            } break;
+            case '/lectures': {
+                return angular.element('#lectures-btn');
             } break;
             default: {
                 return false;
