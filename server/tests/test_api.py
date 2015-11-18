@@ -209,12 +209,13 @@ class PostCommentsApiTest(BaseTestCase):
         assert rv.status_code == 400
 
     def test_submission_time(self):
+        presubmission_time = datetime.utcnow()
+
         rv = self.client.post('/api/0/lectures/1/comments', data=dict(
             data='hello!'
         ))
         assert rv.status_code == 200
 
-        presubmission_time = datetime.utcnow()
         comment = Comment.query.filter(Comment.id == 1).first()
 
         assert (comment.submissiontime - presubmission_time) < timedelta(minutes = 1)
