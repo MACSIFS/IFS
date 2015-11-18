@@ -1,7 +1,7 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={'autocommit': True})
 
 
 class Lecturer(db.Model):

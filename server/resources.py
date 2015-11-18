@@ -74,7 +74,7 @@ class CommentListResource(Resource):
 
         comment = Comment(content, lecture)
         db.session.add(comment)
-        db.session.commit()
+        db.session.flush()
 
         return {
             'id': comment.id
@@ -110,7 +110,7 @@ class EngagementListResource(Resource):
 
         engagement = Engagement(challenge, interest, time, lecture)
         db.session.add(engagement)
-        db.session.commit()
+        db.session.flush()
 
         return {
             'id': engagement.id
