@@ -43,7 +43,7 @@
                             id: comment.id,
                             content: comment.content,
                             submissionTime: new Date(comment.submissionTime)
-                        }
+                        };
                     });
                     
                 }, function(response) {
