@@ -530,7 +530,7 @@ Content:
 				"description": "The amount of challenge in range [0, 1]",
 				"type": "number"
 			},
-			"submissionTime": {
+			"time": {
 				"description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
 				"type": "string"
 			}
