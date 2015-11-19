@@ -241,7 +241,7 @@ Content:
                         "description": "Rating from the current client. See 'Get Comment Rating' API",
                         "type": "integer"
                     },
-					"score": {
+                    "score": {
                         "description": "The score of the current comments. Thumbs up minus thumbs down.",
                         "type": "integer"
                     },
