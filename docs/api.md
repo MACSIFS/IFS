@@ -242,7 +242,7 @@ Content:
                         "type": "integer"
                     },
                     "score": {
-                        "description": "The score of the current comments. Thumbs up minus thumbs down.",
+                        "description": "Total comment score. Difference between up-votes and down-votes.",
                         "type": "integer"
                     },
                     "submissionTime": {
