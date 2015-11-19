@@ -241,6 +241,10 @@ Content:
                         "description": "Rating from the current client. See 'Get Comment Rating' API",
                         "type": "integer"
                     },
+					"score": {
+                        "description": "The score of the current comments. Thumbs up minus thumbs down.",
+                        "type": "integer"
+                    },
                     "submissionTime": {
                         "description": "Time point when comment was submitted in ISO format (ISO 8601)"
                         "type": "string"
