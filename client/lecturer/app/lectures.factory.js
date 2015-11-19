@@ -16,7 +16,7 @@
         
         function getEngagements(onSuccess) {
             lecturesService.getEngagements
-                .query({lectureId: lectureId, latest: true}, onSuccess, onError);
+                .query({lectureId: lectureId, last: true}, onSuccess, onError);
 
             function onError() {
                 console.log('Error');
