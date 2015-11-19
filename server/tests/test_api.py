@@ -469,7 +469,7 @@ class GetEngagementsApiTest(BaseTestCase):
                 db.session.add(eng)
         db.session.commit()
 
-        rv = self.client.get('/api/0/lectures/1/engagements?last=1')
+        rv = self.client.get('/api/0/lectures/1/engagements?last=true')
         assert rv.status_code == 200
         assert rv.headers['Content-Type'] == 'application/json'
 

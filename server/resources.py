@@ -92,11 +92,8 @@ class CommentListResource(Resource):
 class EngagementListResource(Resource):
     def get(self, lecture_id):
         parser = reqparse.RequestParser()
-        parser.add_argument('last', location='args', type=int)
+        parser.add_argument('last', location='args', type=bool)
         args = parser.parse_args()
-
-        if (args.last is not None) and (args.last not in {0, 1}):
-            abort(400, message="Optional requirement 'last' must be 0 or 1")
 
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
@@ -105,7 +102,7 @@ class EngagementListResource(Resource):
 
         query = None
 
-        if args.last is not None and args.last == 1:
+        if args.last:
             query = (
                 db.session.query(
                     Engagement.id,
