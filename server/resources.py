@@ -119,8 +119,6 @@ class EngagementListResource(Resource):
                 .filter(Engagement.lecture_id == lecture_id)
             )
 
-        rows = query.all()
-
         return [
             {
                 'id': row.id,
@@ -129,7 +127,7 @@ class EngagementListResource(Resource):
                 'interest': row.interest,
                 'time': row.time.isoformat()
             }
-            for row in rows
+            for row in query
         ]
 
     def post(self, lecture_id):
