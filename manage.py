@@ -1,5 +1,6 @@
 import os
 import unittest
+from datetime import datetime
 
 from flask.ext.script import Manager
 
@@ -32,9 +33,9 @@ def mock_db():
     imt3601_l1 = Lecture('Lecture 1', imt3601)
     db.session.add(imt3601_l1)
 
-    imt3601_l1_c1 = Comment('This is boring', imt3601_l1)
+    imt3601_l1_c1 = Comment('This is boring', datetime.utcnow(), imt3601_l1)
     db.session.add(imt3601_l1_c1)
-    imt3601_l1_c2 = Comment('This is fun!', imt3601_l1)
+    imt3601_l1_c2 = Comment('This is fun!', datetime.utcnow(), imt3601_l1)
     db.session.add(imt3601_l1_c2)
 
     db.session.commit()

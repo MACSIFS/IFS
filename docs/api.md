@@ -11,6 +11,7 @@
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
+    * [Get Engagements](#get-engagements)
     * [Add Engagement Update](#add-engagement)
 * [Format](#format)
 
@@ -239,6 +240,14 @@ Content:
                     "rating": {
                         "description": "Rating from the current client. See 'Get Comment Rating' API",
                         "type": "integer"
+                    },
+                    "score": {
+                        "description": "Total comment score. Difference between up-votes and down-votes.",
+                        "type": "integer"
+                    },
+                    "submissionTime": {
+                        "description": "Time point when comment was submitted in ISO format (ISO 8601)"
+                        "type": "string"
                     }
                 }
             }
@@ -470,6 +479,98 @@ Content:
 #### Notes
 
 Students are identified by the `client_id` Cookie.
+
+
+### <a name="get-engagements"></a>Get Engagements
+
+Get a lectures engagements values
+
+#### URL
+
+`/lectures/:lecture-id/engagements`
+
+#### Method
+
+GET
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture the engagement is for.
+
+##### Optional
+
+* `last=[boolean]` true or false. true shows only last entry for each student.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+	"description": "List of all engagements",
+	"type": "array",
+	"items": {
+		"description": "One engagement point",
+		"type": "object",
+		"properties": {
+			"id": {
+				"description": "ID of engagement point",
+				"type": "integer"
+			},
+			"userId": {
+				"description": "ID of user",
+				"type": "integer"
+			},
+			"interest": {
+				"description": "The amount of interest in range [0, 1]",
+				"type": "number"
+			},
+			 "challenge": {
+				"description": "The amount of challenge in range [0, 1]",
+				"type": "number"
+			},
+			"time": {
+				"description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
+				"type": "string"
+			}
+		}
+	}
+
+}
+
+```
+
+#### Error Responses
+
+##### Resource Not Found
+
+The lecture was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+#### Notes
+
+last are set by `/lectures/:lecture-id/engagements?last=true`
+
 
 ## <a name="format"></a>Format
 

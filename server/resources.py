@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import dateutil.parser
 
 from flask import g
@@ -32,7 +34,12 @@ class CommentListResource(Resource):
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
         rows = (
-            db.session.query(Comment.id, Comment.content, CommentRating.rating)
+            db.session.query(
+                Comment.id,
+                Comment.content,
+                Comment.submissiontime,
+                CommentRating.rating
+            )
             .outerjoin(
                 CommentRating,
                 and_(
@@ -48,6 +55,7 @@ class CommentListResource(Resource):
             {
                 'id': row.id,
                 'content': row.content,
+                'submissionTime': row.submissiontime.isoformat(),
                 'rating': row.rating or 0
             }
             for row in rows
@@ -72,7 +80,7 @@ class CommentListResource(Resource):
 
         content = args.data
 
-        comment = Comment(content, lecture)
+        comment = Comment(content, datetime.utcnow(), lecture)
         db.session.add(comment)
         db.session.commit()
 
@@ -82,6 +90,46 @@ class CommentListResource(Resource):
 
 
 class EngagementListResource(Resource):
+    def get(self, lecture_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('last', location='args', type=bool)
+        args = parser.parse_args()
+
+        lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
+
+        if not lecture:
+            abort(404, message="Lecture {} does not exist".format(lecture_id))
+
+        if args.last:
+            query = (
+                db.session.query(
+                    Engagement.id,
+                    Engagement.user_id,
+                    Engagement.interest,
+                    Engagement.challenge,
+                    Engagement.time
+                )
+                .filter(Engagement.lecture_id == lecture_id)
+                .order_by(Engagement.time)
+                .group_by(Engagement.user_id)
+            )
+        else:
+            query = (
+                db.session.query(Engagement)
+                .filter(Engagement.lecture_id == lecture_id)
+            )
+
+        return [
+            {
+                'id': row.id,
+                'userID': row.user_id,
+                'challenge': row.challenge,
+                'interest': row.interest,
+                'time': row.time.isoformat()
+            }
+            for row in query
+        ]
+
     def post(self, lecture_id):
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
@@ -108,7 +156,9 @@ class EngagementListResource(Resource):
         except ValueError as e:
             abort(400, message="Time could not be parsed: {}".format(e))
 
-        engagement = Engagement(challenge, interest, time, lecture)
+        user_id = g.client_id
+
+        engagement = Engagement(challenge, interest, time, user_id, lecture)
         db.session.add(engagement)
         db.session.commit()
 
