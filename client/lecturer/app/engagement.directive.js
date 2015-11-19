@@ -32,6 +32,7 @@
         console.log('Ready (Engagement Canvas Controller)');
 
         var engagementCanvas = this;
+        engagementCanvas.pollId;
         engagementCanvas.padding = 30;
         engagementCanvas.canvas = {};
         engagementCanvas.ctx = {};
@@ -94,15 +95,17 @@
         }
         
         function pollEngagements(interval) {
-            setInterval(function() {
+            if (angular.isUndefined(engagementCanvas.pollId) {
+                engagementCanvas.pollId = setInterval(function() {
 
-                lecturesFactory
-                    .getEngagements(function(response) {
-                        drawBackground(engagementCanvas.padding);
-                        drawDots(response.engagements);
-                    });
+                    lecturesFactory
+                        .getEngagements(function(response) {
+                            drawBackground(engagementCanvas.padding);
+                            drawDots(response.engagements);
+                        });
 
-            }, interval);
+                }, interval);
+            }
         }
     }
 })();

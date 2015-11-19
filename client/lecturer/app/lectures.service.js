@@ -10,6 +10,6 @@
         console.log('Ready (Lectures Service)');
         
         /* jshint validthis: true */
-        this.getEngagements = $resource(CONSTANT.baseURL + '/lectures/:lectureId/engagement', {lectureId:'@lectureId'});
+        this.getEngagements = $resource(CONSTANT.baseURL + '/lectures/:lectureId/engagements', {lectureId:'@lectureId'});
     }
 })();
