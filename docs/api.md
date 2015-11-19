@@ -497,7 +497,7 @@ GET
 
 ##### Optional
 
-* `last=[integer]` 1 or 0. 1 shows only last entry for each student.
+* `last=[boolean]` true or false. true shows only last entry for each student.
 
 #### Success Responses
 
@@ -565,7 +565,7 @@ Content:
 
 #### Notes
 
-last are set by `/lectures/:lecture-id/engagements?last=1`
+last are set by `/lectures/:lecture-id/engagements?last=true`
 
 
 ## <a name="format"></a>Format
