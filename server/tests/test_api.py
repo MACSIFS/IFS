@@ -478,6 +478,10 @@ class GetEngagementsApiTest(BaseTestCase):
 
         assert len(response) == 2
 
+        last_time = starttime + timedelta(minutes=10*9)
+        for engagement in response:
+            assert dateutil.parser.parse(engagement['time']) == last_time
+
 
 class SetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
