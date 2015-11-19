@@ -100,8 +100,6 @@ class EngagementListResource(Resource):
         if not lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
-        query = None
-
         if args.last:
             query = (
                 db.session.query(
