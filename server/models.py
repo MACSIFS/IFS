@@ -44,6 +44,8 @@ class Lecture(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     quizzes = db.relationship('Quiz', backref='lecture')
     lectures = db.relationship('Comment', backref='lecture')
+    engagements = db.relationship('Engagement', backref='lecture')
+    comment_ratings = db.relationship('CommentRating', backref='lecture')
 
     def __init__(self, name, course):
         self.name = name
@@ -72,10 +74,48 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+    submissiontime = db.Column(db.DateTime, nullable=False)
+    comment_ratings = db.relationship('CommentRating', backref='comment')
 
-    def __init__(self, content, lecture):
+    def __init__(self, content, submissiontime, lecture):
         self.content = content
         self.lecture = lecture
+        self.submissiontime = submissiontime
 
     def __repr__(self):
         return "<Comment {}>".format(self.id)
+
+
+class Engagement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    challenge = db.Column(db.Float, nullable=False)
+    interest = db.Column(db.Float, nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.String(), nullable=False)
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
+
+    def __init__(self, challenge, interest, time, user_id, lecture):
+        self.challenge = challenge
+        self.interest = interest
+        self.time = time
+        self.user_id = user_id
+        self.lecture = lecture
+
+    def __repr__(self):
+        return "<Engagement {}>".format(self.id)
+
+
+class CommentRating(db.Model):
+    user_id = db.Column(db.String(), primary_key=True)
+    lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, rating, user_id, comment, lecture):
+        self.rating = rating
+        self.user_id = user_id
+        self.comment_id = comment.id
+        self.lecture_id = lecture.id
+
+    def __repr__(self):
+        return "<CommentRating {} {} {}>".format(self.user_id, self.comment_id, self.lecture_id)

@@ -13,5 +13,6 @@
         this.retrieveLecture = $resource(CONSTANT.baseURL + '/lectures/:lectureId', {lectureId:'@lectureId'});
         this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
         this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
+        this.submitEngagement = $resource(CONSTANT.baseURL + '/lectures/:lectureId/engagements', {lectureId:'@lectureId'});
     }
 })();

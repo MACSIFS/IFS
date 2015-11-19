@@ -4,13 +4,15 @@
 * [Introduction](#intro)
     * [API Version](#version)
     * [Base URL](#base)
+    * [Client ID](#id)
 * [APIs](#api)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
+    * [Set Comment Rating](#set-rating)
     * [Get Comment Rating](#get-rating)
-    * [Rate Comment](#rate-comment)
-    * [Example API](#example)
+    * [Get Engagements](#get-engagements)
+    * [Add Engagement Update](#add-engagement)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -28,6 +30,14 @@ When designing new APIs, they should be added to this document in the format des
 
 Example: `hig.no/ifs/api/0`
 
+### <a name="id"></a>Client ID
+
+`client_id=[string]`
+
+Each user of the API gets a unique client ID to identify them.
+This ID is generated and set as a Cookie called `client_id` by the server with the first request.
+Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
+This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
 
 ### <a name="get-lecture"></a>Get Lecture
@@ -201,7 +211,7 @@ GET
 
 * `lecture-id=[integer]` ID of lecture to retrieve comments for.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -226,6 +236,18 @@ Content:
                     "content": {
                         "description": "Text content of comment",
                         "type": "string"
+                    },
+                    "rating": {
+                        "description": "Rating from the current client. See 'Get Comment Rating' API",
+                        "type": "integer"
+                    },
+                    "score": {
+                        "description": "Total comment score. Difference between up-votes and down-votes.",
+                        "type": "integer"
+                    },
+                    "submissionTime": {
+                        "description": "Time point when comment was submitted in ISO format (ISO 8601)"
+                        "type": "string"
                     }
                 }
             }
@@ -234,13 +256,86 @@ Content:
 }
 ```
 
-### <a name="get-rating"></a>Get Comment Rating
+### <a name="set-rating"></a>Set Comment Rating
 
-Get a comments rating.
+Set the client's rating on a comment.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings`
+`/lectures/:lecture-id/comments/:comment-id/rating`
+
+#### Method
+
+POST
+
+#### URL Parameters
+
+##### Required
+
+* `lecture-id=[integer]` ID of lecture to rate a comment.
+* `comment-id=[integer]` ID of comment to rate.
+
+#### Data Parameters
+
+##### Required
+
+* `rating=[integer]` The number 1, 0 or -1 for up vote, no vote or down vote.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+#### Error Responses
+
+##### Bad Request
+
+Data parameters were bad.
+See message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Resource Not Found
+
+Lecture or comment was not found.
+See message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Message detailing which resource could not be found and what you might do to fix the issue",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-rating"></a>Get Comment Rating
+
+Get a client's comment rating.
+
+#### URL
+
+`/lectures/:lecture-id/comments/:comment-id/rating`
 
 #### Method
 
@@ -253,7 +348,7 @@ GET
 * `lecture-id=[integer]` ID of lecture.
 * `comment-id=[integer]` ID of comment to retrieve its rating.
 
-#### Success Respones
+#### Success Responses
 
 ##### Success
 
@@ -265,21 +360,42 @@ Content:
     "type": "object",
     "properties": {
         "rating": {
-            "description": "The rating of the comment",
+            "description": "The rating (-1, 0 or 1)",
             "type": "number"
         }
     }
 }
 ```
 
+#### Error Responses
 
-### <a name="rate-comment"></a>Rate a comment
+##### Resource Not Found
 
-Upvote or downvote a comment
+The lecture or comment was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="add-engagement"></a>Add Engagement Update
+
+Add an update to a student's engagement in the class.
 
 #### URL
 
-`/lectures/:lecture-id/comments/:comment-id/ratings/:rating-id`
+`/lectures/:lecture-id/engagements`
 
 #### Method
 
@@ -289,13 +405,15 @@ POST
 
 ##### Required
 
-* `lecture-id=[integer]` ID of lecture to vote on a comment.
-* `comment-id=[integer]` ID of comment to vote on.
-* `rating-id=[integer]` ID of rating (simulating user).
+* `lecture-id=[integer]` ID of lecture the engagement is for.
 
 #### Data Parameters
 
-* `rating=[integer]` The number 1 or -1 for upvoting or downvoting.
+##### Required
+
+* `challenge=[number]` The amount of challenge in range [0, 1].
+* `interest=[number]` The amount of interest in range [0, 1].
+* `time=[string]` UTC time point of engagement update in ISO format (ISO 8601).
 
 #### Success Responses
 
@@ -308,9 +426,9 @@ Content:
 {
     "type": "object",
     "properties": {
-        "rating": {
-            "description": "The new rating of the comment",
-            "type": "number"
+        "id": {
+            "description": "ID of the engagement update",
+            "type": "integer"
         }
     }
 }
@@ -318,7 +436,30 @@ Content:
 
 #### Error Responses
 
-##### Bad Request
+##### Lecture Not Found
+
+The lecture was not found.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Invalid or Missing Data
+
+The data parameters were invalid or missing.
+See error message for details.
 
 Code: 400
 
@@ -327,25 +468,6 @@ Content:
 {
     "type": "object",
     "properties": {
-        "error": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Lecture Not Found
-
-The `lecture-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
         "message": {
             "description": "Error message",
             "type": "string"
@@ -354,63 +476,32 @@ Content:
 }
 ```
 
-##### Comment Not Found
+#### Notes
 
-The `comment-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
-
-##### Rating Not Found
-
-The `rating-id` parameter provided was not found.
-
-Code: 404
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
+Students are identified by the `client_id` Cookie.
 
 
-### <a name="example"></a>Example API (not implemented)
-Retrieve a sum of money.
+### <a name="get-engagements"></a>Get Engagements
 
-Performs a transaction and returns the sum of money successfully retrieved.
+Get a lectures engagements values
 
 #### URL
 
-`/bank/retrieve/:sum`
+`/lectures/:lecture-id/engagements`
 
 #### Method
 
-POST
+GET
 
 #### URL Parameters
 
 ##### Required
 
-* `sum=[number]` The sum that you want to retrieve.
+* `lecture-id=[integer]` ID of lecture the engagement is for.
+
+##### Optional
+
+* `last=[boolean]` true or false. true shows only last entry for each student.
 
 #### Success Responses
 
@@ -421,34 +512,65 @@ Code: 200
 Content:
 ```
 {
-    "type": "object",
-    "properties": {
-        "sum": {
-            "description": "The actual sum retrieved. Might be less than the requested.",
-            "type": "number"
-        }
-    }
+	"description": "List of all engagements",
+	"type": "array",
+	"items": {
+		"description": "One engagement point",
+		"type": "object",
+		"properties": {
+			"id": {
+				"description": "ID of engagement point",
+				"type": "integer"
+			},
+			"userId": {
+				"description": "ID of user",
+				"type": "integer"
+			},
+			"interest": {
+				"description": "The amount of interest in range [0, 1]",
+				"type": "number"
+			},
+			 "challenge": {
+				"description": "The amount of challenge in range [0, 1]",
+				"type": "number"
+			},
+			"time": {
+				"description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
+				"type": "string"
+			}
+		}
+	}
+
 }
+
 ```
 
 #### Error Responses
 
-##### Bad Request
+##### Resource Not Found
 
-Code: 400
+The lecture was not found.
+See error message for details.
+
+Code: 404
 
 Content:
 ```
 {
     "type": "object",
     "properties": {
-        "error": {
+        "message": {
             "description": "Error message",
             "type": "string"
         }
     }
 }
 ```
+
+#### Notes
+
+last are set by `/lectures/:lecture-id/engagements?last=true`
+
 
 ## <a name="format"></a>Format
 

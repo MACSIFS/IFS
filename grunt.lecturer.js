@@ -48,6 +48,7 @@ exports.tags = {
                 'bower_components/jquery/dist/jquery.js',
                 'bower_components/bootstrap/dist/js/bootstrap.js',
                 'bower_components/angular/angular.js',
+                'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
                 'client/lecturer/app/lecturer.module.js',
                 'client/lecturer/app/**/*.js',
