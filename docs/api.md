@@ -241,6 +241,10 @@ Content:
                         "description": "Rating from the current client. See 'Get Comment Rating' API",
                         "type": "integer"
                     },
+                    "score": {
+                        "description": "Total comment score. Difference between up-votes and down-votes.",
+                        "type": "integer"
+                    },
                     "submissionTime": {
                         "description": "Time point when comment was submitted in ISO format (ISO 8601)"
                         "type": "string"
