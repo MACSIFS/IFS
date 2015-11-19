@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 import dateutil.parser
 
 from server.tests.base import BaseTestCase
-from server.models import (db, Lecturer, Course, Lecture, Comment, Engagement,
-                           CommentRating)
+from server.models import db, Lecturer, Course, Lecture, Comment, Engagement
+from server.models import CommentRating
 from uuid import uuid1
 
 
