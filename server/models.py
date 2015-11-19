@@ -91,14 +91,15 @@ class Engagement(db.Model):
     challenge = db.Column(db.Float, nullable=False)
     interest = db.Column(db.Float, nullable=False)
     time = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.String(), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
 
-    def __init__(self, challenge, interest, time, lecture):
+    def __init__(self, challenge, interest, time, user_id, lecture):
         self.challenge = challenge
         self.interest = interest
         self.time = time
+        self.user_id = user_id
         self.lecture = lecture
-        self.lecture_id = lecture.id
 
     def __repr__(self):
         return "<Engagement {}>".format(self.id)
