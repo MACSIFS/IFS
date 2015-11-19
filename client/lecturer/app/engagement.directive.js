@@ -32,7 +32,7 @@
         console.log('Ready (Engagement Canvas Controller)');
 
         var engagementCanvas = this;
-        engagementCanvas.pollId;
+        engagementCanvas.pollId = undefined;
         engagementCanvas.padding = 30;
         engagementCanvas.canvas = {};
         engagementCanvas.ctx = {};
@@ -95,7 +95,7 @@
         }
         
         function pollEngagements(interval) {
-            if (angular.isUndefined(engagementCanvas.pollId) {
+            if (angular.isUndefined(engagementCanvas.pollId)) {
                 engagementCanvas.pollId = setInterval(function() {
 
                     lecturesFactory
