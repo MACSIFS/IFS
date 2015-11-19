@@ -121,7 +121,7 @@ class EngagementListResource(Resource):
 
         rows = query.all()
 
-        engagements = [
+        return [
             {
                 'id': row.id,
                 'userID': row.user_id,
@@ -131,8 +131,6 @@ class EngagementListResource(Resource):
             }
             for row in rows
         ]
-
-        return engagements
 
     def post(self, lecture_id):
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
