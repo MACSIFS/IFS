@@ -99,9 +99,9 @@
                 engagementCanvas.pollId = setInterval(function() {
 
                     lecturesFactory
-                        .getEngagements(function(response) {
+                        .getEngagements(function(engagements) {
                             drawBackground(engagementCanvas.padding);
-                            drawDots(response.engagements);
+                            drawDots(engagements);
                         });
 
                 }, interval);
