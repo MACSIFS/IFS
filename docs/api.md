@@ -13,6 +13,8 @@
     * [Get Comment Rating](#get-rating)
     * [Get Engagements](#get-engagements)
     * [Add Engagement Update](#add-engagement)
+    * [Login](#login)
+    * [Check Login](#check-login)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -571,6 +573,110 @@ Content:
 
 last are set by `/lectures/:lecture-id/engagements?last=true`
 
+### <a name="login"></a>Login
+
+Login as a lecturer
+
+#### URL
+
+`/login`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+##### Required
+
+* `email=[string]` Lectures registered email address.
+* `password=[string]` Hashed password using SHA256.
+* `remember=[boolean]` Flag for exstending the expiration time.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "Flag for success",
+    "type": "boolean"
+}
+```
+
+#### Error Responses
+
+##### Wrong user credentials
+
+Either the email or password or both was wrong.
+See error message for details.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="check-login"></a>Check Login
+
+Check if the user is still logged id.
+
+#### URL
+
+`/login`
+
+#### Method
+
+GET
+
+#### Success Responses
+
+##### Valid user token
+
+The user is still logged in.
+
+Code: 200
+
+Content:
+```
+{
+    "description": "Flag for success",
+    "type": "boolean"
+}
+```
+
+#### Error Responses
+
+##### Invalid user token
+
+The user is not logged in.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ## <a name="format"></a>Format
 
