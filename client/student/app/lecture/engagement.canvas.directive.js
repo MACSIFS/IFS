@@ -154,10 +154,10 @@
             
             engagementCanvas.ctx.textAlign = 'center';
             engagementCanvas.ctx.font = '18pt Calibri';
-            engagementCanvas.ctx.fillText('Interest', 140, 290);
+            engagementCanvas.ctx.fillText('Challenge', 140, 290);
             engagementCanvas.ctx.save();
             engagementCanvas.ctx.rotate(-Math.PI/2);
-            engagementCanvas.ctx.fillText('Challenge', -140, 20);
+            engagementCanvas.ctx.fillText('Interest', -140, 20);
             engagementCanvas.ctx.restore();
         }
         
