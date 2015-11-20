@@ -111,7 +111,7 @@ exports.tags = {
                 closeTag: '<!-- End of generated css tag -->'
             },
             src: [
-                'release/bootstrap.min.css',
+                'release/min/bootstrap.min.css',
                 'release/min/student.min.css'
             ],
             dest: 'client/student/index.html'
