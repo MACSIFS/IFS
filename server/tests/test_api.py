@@ -400,6 +400,8 @@ class GetEngagementsApiTest(BaseTestCase):
 
         self.lecture = imt3601_l1
 
+        self.login('simon', '1234')
+
     def test_success(self):
         rv = self.client.get('/api/0/lectures/1/engagements')
         assert rv.status_code == 200

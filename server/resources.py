@@ -4,6 +4,7 @@ import dateutil.parser
 
 from flask import g
 from flask_restful import Resource, Api, abort, reqparse
+from flask.ext.login import login_required
 from sqlalchemy import and_
 
 from .models import db, Comment, Lecture, Engagement, CommentRating
@@ -90,6 +91,7 @@ class CommentListResource(Resource):
 
 
 class EngagementListResource(Resource):
+    @login_required
     def get(self, lecture_id):
         parser = reqparse.RequestParser()
         parser.add_argument('last', location='args', type=bool)
