@@ -192,7 +192,7 @@
             
             
             engagementCanvas.ctx.beginPath();
-            engagementCanvas.ctx.fillStyle = 'rgba('+redVal+', '+greenVal+', 0, 1)';
+            engagementCanvas.ctx.fillStyle = 'rgba(' + redVal + ', ' + greenVal + ', 0, 1)';
             
             engagementCanvas.ctx.arc(
                 engagementCanvas.currentPosition.x, 
