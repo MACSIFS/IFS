@@ -90,7 +90,7 @@ exports.tags = {
                 closeTag: '<!-- End of generated css tag -->'
             },
             src: [
-                'bower_components/bootstrap/dist/css/bootstrap.css',
+                'release/min/bootstrap.min.css',
                 'release/min/lecturer.min.css'
             ],
             dest: 'client/lecturer/index.html'
