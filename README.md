@@ -40,3 +40,19 @@ use http://localhost:5000/ in you browser to see the application.
 If new libraries or packages were added then:
 
     $ vagrant provision
+
+
+## Production deployment
+Clone this repository:
+
+    $ git clone https://github.com/MACSIFS/IFS.git /path/to/sources
+
+Checkout specific version:
+
+    $ git checkout v0.4.0
+
+Run provision passing sources folder:
+
+    $ /path/to/sources/deploy/setup_production.sh /path/to/sources
+
+This will install all dependencies, build clienside files, setup and run webserver.
