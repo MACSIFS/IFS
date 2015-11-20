@@ -81,6 +81,10 @@
     - name: create bowerrc file to allow root
       template: src=template/.bowerrc dest=~/.bowerrc
 
+    - name: build clientside files with grunt
+      command: /usr/local/bin/grunt release:all
+      when: deploy_type == 'production'
+
     - name: link nginx config
       file: src=/etc/nginx/sites-available/{{app_name}}.conf dest=/etc/nginx/sites-enabled/{{app_name}}.conf state=link
       notify:
