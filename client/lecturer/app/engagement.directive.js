@@ -123,8 +123,8 @@
             var cartesianHeight = (engagementCanvas.height - 2*padding);
 
             var points = engagements.map(function(engagement) {
-                var x = engagement.interest;
-                var y = engagement.challenge;
+                var x = engagement.challenge;
+                var y = engagement.interest;
 
                 if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
                     var drawableX = (cartesianWidth*x + padding);
