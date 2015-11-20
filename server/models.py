@@ -6,11 +6,19 @@ db = SQLAlchemy()
 
 class Lecturer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+
+    user_name = db.Column(db.String(200), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    active = db.Column(db.Boolean, default=True)
+    admin = db.Column(db.Boolean, default=False)
+
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
     courses = db.relationship('Course', backref='lecturer')
 
-    def __init__(self, first_name, last_name):
+    def __init__(self, user_name, password, first_name, last_name):
+        self.user_name = user_name
+        self.password = password
         self.first_name = first_name
         self.last_name = last_name
 
@@ -22,6 +30,25 @@ class Lecturer(db.Model):
         if not self.first_name:
             return self.last_name
         return "%s %s" % (self.first_name, self.last_name)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return self.active
+
+    @property
+    def is_admin(self):
+        return self.admin
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 
 class Course(db.Model):
