@@ -32,6 +32,9 @@
     - name: install bower
       npm: name=bower global=yes
 
+    - name: create bowerrc file to allow root
+      template: src=template/.bowerrc dest=~/.bowerrc
+
     - name: make node -> nodejs link
       file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
 
@@ -77,9 +80,6 @@
       notify:
       - restart nginx
       when: deploy_type == 'production'
-
-    - name: create bowerrc file to allow root
-      template: src=template/.bowerrc dest=~/.bowerrc
 
     - name: build clientside files with grunt
       command: /usr/local/bin/grunt release:all
