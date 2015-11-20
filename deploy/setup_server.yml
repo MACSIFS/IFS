@@ -99,6 +99,12 @@
     - name: enable supervisor
       service: name=supervisor state=started enabled=yes
 
+    - name: stop supervisor
+      service: name=supervisor state=stopped
+
+    - name: start supervisor
+      service: name=supervisor state=started
+
     - name: create manage command
       template: src=template/manage dest=/bin/manage mode=755
 
