@@ -19,8 +19,31 @@
         function link(scope, element, attrs, engagementCanvas) {
             console.log('Ready (Engagement Canvas link)');
 
-            engagementCanvas.canvas = element[0];
+            engagementCanvas.width = element.width();
+            engagementCanvas.height = element.height();
+
+            engagementCanvas.canvas = document.createElement('canvas');
+            element.append(engagementCanvas.canvas);
             engagementCanvas.ctx = engagementCanvas.canvas.getContext('2d');
+
+            engagementCanvas.canvas.width = engagementCanvas.width;
+            engagementCanvas.canvas.height = engagementCanvas.height;
+
+            engagementCanvas.heatmap = h337.create({
+                container: element[0],
+                radius: 50,
+                blur: 1.0,
+                minOpacity: 0.0,
+                maxOpacity: 0.8,
+                gradient: {
+                    '0.20': 'lightblue',
+                    '0.30': 'blue',
+                    '0.40': 'green',
+                    '0.55': 'yellow',
+                    '0.70': 'orange',
+                    '0.95': 'red'
+                }
+            });
 
             engagementCanvas.drawBackground(engagementCanvas.padding);
             engagementCanvas.pollEngagements(1000);
@@ -93,7 +116,34 @@
                 );
             });
         }
-        
+
+        function updateHeatmap(engagements) {
+            var padding = engagementCanvas.padding;
+            var cartesianWidth = (engagementCanvas.width - 2*padding);
+            var cartesianHeight = (engagementCanvas.height - 2*padding);
+
+            var points = engagements.map(function(engagement) {
+                var x = engagement.interest;
+                var y = engagement.challenge;
+
+                if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
+                    var drawableX = (cartesianWidth*x + padding);
+                    var drawableY = (engagementCanvas.height - (cartesianHeight*y + padding));
+
+                    return {
+                        x: drawableX,
+                        y: drawableY,
+                        value: 0.4
+                    };
+                }
+            });
+            engagementCanvas.heatmap.setData({
+                min: 0,
+                max: 1,
+                data: points
+            });
+        }
+
         function pollEngagements(interval) {
             if (angular.isUndefined(engagementCanvas.pollId)) {
                 engagementCanvas.pollId = setInterval(function() {
@@ -101,7 +151,7 @@
                     lecturesFactory
                         .getEngagements(function(engagements) {
                             drawBackground(engagementCanvas.padding);
-                            drawDots(engagements);
+                            updateHeatmap(engagements);
                         });
 
                 }, interval);
