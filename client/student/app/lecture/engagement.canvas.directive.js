@@ -131,12 +131,24 @@
         }
         
         function drawMovement() {
+            
             engagementCanvas.ctx.clearRect(
                 0,
                 0,
                 engagementCanvas.canvas.width, 
                 engagementCanvas.canvas.height
             );
+            
+            engagementCanvas.ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+            
+            /*
+            engagementCanvas.ctx.fillRect(
+                0,
+                0,
+                engagementCanvas.canvas.width, 
+                engagementCanvas.canvas.height
+            );
+            */
             
             drawBackground(engagementCanvas.ctx);
             
@@ -152,18 +164,49 @@
             engagementCanvas.ctx.lineCap = 'round';
             engagementCanvas.ctx.stroke();
             
+            engagementCanvas.ctx.fillStyle = 'black';
+            
             engagementCanvas.ctx.textAlign = 'center';
             engagementCanvas.ctx.font = '18pt Calibri';
-            engagementCanvas.ctx.fillText('Interest', 140, 290);
+            engagementCanvas.ctx.fillText('Challenge', 140, 290);
             engagementCanvas.ctx.save();
             engagementCanvas.ctx.rotate(-Math.PI/2);
-            engagementCanvas.ctx.fillText('Challenge', -140, 20);
+            engagementCanvas.ctx.fillText('Interest', -140, 20);
             engagementCanvas.ctx.restore();
         }
         
         function drawDot() {
+            
+            var startY = 30;
+            var endY = 270;
+            var halfPoint = endY/2;
+            
+            
+            var maxColorVal = 200;
+
+            
+            //convert from space cords to 0 to maxColorVal
+            var redVal = 0;
+            var greenVal = 0;
+            
+            //make green constant to middle and red transition
+            if(engagementCanvas.currentPosition.y <= halfPoint){
+                redVal = Math.floor(((engagementCanvas.currentPosition.y - startY) / (halfPoint - (startY * 1)))*maxColorVal);
+                greenVal = maxColorVal;
+            }
+            
+            //make red constant from middle and green transition
+            if(engagementCanvas.currentPosition.y > halfPoint){
+                redVal = maxColorVal;
+                greenVal = maxColorVal - (Math.floor(((engagementCanvas.currentPosition.y - halfPoint) / (endY - (halfPoint * 1)))*maxColorVal));
+            }
+            
+            
+            console.log('redVal: '+redVal+' Green: '+greenVal);
+            
             engagementCanvas.ctx.beginPath();
-            engagementCanvas.ctx.fillStyle = 'black';
+            engagementCanvas.ctx.fillStyle = 'rgba('+redVal+', '+greenVal+', 0, 1)';
+            
             engagementCanvas.ctx.arc(
                 engagementCanvas.currentPosition.x, 
                 engagementCanvas.currentPosition.y, 
