@@ -15,6 +15,7 @@
     * [Add Engagement Update](#add-engagement)
     * [Login](#login)
     * [Check Login](#check-login)
+    * [logout] (#logout)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -579,7 +580,7 @@ Login as a lecturer
 
 #### URL
 
-`/login`
+`/auth/login`
 
 #### Method
 
@@ -591,7 +592,6 @@ POST
 
 * `email=[string]` Lectures registered email address.
 * `password=[string]` Hashed password using SHA256.
-* `remember=[boolean]` Flag for exstending the expiration time.
 
 #### Success Responses
 
@@ -602,8 +602,8 @@ Code: 200
 Content:
 ```
 {
-    "description": "Flag for success",
     "type": "boolean"
+    "description": "Flag for success",
 }
 ```
 
@@ -635,7 +635,7 @@ Check if the user is still logged id.
 
 #### URL
 
-`/login`
+`/auth/login`
 
 #### Method
 
@@ -662,6 +662,54 @@ Content:
 ##### Invalid user token
 
 The user is not logged in.
+
+Code: 404
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+
+### <a name="logout"></a>Logout
+
+Logout user
+
+#### URL
+
+`/auth/logout`
+
+#### Method
+
+GET
+
+#### Success Responses
+
+##### Success
+
+Logging out user.
+
+Code: 200
+
+Content:
+```
+{
+    "description": "Flag for success",
+    "type": "boolean"
+}
+```
+
+#### Error Responses
+
+##### Could not logout user
 
 Code: 404
 
