@@ -63,10 +63,10 @@
             engagementCanvas.ctx.fillStyle = 'black';
             engagementCanvas.ctx.textAlign = 'center';
             engagementCanvas.ctx.font = '18pt Calibri';
-            engagementCanvas.ctx.fillText('Interest', 200, 390);
+            engagementCanvas.ctx.fillText('Challenge', 200, 390);
             engagementCanvas.ctx.save();
             engagementCanvas.ctx.rotate(-Math.PI/2);
-            engagementCanvas.ctx.fillText('Challenge', -200, 20);
+            engagementCanvas.ctx.fillText('Interest', -200, 20);
             engagementCanvas.ctx.restore();
         }
 
@@ -87,8 +87,8 @@
         function drawDots(engagements) {
             angular.forEach(engagements, function(engagement) {
                 drawDot(
-                    engagement.interest,
                     engagement.challenge,
+                    engagement.interest,
                     engagementCanvas.padding
                 );
             });
