@@ -139,17 +139,6 @@
                 engagementCanvas.canvas.height
             );
             
-            engagementCanvas.ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
-            
-            /*
-            engagementCanvas.ctx.fillRect(
-                0,
-                0,
-                engagementCanvas.canvas.width, 
-                engagementCanvas.canvas.height
-            );
-            */
-            
             drawBackground(engagementCanvas.ctx);
             
             drawDot();
@@ -191,18 +180,16 @@
             
             //make green constant to middle and red transition
             if(engagementCanvas.currentPosition.y <= halfPoint){
-                redVal = Math.floor(((engagementCanvas.currentPosition.y - startY) / (halfPoint - (startY * 1)))*maxColorVal);
+                redVal = Math.floor(((engagementCanvas.currentPosition.y - startY) / (halfPoint - startY))*maxColorVal);
                 greenVal = maxColorVal;
             }
             
             //make red constant from middle and green transition
             if(engagementCanvas.currentPosition.y > halfPoint){
                 redVal = maxColorVal;
-                greenVal = maxColorVal - (Math.floor(((engagementCanvas.currentPosition.y - halfPoint) / (endY - (halfPoint * 1)))*maxColorVal));
+                greenVal = maxColorVal - (Math.floor(((engagementCanvas.currentPosition.y - halfPoint) / (endY - halfPoint))*maxColorVal));
             }
             
-            
-            console.log('redVal: '+redVal+' Green: '+greenVal);
             
             engagementCanvas.ctx.beginPath();
             engagementCanvas.ctx.fillStyle = 'rgba('+redVal+', '+greenVal+', 0, 1)';
