@@ -15,7 +15,7 @@
     * [Add Engagement Update](#add-engagement)
     * [Login](#login)
     * [Check Login](#check-login)
-    * [logout] (#logout)
+    * [Logout] (#logout)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -599,14 +599,6 @@ POST
 
 Code: 200
 
-Content:
-```
-{
-    "type": "boolean"
-    "description": "Flag for success",
-}
-```
-
 #### Error Responses
 
 ##### Wrong user credentials
@@ -614,7 +606,7 @@ Content:
 Either the email or password or both was wrong.
 See error message for details.
 
-Code: 404
+Code: 401
 
 Content:
 ```
@@ -649,21 +641,13 @@ The user is still logged in.
 
 Code: 200
 
-Content:
-```
-{
-    "description": "Flag for success",
-    "type": "boolean"
-}
-```
-
 #### Error Responses
 
 ##### Invalid user token
 
 The user is not logged in.
 
-Code: 404
+Code: 401
 
 Content:
 ```
@@ -689,7 +673,7 @@ Logout user
 
 #### Method
 
-GET
+POST
 
 #### Success Responses
 
@@ -699,19 +683,11 @@ Logging out user.
 
 Code: 200
 
-Content:
-```
-{
-    "description": "Flag for success",
-    "type": "boolean"
-}
-```
-
 #### Error Responses
 
 ##### Could not logout user
 
-Code: 404
+Code: 401
 
 Content:
 ```
