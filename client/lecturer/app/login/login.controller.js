@@ -6,15 +6,16 @@
         .controller('LoginCtrl', LoginController);
 
     /* @ngInject */
-    function LoginController(userFactory) {
+    function LoginController(lecturerFactory) {
         console.log('Ready (Login Controller)');
         angular.element('#login-btn').addClass('active');
-        var vm = this;
         
+        var vm = this;
+        vm.form = {};
         vm.loginUser = loginUser;
         
         function loginUser() {
-            userFactory.login();
+            lecturerFactory.login(vm.form);
         }
     }
 })();

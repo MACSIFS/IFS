@@ -6,8 +6,8 @@
         .config(config);
 
     /* ngInject */
-    function config($routeProvider) {
-        console.log('Ready (Route Provider');
+    function config($routeProvider, $httpProvider) {
+        console.log('Ready (Providers)');
         
         $routeProvider
             .when('/', {
@@ -37,5 +37,7 @@
             .otherwise({
                 redirectTo: '/'
             });
-    }
+            
+        $httpProvider.interceptors.push('apiInterceptor');
+    }    
 })();

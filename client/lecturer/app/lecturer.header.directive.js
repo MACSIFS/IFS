@@ -23,7 +23,7 @@
     }
     
     /* @ngInject */
-    function LecturerHeaderController($scope, $location, userFactory) {
+    function LecturerHeaderController($scope, $location, lecturerFactory) {
         console.log('Ready (Header Controller)');
  
         var vm = this;
@@ -32,7 +32,7 @@
         vm.isLoggedIn = false;
         vm.logout = logout;
         
-        userFactory.registerObserverCallback(updateHeader);
+        lecturerFactory.registerObserverCallback(updateHeader);
         
         // Catch location change in order to change highligting:
         $scope.$on("$routeChangeStart", function(event, next, current) {
@@ -61,7 +61,7 @@
         }
         
         function logout() {
-            userFactory.logout();
+            lecturerFactory.logout();
         }
     }
     
