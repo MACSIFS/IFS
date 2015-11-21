@@ -20,28 +20,28 @@ class LoginTest(BaseTestCase):
         db.session.flush()
 
     def test_success(self):
-        res = self.client.post('/auth/login', data={'user_name': 'simon', 'password': '1234'})
+        res = self.client.post('/api/0/auth/login', data={'user_name': 'simon', 'password': '1234'})
         assert res.status_code == 200
 
-        res = self.client.get('/auth/login')
+        res = self.client.get('/api/0/auth/login')
         assert res.status_code == 200
 
         data = json.loads(res.data.decode('utf-8'))
         assert data['name'] == self.simon.full_name
 
     def test_failed(self):
-        res = self.client.post('/auth/login', data={'user_name': 'test', 'password': '1234'})
+        res = self.client.post('/api/0/auth/login', data={'user_name': 'test', 'password': '1234'})
         assert res.status_code == 401
 
-        res = self.client.get('/auth/login')
+        res = self.client.get('/api/0/auth/login')
         assert res.status_code == 401
 
     def test_success_restricted_access(self):
-        self.client.post('/auth/login', data={'user_name': 'simon', 'password': '1234'})
+        self.client.post('/api/0/auth/login', data={'user_name': 'simon', 'password': '1234'})
         res = self.client.get('/api/0/lectures/1/engagements')
         assert res.status_code == 200
 
     def test_failed_restricted_access(self):
-        self.client.post('/auth/login', data={'user_name': 'test', 'password': '1234'})
+        self.client.post('/api/0/auth/login', data={'user_name': 'test', 'password': '1234'})
         res = self.client.get('/api/0/lectures/1/engagements')
         assert res.status_code == 401
