@@ -233,6 +233,18 @@ class PostCommentsApiTest(BaseTestCase):
 
         assert (comment.submissiontime - presubmission_time) < timedelta(minutes=1)
 
+    def test_max_chars_limit(self):
+        content = '.' * 1000
+        res = self.client.post('/api/0/lectures/1/comments', data=dict(
+            data=content
+        ))
+        assert res.status_code == 200
+
+        comment = Comment.query.filter(Comment.id == 1).first()
+
+        assert len(comment.content) == 500
+        assert comment.content == content[:500]
+
 
 class GetLectureApiTest(BaseTestCase):
     def setUp(self):
