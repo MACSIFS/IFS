@@ -485,6 +485,27 @@ class GetEngagementsApiTest(BaseTestCase):
         for engagement in response:
             assert dateutil.parser.parse(engagement['time']) == last_time
 
+    def test_last_false(self):
+        starttime = datetime(2015, 11, 19, 10)
+        for user in range(0, 2):
+            set_client_id_cookie(self.client, str(user))
+            for i in range(0, 10):
+                time = starttime + timedelta(minutes=10*i)
+                interest = 1
+                challenge = 0
+                eng = Engagement(challenge, interest, time, str(user), self.lecture)
+                db.session.add(eng)
+        db.session.commit()
+
+        rv = self.client.get('/api/0/lectures/1/engagements?last=false')
+        assert rv.status_code == 200
+        assert rv.headers['Content-Type'] == 'application/json'
+
+        response = json.loads(rv.data.decode('utf-8'))
+        assert isinstance(response, list)
+
+        assert len(response) == 20
+
 
 class SetCommentRatingApiTest(BaseTestCase):
     def setUp(self):

@@ -94,7 +94,7 @@ class EngagementListResource(Resource):
     @login_required
     def get(self, lecture_id):
         parser = reqparse.RequestParser()
-        parser.add_argument('last', location='args', type=bool)
+        parser.add_argument('last', location='args', type=lambda last: last == 'true')
         args = parser.parse_args()
 
         lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
