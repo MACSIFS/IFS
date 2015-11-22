@@ -27,6 +27,8 @@ class LectureResource(Resource):
 
 
 class CommentListResource(Resource):
+    COMMENT_MAX_LENGTH = 500
+
     def get(self, lecture_id):
         db_lecture = Lecture.query.filter(Lecture.id == lecture_id).first()
 
@@ -78,7 +80,7 @@ class CommentListResource(Resource):
         if not args.data:
             abort(400, message="Comment has no data parameter")
 
-        content = args.data
+        content = args.data[:self.COMMENT_MAX_LENGTH]
 
         comment = Comment(content, datetime.utcnow(), lecture)
         db.session.add(comment)
