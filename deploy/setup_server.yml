@@ -99,11 +99,11 @@
     - name: enable supervisor
       service: name=supervisor state=started enabled=yes
 
-    - name: stop supervisor
-      service: name=supervisor state=stopped
+    - name: reread supervisor config files
+      supervisorctl: name={{app_name}} state=present
 
-    - name: start supervisor
-      service: name=supervisor state=started
+    - name: restart application
+      supervisorctl: name={{app_name}} state=restarted
 
     - name: create manage command
       template: src=template/manage dest=/bin/manage mode=755
