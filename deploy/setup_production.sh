@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SRC_DIR=$1
+SRC_DIR=`realpath "$1"`
 
 apt-get update -qq
 apt-get install -y python-dev
