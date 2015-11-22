@@ -597,7 +597,7 @@ POST
 
 ##### Success
 
-Code: 200
+Code: 204
 
 #### Error Responses
 
@@ -606,7 +606,7 @@ Code: 200
 Either the email or password or both was wrong.
 See error message for details.
 
-Code: 401
+Code: 403
 
 Content:
 ```
@@ -639,7 +639,7 @@ GET
 
 The user is still logged in.
 
-Code: 200
+Code: 204
 
 #### Error Responses
 
@@ -647,7 +647,7 @@ Code: 200
 
 The user is not logged in.
 
-Code: 401
+Code: 403
 
 Content:
 ```
@@ -681,13 +681,13 @@ POST
 
 Logging out user.
 
-Code: 200
+Code: 204
 
 #### Error Responses
 
 ##### Could not logout user
 
-Code: 401
+Code: 403
 
 Content:
 ```
