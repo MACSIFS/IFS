@@ -129,7 +129,7 @@ POST
 
 #### Data Parameters
 
-* `data=[string]` The comment to be added.
+* `data=[string]` The comment to be added. Max length is 500 characters. Everything above will be truncated.
 
 #### Success Responses
 
