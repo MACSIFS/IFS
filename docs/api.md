@@ -17,7 +17,7 @@
     * [Add Engagement Update](#add-engagement)
     * [Login](#login)
     * [Check Login](#check-login)
-    * [Logout] (#logout)
+    * [Logout](#logout)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
