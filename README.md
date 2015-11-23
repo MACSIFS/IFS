@@ -66,3 +66,10 @@ Optional settings files:
     2.  /etc/ifs.cfg
     3.  ~/.ifs.cfg
 
+## Using MySQL
+1. Create a settings file following the guide above (e.g. `/etc/ifs.cfg`)
+2. Add `SQLALCHEMY_DATABASE_URI="mysql://user:pass@host/db"` to the config file, replacing user, pass, host and db with your settings
+3. Activate the Python virtual environment by writing `source /srv/ifs/env/bin/activate`
+4. Install pymysql (or any other compatible mysql driver) with pip by writing `pip install pymysql`
+5. Initialize the database with `manage init_db`
+6. Restart the server with `supervisorctl restart ifs`
