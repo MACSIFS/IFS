@@ -6,6 +6,7 @@
     * [Base URL](#base)
     * [Client ID](#id)
 * [APIs](#api)
+    * [Add Course](#add-course)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
@@ -42,6 +43,63 @@ This ID is generated and set as a Cookie called `client_id` by the server with t
 Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
 This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
+
+### <a name="add-course"></a>Add Course
+
+Add a course.
+
+#### URL
+
+`/courses`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+* `name=[string]` Name of the course to add. 50 characters or less.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the new course",
+            "type": "number"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ### <a name="get-lecture"></a>Get Lecture
 
