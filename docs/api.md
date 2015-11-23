@@ -10,6 +10,7 @@
     * [Get Course List](#get-courses)
     * [Add Lecture](#add-lecture)
     * [Get Lecture](#get-lecture)
+    * [Get Lecture List](#get-lectures)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
@@ -264,6 +265,51 @@ Content:
         "message": {
             "description": "Error message",
             "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-lectures"></a>Get Lecture List
+
+Get the list of lectures in a course.
+
+#### URL
+
+`/courses/:course-id/lectures`
+
+
+#### Method
+
+GET
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "List of all lectures",
+    "type": "array",
+    "items": {
+        "description": "A lecture",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of lecture",
+                "type": "integer"
+            },
+            "name": {
+                "description": "Name of lecture",
+                "type": "string"
+            },
+            "courseId": {
+                "description": "ID of course this lecture is part of",
+                "type": "integer"
+            }
         }
     }
 }
