@@ -19,15 +19,12 @@
         function link(scope, element, attrs, engagementCanvas) {
             console.log('Ready (Engagement Canvas link)');
 
-            engagementCanvas.width = element.width();
-            engagementCanvas.height = element.height();
-
             engagementCanvas.canvas = document.createElement('canvas');
             element.append(engagementCanvas.canvas);
             engagementCanvas.ctx = engagementCanvas.canvas.getContext('2d');
 
-            engagementCanvas.canvas.width = engagementCanvas.width;
-            engagementCanvas.canvas.height = engagementCanvas.height;
+            engagementCanvas.canvas.width = element.width();
+            engagementCanvas.canvas.height = element.height();
 
             engagementCanvas.heatmap = h337.create({
                 container: element[0],
@@ -44,6 +41,8 @@
                     '0.95': 'red'
                 }
             });
+
+            engagementCanvas.container = element;
 
             engagementCanvas.drawBackground(engagementCanvas.padding);
             engagementCanvas.pollEngagements(1000);
@@ -119,8 +118,8 @@
 
         function updateHeatmap(engagements) {
             var padding = engagementCanvas.padding;
-            var cartesianWidth = (engagementCanvas.width - 2*padding);
-            var cartesianHeight = (engagementCanvas.height - 2*padding);
+            var cartesianWidth = (engagementCanvas.container.width() - 2*padding);
+            var cartesianHeight = (engagementCanvas.container.height() - 2*padding);
 
             var points = engagements.map(function(engagement) {
                 var x = engagement.challenge;
@@ -128,7 +127,7 @@
 
                 if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
                     var drawableX = (cartesianWidth*x + padding);
-                    var drawableY = (engagementCanvas.height - (cartesianHeight*y + padding));
+                    var drawableY = (engagementCanvas.container.height() - (cartesianHeight*y + padding));
 
                     return {
                         x: drawableX,
