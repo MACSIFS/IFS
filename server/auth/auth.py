@@ -5,7 +5,6 @@ from flask.ext.login import current_user, logout_user, login_user
 
 from server.models import Lecturer, db
 
-from .util import hash_password
 
 auth = Blueprint('auth', __name__)
 
@@ -16,23 +15,23 @@ def login():
         if current_user.is_active:
             return json.dumps({'name': current_user.full_name})
         else:
-            abort(401)
+            abort(403, "The user is not logged in")
     else:
-        user_name = request.form['user_name']
+        email = request.form['email']
         password = request.form['password']
         user = (
             db.session.query(Lecturer)
-            .filter(Lecturer.user_name == user_name)
-            .filter(Lecturer.password == hash_password(password))
+            .filter(Lecturer.email == email)
+            .filter(Lecturer.password == password)
             .first()
         )
         if not user:
-            abort(401)
+            abort(403, "Invalid credentials")
         login_user(user)
-        return 'ok'
+        return json.dumps({'name': current_user.full_name})
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 def logout():
     logout_user()
-    return 'ok'
+    return '', 204

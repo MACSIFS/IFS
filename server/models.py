@@ -7,7 +7,7 @@ db = SQLAlchemy()
 class Lecturer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
-    user_name = db.Column(db.String(200), unique=True, nullable=False)
+    email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     active = db.Column(db.Boolean, default=True)
     admin = db.Column(db.Boolean, default=False)
@@ -16,8 +16,8 @@ class Lecturer(db.Model):
     last_name = db.Column(db.String(), nullable=False)
     courses = db.relationship('Course', backref='lecturer')
 
-    def __init__(self, user_name, password, first_name, last_name):
-        self.user_name = user_name
+    def __init__(self, email, password, first_name, last_name):
+        self.email = email
         self.password = password
         self.first_name = first_name
         self.last_name = last_name

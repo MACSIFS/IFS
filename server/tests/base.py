@@ -15,5 +15,6 @@ class BaseTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def login(self, user_name, password):
-        self.client.post('/api/0/auth/login', data={'user_name': user_name, 'password': password})
+    def login(self, email, password):
+        self.client.post('/api/0/auth/login',
+                         data={'email': email, 'password': password})

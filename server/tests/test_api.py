@@ -7,7 +7,6 @@ import dateutil.parser
 from server.tests.base import BaseTestCase
 from server.models import db, Lecturer, Course, Lecture, Comment, Engagement
 from server.models import CommentRating
-from server.auth.util import hash_password
 
 
 def generate_client_id():
@@ -36,7 +35,7 @@ class GetCommentsApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentsApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -101,7 +100,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentsWithRatingApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -186,7 +185,7 @@ class PostCommentsApiTest(BaseTestCase):
     def setUp(self):
         super(PostCommentsApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -250,7 +249,7 @@ class GetLectureApiTest(BaseTestCase):
     def setUp(self):
         super(GetLectureApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -284,7 +283,7 @@ class AddEngagementApiTest(BaseTestCase):
     def setUp(self):
         super(AddEngagementApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -399,7 +398,7 @@ class GetEngagementsApiTest(BaseTestCase):
     def setUp(self):
         super(GetEngagementsApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -523,7 +522,7 @@ class SetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
         super(SetCommentRatingApiTest, self).setUp()
 
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -584,7 +583,7 @@ class SetCommentRatingApiTest(BaseTestCase):
 class GetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentRatingApiTest, self).setUp()
-        simon = Lecturer('simon', hash_password('1234'), 'Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
