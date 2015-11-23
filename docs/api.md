@@ -247,7 +247,7 @@ Content:
     "properties": {
         "id": {
             "description": "The primary id for the added comment",
-            "type": "number"
+            "type": "integer"
         }
     }
 }
@@ -382,7 +382,7 @@ POST
 
 ##### Required
 
-* `rating=[integer]` The number 1, 0 or -1 for up vote, no vote or down vote.
+* `rating=[integer]` The integer 1, 0 or -1 for up vote, no vote or down vote.
 
 #### Success Responses
 
@@ -464,7 +464,7 @@ Content:
     "properties": {
         "rating": {
             "description": "The rating (-1, 0 or 1)",
-            "type": "number"
+            "type": "integer"
         }
     }
 }
