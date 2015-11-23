@@ -74,7 +74,7 @@ Content:
     "properties": {
         "id": {
             "description": "The primary id for the new course",
-            "type": "number"
+            "type": "integer"
         }
     }
 }
