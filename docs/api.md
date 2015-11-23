@@ -597,7 +597,20 @@ POST
 
 ##### Success
 
-Code: 204
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "username": {
+            "description": "The username of the lecturer logging in",
+            "type": "string"
+        }
+    }
+}
+```
 
 #### Error Responses
 
@@ -639,7 +652,20 @@ GET
 
 The user is still logged in.
 
-Code: 204
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "username": {
+            "description": "The username of the lecturer logging in",
+            "type": "string"
+        }
+    }
+}
+```
 
 #### Error Responses
 
@@ -682,25 +708,6 @@ POST
 Logging out user.
 
 Code: 204
-
-#### Error Responses
-
-##### Could not logout user
-
-Code: 403
-
-Content:
-```
-{
-    "type": "object",
-    "properties": {
-        "message": {
-            "description": "Error message",
-            "type": "string"
-        }
-    }
-}
-```
 
 ## <a name="format"></a>Format
 
