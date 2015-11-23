@@ -7,6 +7,7 @@
     * [Client ID](#id)
 * [APIs](#api)
     * [Add Course](#add-course)
+    * [Get Course List](#get-courses)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
@@ -96,6 +97,47 @@ Content:
         "message": {
             "description": "Error message",
             "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-courses"></a>Get Course List
+
+Get the list of courses.
+
+#### URL
+
+`/courses`
+
+
+#### Method
+
+GET
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "List of all courses",
+    "type": "array",
+    "items": {
+        "description": "A course",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of course",
+                "type": "integer"
+            },
+            "name": {
+                "description": "Name of course",
+                "type": "string"
+            }
         }
     }
 }
