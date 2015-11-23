@@ -615,34 +615,34 @@ Code: 200
 Content:
 ```
 {
-	"description": "List of all engagements",
-	"type": "array",
-	"items": {
-		"description": "One engagement point",
-		"type": "object",
-		"properties": {
-			"id": {
-				"description": "ID of engagement point",
-				"type": "integer"
-			},
-			"userId": {
-				"description": "ID of user",
-				"type": "integer"
-			},
-			"interest": {
-				"description": "The amount of interest in range [0, 1]",
-				"type": "number"
-			},
-			 "challenge": {
-				"description": "The amount of challenge in range [0, 1]",
-				"type": "number"
-			},
-			"time": {
-				"description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
-				"type": "string"
-			}
-		}
-	}
+    "description": "List of all engagements",
+    "type": "array",
+    "items": {
+        "description": "One engagement point",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of engagement point",
+                "type": "integer"
+            },
+            "userId": {
+                "description": "ID of user",
+                "type": "integer"
+            },
+            "interest": {
+                "description": "The amount of interest in range [0, 1]",
+                "type": "number"
+            },
+             "challenge": {
+                "description": "The amount of challenge in range [0, 1]",
+                "type": "number"
+            },
+            "time": {
+                "description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
+                "type": "string"
+            }
+        }
+    }
 
 }
 
