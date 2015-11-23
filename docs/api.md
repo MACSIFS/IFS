@@ -8,6 +8,7 @@
 * [APIs](#api)
     * [Add Course](#add-course)
     * [Get Course List](#get-courses)
+    * [Add Lecture](#add-lecture)
     * [Get Lecture](#get-lecture)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
@@ -138,6 +139,63 @@ Content:
                 "description": "Name of course",
                 "type": "string"
             }
+        }
+    }
+}
+```
+
+### <a name="add-lecture"></a>Add Lecture
+
+Add a lecture to a course.
+
+#### URL
+
+`/courses/:course-id/lectures`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+* `name=[string]` Name of the lecture to add. 50 characters or less.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the new lecture",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
         }
     }
 }
