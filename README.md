@@ -40,7 +40,7 @@ Clone this repository:
 
 Checkout specific version:
 
-    $ git checkout v0.4.0
+    $ git checkout <version>
 
 Project uses [Ansible](http://www.ansible.com/) as a provisioning system. Therefore it has to be installed on the server.
 Provisioning process can be started as follows:
