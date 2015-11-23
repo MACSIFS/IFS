@@ -10,7 +10,6 @@ class Lecturer(db.Model):
     email = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     active = db.Column(db.Boolean, default=True)
-    admin = db.Column(db.Boolean, default=False)
 
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
@@ -38,10 +37,6 @@ class Lecturer(db.Model):
     @property
     def is_active(self):
         return self.active
-
-    @property
-    def is_admin(self):
-        return self.admin
 
     @property
     def is_anonymous(self):
