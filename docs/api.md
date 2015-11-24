@@ -147,11 +147,11 @@ Content:
 
 ### <a name="add-lecture"></a>Add Lecture
 
-Add a lecture to a course.
+Add a lecture.
 
 #### URL
 
-`/courses/:course-id/lectures`
+`/lectures`
 
 #### Method
 
@@ -159,7 +159,10 @@ POST
 
 #### Data Parameters
 
+##### Required
+
 * `name=[string]` Name of the lecture to add. 50 characters or less.
+* `courseId=[integer]` ID of the course in which this lecture is part of.
 
 #### Success Responses
 
@@ -272,16 +275,22 @@ Content:
 
 ### <a name="get-lectures"></a>Get Lecture List
 
-Get the list of lectures in a course.
+Get the list of lectures.
 
 #### URL
 
-`/courses/:course-id/lectures`
+`/lectures`
 
 
 #### Method
 
 GET
+
+#### URL Parameters
+
+##### Optional
+
+* `course=[integer]` ID of a course. Only get lectures belonging this course.
 
 #### Success Responses
 
@@ -314,6 +323,10 @@ Content:
     }
 }
 ```
+
+#### Notes
+
+To get the list of lectures in a course, use `GET /lectures?course=<courseId>` where \<courseId\> is the ID of a course.
 
 ### <a name="add-comment"></a>Add comment
 
