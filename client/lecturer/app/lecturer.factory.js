@@ -42,7 +42,7 @@
 
         function checkUserToken(onError) {
             if (!Login) {
-                Login = lectureService.login;
+                Login = lecturerService.login;
             }
             
             Login.get(loginSuccess, function() {
