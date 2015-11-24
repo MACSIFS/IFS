@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 
 from server.models import db, Course
-from server.resources.resources import api
 
 
 class CourseListResource(Resource):
@@ -27,6 +26,3 @@ class CourseListResource(Resource):
             }
             for row in query
         ]
-
-
-api.add_resource(CourseListResource, '/api/0/courses')

@@ -8,9 +8,7 @@ from flask.ext.login import LoginManager
 
 from .models import db, Lecturer
 from .main.main import main
-from .auth.auth import auth
-from .resources.resources import api
-import server.resources.course
+from .api.v0.api import api_bp
 
 
 def create_app(config=None):
@@ -26,10 +24,9 @@ def create_app(config=None):
         app.config.update(config)
 
     app.register_blueprint(main)
-    app.register_blueprint(auth, url_prefix='/api/0/auth')
+    app.register_blueprint(api_bp, url_prefix='/api/0')
 
     db.init_app(app)
-    api.init_app(app)
 
     login_manager = LoginManager()
     login_manager.init_app(app)

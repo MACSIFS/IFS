@@ -1,14 +1,10 @@
 import json
 
-from flask import Blueprint, request
+from flask import request
 from flask.ext.login import current_user, logout_user, login_user
-from flask.ext.restful import Api, Resource, abort
+from flask.ext.restful import Resource, abort
 
 from server.models import Lecturer, db
-
-
-auth = Blueprint('auth', __name__)
-api = Api(auth)
 
 
 class LoginResource(Resource):
@@ -37,6 +33,3 @@ class LogoutResource(Resource):
     def post(self):
         logout_user()
         return '', 204
-
-api.add_resource(LoginResource, '/login')
-api.add_resource(LogoutResource, '/logout')
