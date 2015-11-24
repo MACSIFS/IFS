@@ -14,3 +14,7 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def login(self, email, password):
+        self.client.post('/api/0/auth/login',
+                         data={'email': email, 'password': password})
