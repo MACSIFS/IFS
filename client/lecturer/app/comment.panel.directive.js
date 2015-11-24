@@ -23,15 +23,22 @@
     }
 
     /* @ngInject */
-    function CommentPanelController(lecturesFactory, $interval) {
+    function CommentPanelController(lecturesFactory, $interval, $scope) {
         console.log('Ready (Comment Panel Controller)');
 
         var commentPanel = this;
+        commentPanel.comments = [];
 
-	commentPanel.comments = [];
+        var pollPromise;
+
+        $scope.$on('$destroy', function(){
+            if (pollPromise) {
+                $interval.cancel(pollPromise);
+            }
+        });
 
         getComments();
-        $interval(function() {
+        pollPromise = $interval(function() {
             getComments();
         }, 4000);
 
