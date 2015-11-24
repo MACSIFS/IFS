@@ -47,13 +47,16 @@
             
             Login.get(loginSuccess, function() {
                 resetCallbacks();
-                onError();
+                if (angular.isFunction(onError)) {
+                    onError();
+                }
+                $location.path('/');
             });
         }
 
         function logout() {
             lecturerService.logout
-                .save(success);
+                .save(success, resetCallbacks);
 
             function success() {
                 resetCallbacks();

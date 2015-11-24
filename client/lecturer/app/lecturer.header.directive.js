@@ -46,10 +46,11 @@
                     currentButton.removeClass('active');
                 }
             }
-            
         });
         
         function updateHeader(loggedIn, username) {
+            console.log('loggedIn', loggedIn);
+            console.log('username', username);
             if (loggedIn) {
                 vm.username = username;
                 vm.isLoggedIn = loggedIn;

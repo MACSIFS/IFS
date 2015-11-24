@@ -8,6 +8,7 @@
     /* @ngInject */
     function LecturerController($scope, lecturerFactory) {
         console.log('Ready (Lecturer Controller)');
+        lecturerFactory.checkUserToken();
         
         var vm = this;
 
