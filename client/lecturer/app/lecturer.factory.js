@@ -49,7 +49,7 @@
         }
 
         function logout() {
-            lectureService.logout
+            lecturerService.logout
                 .save(success);
 
             function success() {
