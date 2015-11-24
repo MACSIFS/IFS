@@ -32,13 +32,12 @@
         
         var commentForm = this;
         commentForm.submitComment = submitComment;
+        commentForm.maxLength = 500;
         
         function submitComment() {
             commentForm.submitted = true;
-            
-            var commentMaxLength = 500;
-            
-            if(commentForm.comment.length > commentMaxLength){
+                        
+            if(commentForm.comment.length > commentForm.maxLength){
                 console.log('error');
                 commentForm.feedbackMessage = 'Comment/question too long!';
                 commentForm.feedbackType = 'alert-danger';
