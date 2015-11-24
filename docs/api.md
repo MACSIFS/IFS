@@ -13,6 +13,9 @@
     * [Get Comment Rating](#get-rating)
     * [Get Engagements](#get-engagements)
     * [Add Engagement Update](#add-engagement)
+    * [Login](#login)
+    * [Check Login](#check-login)
+    * [Logout] (#logout)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -129,7 +132,7 @@ POST
 
 #### Data Parameters
 
-* `data=[string]` The comment to be added.
+* `data=[string]` The comment to be added. Max length is 500 characters. Everything above will be truncated.
 
 #### Success Responses
 
@@ -571,6 +574,140 @@ Content:
 
 last are set by `/lectures/:lecture-id/engagements?last=true`
 
+### <a name="login"></a>Login
+
+Login as a lecturer
+
+#### URL
+
+`/auth/login`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+##### Required
+
+* `email=[string]` Lectures registered email address.
+* `password=[string]` Hashed password using SHA256.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "username": {
+            "description": "The username of the lecturer logging in",
+            "type": "string"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Wrong user credentials
+
+Either the email or password or both was wrong.
+See error message for details.
+
+Code: 403
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="check-login"></a>Check Login
+
+Check if the user is still logged id.
+
+#### URL
+
+`/auth/login`
+
+#### Method
+
+GET
+
+#### Success Responses
+
+##### Valid user token
+
+The user is still logged in.
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "username": {
+            "description": "The username of the lecturer logging in",
+            "type": "string"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid user token
+
+The user is not logged in.
+
+Code: 403
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+
+### <a name="logout"></a>Logout
+
+Logout user
+
+#### URL
+
+`/auth/logout`
+
+#### Method
+
+POST
+
+#### Success Responses
+
+##### Success
+
+Logging out user.
+
+Code: 204
 
 ## <a name="format"></a>Format
 

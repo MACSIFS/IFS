@@ -50,6 +50,7 @@ exports.tags = {
                 'bower_components/angular/angular.js',
                 'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
+                'bower_components/heatmap.js-amd/build/heatmap.js',
                 'bower_components/jshashes/hashes.js',
                 'client/lecturer/app/lecturer.module.js',
                 'client/lecturer/app/**/*.js',
@@ -91,7 +92,7 @@ exports.tags = {
                 closeTag: '<!-- End of generated css tag -->'
             },
             src: [
-                'bower_components/bootstrap/dist/css/bootstrap.css',
+                'release/min/bootstrap.min.css',
                 'release/min/lecturer.min.css'
             ],
             dest: 'client/lecturer/index.html'

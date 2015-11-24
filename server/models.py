@@ -6,11 +6,18 @@ db = SQLAlchemy()
 
 class Lecturer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(), nullable=False)
-    last_name = db.Column(db.String(), nullable=False)
+
+    email = db.Column(db.String(254), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    active = db.Column(db.Boolean, default=True)
+
+    first_name = db.Column(db.String(20), nullable=False)
+    last_name = db.Column(db.String(20), nullable=False)
     courses = db.relationship('Course', backref='lecturer')
 
-    def __init__(self, first_name, last_name):
+    def __init__(self, email, password, first_name, last_name):
+        self.email = email
+        self.password = password
         self.first_name = first_name
         self.last_name = last_name
 
@@ -23,10 +30,25 @@ class Lecturer(db.Model):
             return self.last_name
         return "%s %s" % (self.first_name, self.last_name)
 
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return self.active
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     lecturer_id = db.Column(db.Integer, db.ForeignKey('lecturer.id'), nullable=False)
     lectures = db.relationship('Lecture', backref='course')
 
@@ -40,7 +62,7 @@ class Course(db.Model):
 
 class Lecture(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     quizzes = db.relationship('Quiz', backref='lecture')
     lectures = db.relationship('Comment', backref='lecture')
@@ -58,8 +80,8 @@ class Lecture(db.Model):
 class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
-    question = db.Column(db.String(), nullable=False)
-    options = db.Column(db.String(), nullable=False)
+    question = db.Column(db.String(100), nullable=False)
+    options = db.Column(db.String(100), nullable=False)
 
     def __init__(self, lecture, question, options):
         self.lecture = lecture
@@ -72,7 +94,7 @@ class Quiz(db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(), nullable=False)
+    content = db.Column(db.String(500), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
     submissiontime = db.Column(db.DateTime, nullable=False)
     comment_ratings = db.relationship('CommentRating', backref='comment')
@@ -91,7 +113,7 @@ class Engagement(db.Model):
     challenge = db.Column(db.Float, nullable=False)
     interest = db.Column(db.Float, nullable=False)
     time = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.String(), nullable=False)
+    user_id = db.Column(db.String(36), nullable=False)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), nullable=False)
 
     def __init__(self, challenge, interest, time, user_id, lecture):
@@ -106,7 +128,7 @@ class Engagement(db.Model):
 
 
 class CommentRating(db.Model):
-    user_id = db.Column(db.String(), primary_key=True)
+    user_id = db.Column(db.String(36), primary_key=True)
     lecture_id = db.Column(db.Integer, db.ForeignKey('lecture.id'), primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
