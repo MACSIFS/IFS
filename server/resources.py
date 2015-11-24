@@ -5,7 +5,7 @@ import dateutil.parser
 from flask import g
 from flask_restful import Resource, Api, abort, reqparse
 from flask.ext.login import login_required
-from sqlalchemy import and_
+from sqlalchemy import and_, func as sqlfunc
 
 from .models import db, Comment, Lecture, Engagement, CommentRating
 
@@ -36,12 +36,31 @@ class CommentListResource(Resource):
         if not db_lecture:
             abort(404, message="Lecture {} does not exist".format(lecture_id))
 
+        positive_score = (
+            db.session.query(sqlfunc.count(CommentRating.rating))
+            .filter(CommentRating.comment_id == Comment.id)
+            .filter(CommentRating.rating == 1).as_scalar()
+            .correlate(Comment)
+            .as_scalar()
+        )
+
+        negative_score = (
+            db.session.query(sqlfunc.count(CommentRating.rating))
+            .filter(CommentRating.comment_id == Comment.id)
+            .filter(CommentRating.rating == -1).as_scalar()
+            .correlate(Comment)
+            .as_scalar()
+        )
+
+        score = positive_score - negative_score
+
         rows = (
             db.session.query(
                 Comment.id,
                 Comment.content,
                 Comment.submissiontime,
-                CommentRating.rating
+                CommentRating.rating,
+                score.label('score')
             )
             .outerjoin(
                 CommentRating,
@@ -59,7 +78,8 @@ class CommentListResource(Resource):
                 'id': row.id,
                 'content': row.content,
                 'submissionTime': row.submissiontime.isoformat(),
-                'rating': row.rating or 0
+                'rating': row.rating or 0,
+                'score': row.score,
             }
             for row in rows
         ]

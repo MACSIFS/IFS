@@ -180,6 +180,32 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         assert response['comments'][0]['rating'] == 1
         assert response['comments'][1]['rating'] == -1
 
+    def test_no_score(self):
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['score'] == 0
+
+    def test_one_score(self):
+        db.session.add(CommentRating(1, 'user', self.comment, self.lecture))
+        db.session.commit()
+
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['score'] == 1
+
+    def test_score_difference(self):
+        db.session.add(CommentRating(1, 'user1', self.comment, self.lecture))
+        db.session.add(CommentRating(1, 'user2', self.comment, self.lecture))
+        db.session.add(CommentRating(1, 'user3', self.comment, self.lecture))
+        db.session.add(CommentRating(1, 'user4', self.comment, self.lecture))
+        db.session.add(CommentRating(-1, 'user5', self.comment, self.lecture))
+        db.session.add(CommentRating(-1, 'user6', self.comment, self.lecture))
+        db.session.commit()
+
+        rv = self.client.get('/api/0/lectures/1/comments')
+        response = json.loads(rv.data.decode('utf-8'))
+        assert response['comments'][0]['score'] == 2
+
 
 class PostCommentsApiTest(BaseTestCase):
     def setUp(self):
