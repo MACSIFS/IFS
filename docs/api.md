@@ -696,7 +696,7 @@ POST
 
 ##### Required
 
-* `email=[string]` Lectures registered email address.
+* `email=[string]` Lecturer's registered email address.
 * `password=[string]` Hashed password using SHA256.
 
 #### Success Responses
