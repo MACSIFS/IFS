@@ -1,4 +1,5 @@
 import json
+from uuid import uuid1
 from datetime import datetime, timedelta
 
 import dateutil.parser
@@ -6,7 +7,6 @@ import dateutil.parser
 from server.tests.base import BaseTestCase
 from server.models import db, Lecturer, Course, Lecture, Comment, Engagement
 from server.models import CommentRating
-from uuid import uuid1
 
 
 def generate_client_id():
@@ -35,7 +35,7 @@ class GetCommentsApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentsApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -100,7 +100,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentsWithRatingApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -211,7 +211,7 @@ class PostCommentsApiTest(BaseTestCase):
     def setUp(self):
         super(PostCommentsApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -275,7 +275,7 @@ class GetLectureApiTest(BaseTestCase):
     def setUp(self):
         super(GetLectureApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -309,7 +309,7 @@ class AddEngagementApiTest(BaseTestCase):
     def setUp(self):
         super(AddEngagementApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -424,7 +424,7 @@ class GetEngagementsApiTest(BaseTestCase):
     def setUp(self):
         super(GetEngagementsApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -436,6 +436,8 @@ class GetEngagementsApiTest(BaseTestCase):
         db.session.commit()
 
         self.lecture = imt3601_l1
+
+        self.login('simon', '1234')
 
     def test_success(self):
         rv = self.client.get('/api/0/lectures/1/engagements')
@@ -546,7 +548,7 @@ class SetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
         super(SetCommentRatingApiTest, self).setUp()
 
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)
@@ -607,7 +609,7 @@ class SetCommentRatingApiTest(BaseTestCase):
 class GetCommentRatingApiTest(BaseTestCase):
     def setUp(self):
         super(GetCommentRatingApiTest, self).setUp()
-        simon = Lecturer('Simon', 'McCallum')
+        simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
         db.session.add(simon)
 
         imt3601 = Course('IMT3601 - Game Programming', simon)

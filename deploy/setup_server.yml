@@ -32,6 +32,9 @@
     - name: install bower
       npm: name=bower global=yes
 
+    - name: create bowerrc file to allow root
+      template: src=template/.bowerrc dest=~/.bowerrc
+
     - name: make node -> nodejs link
       file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
 
@@ -66,10 +69,21 @@
     - name: remove default nginx enabled site
       file: path=/etc/nginx/sites-enabled/default state=absent
 
-    - name: create nginx config for application
-      template: src=template/nginx_site.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
+    - name: create nginx config for dev application
+      template: src=template/nginx_site_dev.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
       notify:
       - restart nginx
+      when: deploy_type == 'dev'
+
+    - name: create nginx config for production application
+      template: src=template/nginx_site_production.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
+      notify:
+      - restart nginx
+      when: deploy_type == 'production'
+
+    - name: build clientside files with grunt
+      command: /usr/local/bin/grunt release:all
+      when: deploy_type == 'production'
 
     - name: link nginx config
       file: src=/etc/nginx/sites-available/{{app_name}}.conf dest=/etc/nginx/sites-enabled/{{app_name}}.conf state=link
@@ -84,6 +98,12 @@
 
     - name: enable supervisor
       service: name=supervisor state=started enabled=yes
+
+    - name: reread supervisor config files
+      supervisorctl: name={{app_name}} state=present
+
+    - name: restart application
+      supervisorctl: name={{app_name}} state=restarted
 
     - name: create manage command
       template: src=template/manage dest=/bin/manage mode=755
