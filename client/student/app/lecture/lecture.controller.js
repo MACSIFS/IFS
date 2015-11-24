@@ -13,7 +13,14 @@
         lectureFactory.setShowComment(showComments);
         lectureFactory.setShowEngagement(showEngagement);
         lectureFactory.joinLecture($routeParams.lectureId);
+        
+        //do once and then loop
         getComments();
+        $interval(function() {
+            getComments();
+        }, 2000);
+        
+        
         
         var vm = this;
         vm.comment = '';

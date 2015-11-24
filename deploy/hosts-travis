@@ -4,3 +4,4 @@ localhost ansible_connection=local
 [local:vars]
 src_dir=/home/travis/build/MACSIFS/IFS
 os=linux
+deploy_type=production

@@ -117,6 +117,12 @@ Get the list of courses.
 
 GET
 
+#### URL Parameters
+
+##### Optional
+
+* `lecturer = [integer]` ID of lecturer. Get only courses this lecturer is part of.
+
 #### Success Responses
 
 ##### Success
@@ -807,7 +813,7 @@ POST
 
 ##### Required
 
-* `email=[string]` Lectures registered email address.
+* `email=[string]` Lecturer's registered email address.
 * `password=[string]` Hashed password using SHA256.
 
 #### Success Responses
@@ -824,6 +830,10 @@ Content:
         "username": {
             "description": "The username of the lecturer logging in",
             "type": "string"
+        },
+        "id": {
+            "description": "The ID of the lecturer logging in",
+            "type": "integer"
         }
     }
 }
