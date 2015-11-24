@@ -115,6 +115,12 @@ Get the list of courses.
 
 GET
 
+#### URL Parameters
+
+##### Optional
+
+* `lecturer = [integer]` ID of lecturer. Get only courses this lecturer is part of.
+
 #### Success Responses
 
 ##### Success
