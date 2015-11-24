@@ -45,6 +45,7 @@ Each user of the API gets a unique client ID to identify them.
 This ID is generated and set as a Cookie called `client_id` by the server with the first request.
 Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
 This is a temporary solutuion until proper user authentication is implemented.
+
 ## <a name="api"></a>APIs
 
 ### <a name="add-course"></a>Add Course
@@ -62,6 +63,7 @@ POST
 #### Data Parameters
 
 * `name=[string]` Name of the course to add. 50 characters or less.
+* `lectureId=[integer]` ID of lecturer that manages this course.
 
 #### Success Responses
 
@@ -90,6 +92,28 @@ The data parameters in the request were invalid.
 See error message for details.
 
 Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+##### Not Allowed
+
+You do not have access to create this course.
+See error message for details.
+
+Will happen if the lectureId provided is not the currently logged in lecturer.
+
+Code: 403
 
 Content:
 ```
