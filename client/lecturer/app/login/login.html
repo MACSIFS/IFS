@@ -7,6 +7,12 @@
                     <input type="email" data-ng-model="vm.form.email" class="form-control" placeholder="Email">
                     <input type="password" data-ng-model="vm.form.password" class="form-control" placeholder="Password">
                     <button type="submit" class="btn btn-primary">Login</button>
+                    <ifs-feedback
+                        data-ng-show="vm.loginAttempt"
+                        message="vm.feedbackMessage"
+                        type="vm.feedbackType"
+                        icon="vm.feedbackIcon">
+                    </ifs-feedback>
                 </form>
             </div>
         </div>

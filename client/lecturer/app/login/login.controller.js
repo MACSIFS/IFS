@@ -11,11 +11,17 @@
         angular.element('#login-btn').addClass('active');
         
         var vm = this;
+        vm.loginAttempt = false;
         vm.form = {};
         vm.loginUser = loginUser;
         
         function loginUser() {
-            lecturerFactory.login(vm.form);
+            lecturerFactory.login(vm.form, function() {
+                vm.loginAttempt = true;
+                vm.feedbackMessage = 'Wrong user credentials';
+                vm.feedbackType = 'alert-danger';
+                vm.feedbackIcon = 'glyphicon-exclamation-sign';
+            });
         }
     }
 })();

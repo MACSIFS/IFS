@@ -20,7 +20,7 @@
 
         return service;
 
-        function login(credentials) {
+        function login(credentials, showFeedback) {
             if (!Login) {
                 Login = lecturerService.login;
             }
@@ -34,7 +34,10 @@
                 password: SHA256.hex(credentials.password)
             };
             
-            Login.save(form, loginSuccess, logoutSuccess);
+            Login.save(form, loginSuccess, function() {
+                showFeedback();
+                resetCallbacks();
+            });
         }
 
         function checkUserToken(onError) {
@@ -43,7 +46,7 @@
             }
             
             Login.get(loginSuccess, function() {
-                logoutSuccess();
+                resetCallbacks();
                 onError();
             });
         }
@@ -53,7 +56,7 @@
                 .save(success);
 
             function success() {
-                logoutSuccess();
+                resetCallbacks();
                 $location.path('/');
             }
         }
@@ -63,17 +66,15 @@
         }
         
         function loginSuccess(response) {
-            angular
-                .forEach(observerCallbacks, function(callback) {
-                    callback(true, response.username);
-                });
+            angular.forEach(observerCallbacks, function(callback) {
+                callback(true, response.username);
+            });
         }
         
-        function logoutSuccess() {
-            angular
-                .forEach(observerCallbacks, function(callback) {
-                    callback(false);
-                });
+        function resetCallbacks() {
+            angular.forEach(observerCallbacks, function(callback) {
+                callback(false);
+            });
         }
     }
 })();
