@@ -9,7 +9,8 @@ from flask.ext.login import LoginManager
 from .models import db, Lecturer
 from .main.main import main
 from .auth.auth import auth
-from .resources import api
+from .resources.resources import api
+import server.resources.course
 
 
 def create_app(config=None):

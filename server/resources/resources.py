@@ -7,7 +7,7 @@ from flask_restful import Resource, Api, abort, reqparse
 from flask.ext.login import login_required
 from sqlalchemy import and_, func as sqlfunc
 
-from .models import db, Comment, Lecture, Engagement, CommentRating
+from server.models import db, Comment, Lecture, Engagement, CommentRating
 
 api = Api()
 
