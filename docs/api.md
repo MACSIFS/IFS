@@ -8,7 +8,9 @@
 * [APIs](#api)
     * [Add Course](#add-course)
     * [Get Course List](#get-courses)
+    * [Add Lecture](#add-lecture)
     * [Get Lecture](#get-lecture)
+    * [Get Lecture List](#get-lectures)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
@@ -149,6 +151,66 @@ Content:
 }
 ```
 
+### <a name="add-lecture"></a>Add Lecture
+
+Add a lecture.
+
+#### URL
+
+`/lectures`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+##### Required
+
+* `name=[string]` Name of the lecture to add. 50 characters or less.
+* `courseId=[integer]` ID of the course in which this lecture is part of.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the new lecture",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
 ### <a name="get-lecture"></a>Get Lecture
 
 Get a lecture.
@@ -216,6 +278,61 @@ Content:
     }
 }
 ```
+
+### <a name="get-lectures"></a>Get Lecture List
+
+Get the list of lectures.
+
+#### URL
+
+`/lectures`
+
+
+#### Method
+
+GET
+
+#### URL Parameters
+
+##### Optional
+
+* `course=[integer]` ID of a course. Only get lectures belonging this course.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "List of all lectures",
+    "type": "array",
+    "items": {
+        "description": "A lecture",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of lecture",
+                "type": "integer"
+            },
+            "name": {
+                "description": "Name of lecture",
+                "type": "string"
+            },
+            "courseId": {
+                "description": "ID of course this lecture is part of",
+                "type": "integer"
+            }
+        }
+    }
+}
+```
+
+#### Notes
+
+To get the list of lectures in a course, use `GET /lectures?course=<courseId>` where \<courseId\> is the ID of a course.
 
 ### <a name="add-comment"></a>Add comment
 
