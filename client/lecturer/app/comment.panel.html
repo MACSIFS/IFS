@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <span>Questions and Comments</span>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"
+            data-ng-repeat="item in commentPanel.comments | orderBy:'-submissionTime' track by $index">
+            <b>{{item.content}}</b>
+        </li>
+    </ul>
+    <div class="panel-footer"></div>
+</div>

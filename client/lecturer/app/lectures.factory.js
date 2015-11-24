@@ -9,7 +9,8 @@
     function lecturesFactory(lecturesService) {
         var lectureId = 1;
         var service = {
-            getEngagements: getEngagements
+            getEngagements: getEngagements,
+            getComments: getComments
         };
         
         return service;
@@ -21,6 +22,11 @@
             function onError() {
                 console.log('Error');
             }
+        }
+
+        function getComments(onSuccess, onFail) {
+            lecturesService.retrieveComments
+                .get({lectureId: lectureId}, onSuccess, onFail);
         }
     }
 })();
