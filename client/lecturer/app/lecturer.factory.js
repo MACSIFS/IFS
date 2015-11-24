@@ -6,7 +6,7 @@
         .factory('lecturerFactory', lecturerFactory);
 
     /* @ngInject */
-    function lecturerFactory(lecturerService) {
+    function lecturerFactory(lecturerService, $location) {
         var username = '';
         var observerCallbacks = [];
         var Login = false;
