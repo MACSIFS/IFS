@@ -4,3 +4,4 @@ localhost ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
 [local:vars]
 src_dir=/vagrant
 os=linux
+deploy_type=dev

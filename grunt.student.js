@@ -15,6 +15,27 @@ exports.concat = {
     }
 };
 
+exports.copy = {
+  main: {
+    files: [
+      {
+          expand: true,
+          flatten: true,
+          src: ['bower_components/bootstrap/dist/css/bootstrap.min.css'],
+          dest: 'release/min/'
+      },
+
+      {
+          expand: true,
+          flatten: true,
+          src: ['bower_components/bootstrap/fonts/*'],
+          dest: 'release/fonts/',
+          filter: 'isFile'
+      }
+    ]
+  }
+};
+
 exports.uglify = {
     files: {
         'release/min/student.min.js': ['release/concat/student.js']
@@ -90,7 +111,7 @@ exports.tags = {
                 closeTag: '<!-- End of generated css tag -->'
             },
             src: [
-                'bower_components/bootstrap/dist/css/bootstrap.css',
+                'release/min/bootstrap.min.css',
                 'release/min/student.min.css'
             ],
             dest: 'client/student/index.html'
