@@ -18,29 +18,39 @@ class LoginTest(BaseTestCase):
 
         db.session.flush()
 
-    def test_success(self):
+    def test_login_success(self):
         res = self.client.post('/api/0/auth/login', data={'email': 'simon', 'password': '1234'})
-        assert res.status_code == 200
+        self.assert200(res)
 
         res = self.client.get('/api/0/auth/login')
-        assert res.status_code == 200
+        self.assert200(res)
 
         data = json.loads(res.data.decode('utf-8'))
-        assert data['name'] == self.simon.full_name
+        self.assertTrue(data['username'] == self.simon.full_name)
 
-    def test_failed(self):
+    def test_login_failed(self):
         res = self.client.post('/api/0/auth/login', data={'email': 'test', 'password': '1234'})
-        assert res.status_code == 403
+        self.assert403(res)
 
         res = self.client.get('/api/0/auth/login')
-        assert res.status_code == 403
+        self.assert403(res)
+
+    def test_logout(self):
+        res = self.client.post('/api/0/auth/login', data={'email': 'simon', 'password': '1234'})
+        self.assert200(res)
+
+        res = self.client.post('/api/0/auth/logout')
+        self.assert_status(res, 204)
+
+        res = self.client.get('/api/0/auth/login')
+        self.assert403(res)
 
     def test_success_restricted_access(self):
         self.client.post('/api/0/auth/login', data={'email': 'simon', 'password': '1234'})
         res = self.client.get('/api/0/lectures/1/engagements')
-        assert res.status_code == 200
+        self.assert200(res)
 
     def test_failed_restricted_access(self):
         self.client.post('/api/0/auth/login', data={'email': 'test', 'password': '1234'})
         res = self.client.get('/api/0/lectures/1/engagements')
-        assert res.status_code == 401
+        self.assert401(res)

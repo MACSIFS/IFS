@@ -1,22 +1,24 @@
 import json
 
-from flask import Blueprint, request, abort
+from flask import Blueprint, request
 from flask.ext.login import current_user, logout_user, login_user
+from flask.ext.restful import Api, Resource, abort
 
 from server.models import Lecturer, db
 
 
 auth = Blueprint('auth', __name__)
+api = Api(auth)
 
 
-@auth.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'GET':
+class LoginResource(Resource):
+    def get(self):
         if current_user.is_active:
-            return json.dumps({'name': current_user.full_name})
+            return {'username': current_user.full_name}
         else:
-            abort(403, "The user is not logged in")
-    else:
+            abort(403, message="The user is not logged in")
+
+    def post(self):
         email = request.form['email']
         password = request.form['password']
         user = (
@@ -26,12 +28,15 @@ def login():
             .first()
         )
         if not user:
-            abort(403, "Invalid credentials")
+            abort(403, message="Invalid credentials")
         login_user(user)
-        return json.dumps({'name': current_user.full_name})
+        return {'username': current_user.full_name}
 
 
-@auth.route('/logout', methods=['POST'])
-def logout():
-    logout_user()
-    return '', 204
+class LogoutResource(Resource):
+    def post(self):
+        logout_user()
+        return '', 204
+
+api.add_resource(LoginResource, '/login')
+api.add_resource(LogoutResource, '/logout')
