@@ -31,7 +31,7 @@
             // Prevent binding the hashed password into the input.
             var form = {
                 email: credentials.email,
-                passsword: SHA256.hex(credentials.password)
+                password: SHA256.hex(credentials.password)
             };
             
             Login.save(form, loginSuccess, logoutSuccess);
