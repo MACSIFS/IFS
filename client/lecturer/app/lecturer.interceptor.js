@@ -15,7 +15,7 @@
         function responseError(rejection) {
             console.log('%c UNAUTHORIZED', 'color: #8B0000');
             
-            if (rejection.status == 401) {
+            if (rejection.status == 403) {
                 $location.path('/');
             }
             

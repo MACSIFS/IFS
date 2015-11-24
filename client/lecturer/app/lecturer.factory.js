@@ -7,7 +7,7 @@
 
     /* @ngInject */
     function lecturerFactory(lecturerService) {
-        var isLoggedIn = false;
+        var username = '';
         var observerCallbacks = [];
         var Login = false;
         
@@ -50,9 +50,9 @@
 
         function logout() {
             lectureService.logout
-                .get(success);
+                .save(success);
 
-            function succcess() {
+            function success() {
                 logoutSuccess();
                 $location.path('/');
             }
@@ -62,10 +62,10 @@
             observerCallbacks.push(callback);
         }
         
-        function loginSuccess() {
+        function loginSuccess(response) {
             angular
                 .forEach(observerCallbacks, function(callback) {
-                    callback(true);
+                    callback(true, response.username);
                 });
         }
         

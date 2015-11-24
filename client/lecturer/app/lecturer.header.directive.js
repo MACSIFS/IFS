@@ -29,6 +29,7 @@
         var vm = this;
         vm.title = 'Interactive Feedback System';
         vm.homeRoute = '#/';
+        vm.username = '';
         vm.isLoggedIn = false;
         vm.logout = logout;
         
@@ -48,12 +49,14 @@
             
         });
         
-        function updateHeader(loggedIn) {
+        function updateHeader(loggedIn, username) {
             if (loggedIn) {
+                vm.username = username;
                 vm.isLoggedIn = loggedIn;
                 vm.homeRoute = '#/courses';
                 $location.path('/courses');
             } else {
+                vm.username = '';
                 vm.isLoggedIn = false;
                 vm.homeRoute = '#/';
                 $location.path('/');

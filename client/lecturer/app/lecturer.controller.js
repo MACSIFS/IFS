@@ -14,12 +14,13 @@
         $scope.$on('locationChangeStart', function() {
             console.log('location change');
             if (angular.isDefined(next)  &&  angular.isDefined(next.$$route)) {
-                lecturerFactory.checkUserToken(function() {
-                    console.log('success');
-                    if (next.$$route.loginRequired) {
+                
+                if (next.$$.route.loginRequired) {
+                    lecturerFactory.checkUserToken(function() {
+                        // Prevent access to next route on error.
                         event.preventDefault();
-                    }
-                });
+                    });
+                }
             }
         });
     }
