@@ -69,6 +69,12 @@ class AddCourseApiTest(BaseTestCase):
         ))
         self.assert200(res)
 
+        data = json.loads(res.data.decode('utf-8'))
+
+        self.assertIsNotNone(data)
+        self.assertIn('id', data)
+        self.assertEqual(data['id'], 3)
+
         awsmCourse = Course.query.filter(Course.id == 3).first()
         self.assertFalse(awsmCourse is None)
         self.assertEqual(awsmCourse.name, 'awsm')
