@@ -37,11 +37,11 @@
             };
 
             Login.save(form,
-                function() {
+                function(response) {
                     if (angular.isFunction(onSuccess)) {
-                        onSuccess();
+                        onSuccess(response);
                     }
-                    loginSuccess();
+                    loginSuccess(response);
                 }, function() {
                     if (angular.isFunction(onError)) {
                         onError();
