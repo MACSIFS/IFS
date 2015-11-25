@@ -6,7 +6,6 @@ from flask.ext.script import Manager
 
 from server import create_app
 from server.models import db
-
 from server.models import Lecturer, Course, Lecture, Comment
 
 manager = Manager(create_app)
@@ -24,7 +23,8 @@ def mock_db():
     """ Insert mock data into database """
     init_db()
 
-    simon = Lecturer('Simon', 'McCallum')
+    simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
+    simon.admin = True
     db.session.add(simon)
 
     imt3601 = Course('IMT3601 - Game Programming', simon)
