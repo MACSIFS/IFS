@@ -11,6 +11,6 @@
 
         var vm = this;
 
-        lecturesFactory.openLecture($routeParams.lectureId);
+        lecturesFactory.setLecture($routeParams.lectureId);
     }
 })();

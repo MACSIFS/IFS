@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, request
 from flask.ext.login import current_user, logout_user, login_user
-from flask.ext.restful import Api, Resource, abort
+from flask.ext.restful import Api, Resource, abort, reqparse
 
 from server.models import Lecturer, db
 
@@ -19,8 +19,13 @@ class LoginResource(Resource):
             abort(403, message="The user is not logged in")
 
     def post(self):
-        email = request.form['email']
-        password = request.form['password']
+        argparser = reqparse.RequestParser()
+        argparser.add_argument('email', required=True)
+        argparser.add_argument('password', required=True)
+        args = argparser.parse_args()
+
+        email = args.email
+        password = args.password
         user = (
             db.session.query(Lecturer)
             .filter(Lecturer.email == email)
