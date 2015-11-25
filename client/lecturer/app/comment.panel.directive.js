@@ -49,6 +49,7 @@
                         return {
                             id: comment.id,
                             content: comment.content,
+                            score: comment.score, 
                             submissionTime: new Date(comment.submissionTime)
                         };
                     });
