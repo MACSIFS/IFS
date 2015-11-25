@@ -34,10 +34,15 @@
                 controllerAs: 'vm',
                 loginRequired: true
             })
+            .when('/lectures/:lectureId', {
+                templateUrl: 'app/lecture/lecture.html',
+                controller: 'LectureCtrl',
+                controllerAs: 'vm'
+            })
             .otherwise({
                 redirectTo: '/'
             });
-            
+
         $httpProvider.interceptors.push('apiInterceptor');
-    }    
+    }
 })();

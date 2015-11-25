@@ -22,7 +22,7 @@
         function loginUser() {
             lecturerFactory.login(vm.form,
                 function() {
-                    $location.path('/courses');
+                    $location.path('/lectures/1');
                 },
                 function() {
                     vm.loginAttempt = true;
