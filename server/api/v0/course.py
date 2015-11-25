@@ -36,7 +36,7 @@ class CourseListResource(Resource):
         args = argparser.parse_args()
 
         if args.lecturerId != current_user.id:
-            abort(403, message="lectureId must be the ID og the logged in lecturer")
+            abort(403, message="lectureId must be the ID of the logged in lecturer")
 
         lecturer = Lecturer.query.filter(Lecturer.id == args.lecturerId).first()
 
