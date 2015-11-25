@@ -38,8 +38,6 @@ class CourseListResource(Resource):
         if args.lecturerId != current_user.id:
             abort(403, message="lectureId must be the ID of the logged in lecturer")
 
-        lecturer = Lecturer.query.filter(Lecturer.id == args.lecturerId).first()
-
-        course = Course(args.name, lecturer)
+        course = Course(args.name, current_user)
         db.session.add(course)
         db.session.commit()
