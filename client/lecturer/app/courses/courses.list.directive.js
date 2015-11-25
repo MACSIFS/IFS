@@ -66,7 +66,7 @@
         
         function openCourse(course) {
             coursesFactory.setCourse(course);
-            $location.path('/courses/' + id);
+            $location.path('/courses/' + course.id);
         }
         
         function getCourses() {
