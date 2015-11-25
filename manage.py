@@ -1,6 +1,7 @@
 import os
 import unittest
 from datetime import datetime
+from hashlib import sha256
 
 from flask.ext.script import Manager
 
@@ -23,7 +24,7 @@ def mock_db():
     """ Insert mock data into database """
     init_db()
 
-    simon = Lecturer('simon', '1234', 'Simon', 'McCallum')
+    simon = Lecturer('simon@hig.no', sha256('1234'.encode('utf-8')).hexdigest(), 'Simon', 'McCallum')
     simon.admin = True
     db.session.add(simon)
 
