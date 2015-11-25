@@ -55,12 +55,10 @@
                 vm.username = username;
                 vm.isLoggedIn = loggedIn;
                 vm.homeRoute = '#/courses';
-                $location.path('/courses');
             } else {
                 vm.username = '';
                 vm.isLoggedIn = false;
                 vm.homeRoute = '#/';
-                $location.path('/');
             }
         }
         
