@@ -913,6 +913,10 @@ Content:
         "username": {
             "description": "The username of the lecturer logging in",
             "type": "string"
+        },
+        "id": {
+            "description": "The ID of the lecturer logging in",
+            "type": "integer"
         }
     }
 }
