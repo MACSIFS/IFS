@@ -1,8 +1,5 @@
-import json
-
-from flask import request
 from flask.ext.login import current_user, logout_user, login_user
-from flask.ext.restful import Resource, abort, requparse
+from flask.ext.restful import Resource, abort, reqparse
 
 from server.models import Lecturer, db
 
