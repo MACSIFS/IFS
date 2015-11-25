@@ -24,25 +24,30 @@
             </form>
         </div>
     </div>
-    <table class="table table-hover">
-        <tr data-ng-repeat="course in coursesList.courses | orderBy:'name' track by $index">
-            <td>{{course.name}}</td>
-            <td>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default" data-ng-click="coursesList.openCourse(course)">
-                        <span class="glyphicon glyphicon-folder-open"></span>
-                        Open
-                    </button>
-                    <button type="button" class="btn btn-default" disabled>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Edit
-                    </button>
-                    <button type="button" class="btn btn-default" disabled>
-                        <span class="glyphicon glyphicon-trash"></span>
-                        Delete
-                    </button>
+    <ul class="list-group">
+        <li class="list-group-item"
+            data-ng-repeat="course in coursesList.courses | orderBy:'name' track by $index">
+            <div class="course-item">
+                <div class="course-content">
+                    {{course.name}}
                 </div>
-            </td>
-        </tr>
-    </table>
+                <div class="course-buttons">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" data-ng-click="coursesList.openCourse(course)">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                            Open
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

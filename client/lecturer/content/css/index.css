@@ -7,7 +7,7 @@ html, body {
 
 #course-header {
     display: flex;
-    flx-flow: row;
+    flex-flow: row;
     justify-content: space-between;
 }
 
@@ -19,4 +19,11 @@ html, body {
 
 #course-add {
     flex: 3;
+}
+
+.course-item {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
 }
