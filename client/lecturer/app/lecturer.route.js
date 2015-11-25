@@ -28,6 +28,12 @@
                 controllerAs: 'vm',
                 loginRequired: true
             })
+            .when('/courses/:courseId', {
+                templateUrl: 'app/course/course.html',
+                controller: 'CourseCtrl',
+                controllerAs: 'vm',
+                loginRequired: true
+            })
             .when('/lectures', {
                 templateUrl: 'app/lectures/lectures.html',
                 controller: 'LecturesCtrl',

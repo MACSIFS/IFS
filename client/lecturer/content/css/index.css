@@ -4,3 +4,19 @@ html, body {
     height: 100%;
     width: 100%;
 }
+
+#course-header {
+    display: flex;
+    flx-flow: row;
+    justify-content: space-between;
+}
+
+#course-title {
+    flex: 2;
+    align-self: center;
+    font-weight: bold;
+}
+
+#course-add {
+    flex: 3;
+}
