@@ -6,17 +6,21 @@
         .controller('LecturerCtrl', LecturerController);
     
     /* @ngInject */
-    function LecturerController($scope, $location, userFactory) {
+    function LecturerController($scope, lecturerFactory) {
         console.log('Ready (Lecturer Controller)');
+        lecturerFactory.checkUserToken();
         
         var vm = this;
-        
-        $scope.$on("$routeChangeStart", function(event, next, current) {
-            console.log('Route change (Lecture Controller)');
+
+        $scope.$on('$routeChangeStart', function(event, next, current) {
+            console.log('location change');
             if (angular.isDefined(next)  &&  angular.isDefined(next.$$route)) {
-                if (!userFactory.isLoggedIn()  &&  next.$$route.loginRequired) {
-                    event.preventDefault();
-                    $location.path('/');
+                
+                if (next.$$route.loginRequired) {
+                    lecturerFactory.checkUserToken(null, function() {
+                        // Prevent access to next route on error.
+                        event.preventDefault();
+                    });
                 }
             }
         });
