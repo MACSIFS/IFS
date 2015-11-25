@@ -1,6 +1,7 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, abort
+from flask.ext.login import current_user, login_required
 
-from server.models import db, Course
+from server.models import db, Course, Lecturer
 
 
 class CourseListResource(Resource):
@@ -26,3 +27,19 @@ class CourseListResource(Resource):
             }
             for row in query
         ]
+
+    @login_required
+    def post(self):
+        argparser = reqparse.RequestParser()
+        argparser.add_argument('name', required=True)
+        argparser.add_argument('lecturerId', type=int, required=True)
+        args = argparser.parse_args()
+
+        if args.lecturerId != current_user.id:
+            abort(403, message="lectureId must be the ID og the logged in lecturer")
+
+        lecturer = Lecturer.query.filter(Lecturer.id == args.lecturerId).first()
+
+        course = Course(args.name, lecturer)
+        db.session.add(course)
+        db.session.commit()
