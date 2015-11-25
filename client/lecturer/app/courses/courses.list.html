@@ -28,18 +28,20 @@
         <tr data-ng-repeat="course in coursesList.courses | orderBy:'name' track by $index">
             <td>{{course.name}}</td>
             <td>
-                <button type="button" class="btn btn-primary" data-ng-click="coursesList.openCourse(course)">
-                    <span class="glyphicon glyphicon-folder-open"></span>
-                    Open
-                </button>
-                <button type="button" class="btn btn-warning" disabled>
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    Edit
-                </button>
-                <button type="button" class="btn btn-danger" disabled>
-                    <span class="glyphicon glyphicon-trash"></span>
-                    Delete
-                </button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" data-ng-click="coursesList.openCourse(course)">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        Open
+                    </button>
+                    <button type="button" class="btn btn-default" disabled>
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-default" disabled>
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Delete
+                    </button>
+                </div>
             </td>
         </tr>
     </table>
