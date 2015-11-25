@@ -64,6 +64,7 @@
                     id: course.id,
                     name: coursesList.course.name
                 });
+                coursesList.course.name = '';
             }
         }
         
