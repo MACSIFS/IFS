@@ -13,7 +13,8 @@
         var service = {
             getEngagements: getEngagements,
             getComments: getComments,
-            openLecture: openLecture
+            openLecture: openLecture,
+            setLecture: setLecture
         };
 
         return service;
@@ -30,6 +31,10 @@
         function getComments(onSuccess, onFail) {
             lecturesService.retrieveComments
                 .get({lectureId: lectureId}, onSuccess, onFail);
+        }
+
+        function setLecture(id) {
+            lectureId = id;
         }
 
         function openLecture(id, error) {

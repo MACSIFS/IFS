@@ -23,16 +23,17 @@
     }
     
     /* @ngInject */
-    function LecturerHeaderController($scope, $location, userFactory) {
+    function LecturerHeaderController($scope, $location, lecturerFactory) {
         console.log('Ready (Header Controller)');
  
         var vm = this;
         vm.title = 'Interactive Feedback System';
         vm.homeRoute = '#/';
+        vm.username = '';
         vm.isLoggedIn = false;
         vm.logout = logout;
         
-        userFactory.registerObserverCallback(updateHeader);
+        lecturerFactory.registerObserverCallback(updateHeader);
         
         // Catch location change in order to change highligting:
         $scope.$on("$routeChangeStart", function(event, next, current) {
@@ -45,23 +46,24 @@
                     currentButton.removeClass('active');
                 }
             }
-            
         });
         
-        function updateHeader(loggedIn) {
+        function updateHeader(loggedIn, username) {
+            console.log('loggedIn', loggedIn);
+            console.log('username', username);
             if (loggedIn) {
+                vm.username = username;
                 vm.isLoggedIn = loggedIn;
                 vm.homeRoute = '#/courses';
-                $location.path('/lectures/1');
             } else {
+                vm.username = '';
                 vm.isLoggedIn = false;
                 vm.homeRoute = '#/';
-                $location.path('/');
             }
         }
         
         function logout() {
-            userFactory.logout();
+            lecturerFactory.logout();
         }
     }
     
