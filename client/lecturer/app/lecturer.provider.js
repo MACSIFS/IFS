@@ -37,7 +37,8 @@
             .when('/lectures/:lectureId', {
                 templateUrl: 'app/lecture/lecture.html',
                 controller: 'LectureCtrl',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                loginRequired: true
             })
             .otherwise({
                 redirectTo: '/'
