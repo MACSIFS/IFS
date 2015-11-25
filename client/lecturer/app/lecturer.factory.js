@@ -11,13 +11,15 @@
         var observerCallbacks = [];
         var Login = false;
         var loggedIn = false;
+        var lecturerId;
 
         var service = {
             login: login,
             checkUserToken: checkUserToken,
             logout: logout,
             registerObserverCallback: registerObserverCallback,
-            isLoggedIn: isLoggedIn
+            isLoggedIn: isLoggedIn,
+            getLecturerId: getLecturerId
         };
 
         return service;
@@ -37,11 +39,11 @@
             };
 
             Login.save(form,
-                function() {
+                function(response) {
                     if (angular.isFunction(onSuccess)) {
-                        onSuccess();
+                        onSuccess(response);
                     }
-                    loginSuccess();
+                    loginSuccess(response);
                 }, function() {
                     if (angular.isFunction(onError)) {
                         onError();
@@ -84,6 +86,7 @@
 
         function loginSuccess(response) {
             loggedIn = true;
+            lecturerId = response.id;
             angular.forEach(observerCallbacks, function(callback) {
                 callback(loggedIn, response.username);
             });
@@ -98,6 +101,10 @@
 
         function isLoggedIn() {
             return loggedIn;
+        }
+
+        function getLecturerId() {
+            return lecturerId;
         }
     }
 })();
