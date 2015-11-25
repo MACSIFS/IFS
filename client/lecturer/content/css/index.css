@@ -5,6 +5,7 @@ html, body {
     width: 100%;
 }
 
+#lecture-header,
 #course-header {
     display: flex;
     flex-flow: row;
@@ -21,9 +22,10 @@ html, body {
     flex: 3;
 }
 
+.lecture-item,
 .course-item {
     display: flex;
-    flex-flow: row;
+    flex--flow: row;
     justify-content: space-between;
     align-items: center;
 }

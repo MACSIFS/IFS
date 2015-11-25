@@ -14,7 +14,8 @@
             getEngagements: getEngagements,
             getComments: getComments,
             openLecture: openLecture,
-            setLecture: setLecture
+            getLectures: getLectures,
+            addLecture: addLecture
         };
 
         return service;
@@ -56,6 +57,25 @@
                 }
 
                 $location.path('/lectures');
+            }
+        }
+        
+        function getLectures(courseId, onSuccess) {
+            
+            lecturesService.lectures
+                .query({course: courseId}, onSuccess, error);
+            
+            function error() {
+                console.log('error');
+            }
+        }
+        
+        function addLecture(lecture, onSuccess) {
+            lecturesService.lectures
+                .save(lecture, onSuccess, onSuccess);
+            
+            function error() {
+                console.log('error');
             }
         }
     }

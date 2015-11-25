@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div id="lecture-header">
+            <div id="course-title">
+                Lectures
+            </div>
+            <button class="btn btn-primary" 
+                    type="button" 
+                    data-toggle="modal" 
+                    data-target="#lecture-dialog">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add
+            </button>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"
+            data-ng-repeat="lecture in lecturesList.list | orderBy:'name' track by $index">
+            <div class="lecture-item">
+                <div class="lecture-content">
+                    {{lecture.name}}
+                </div>
+                <div class="lecture-buttons">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-blackboard"></span>
+                            Open
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
