@@ -23,7 +23,7 @@
     }
 
     /* @ngInject */
-    function CoursesListController($scope, $location, coursesFactory) {
+    function CoursesListController($scope, $location, coursesFactory, lecturerFactory) {
         console.log('Ready (Courses List Controller)');
         getCourses();
         
@@ -53,7 +53,10 @@
         
         function addNewCourse() {
             if (angular.isDefined(coursesList.course.name)) {
-                coursesFactory.addCourse({name: coursesList.course.name}, onSuccess);
+                coursesFactory.addCourse({
+                    name: coursesList.course.name,
+                    lecturerId: lecturerFactory.getLecturerId()
+                }, onSuccess);
             }
             
             function onSuccess(course) {
