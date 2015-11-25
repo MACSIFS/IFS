@@ -27,3 +27,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
 }
+
+a[ng-click]{
+    cursor: pointer;
+}

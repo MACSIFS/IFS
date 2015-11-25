@@ -7,7 +7,7 @@ from flask.ext.script import Manager
 
 from server import create_app
 from server.models import db
-from server.models import Lecturer, Course, Lecture, Comment
+from server.models import Lecturer, Course, Lecture, Comment, CommentRating
 
 manager = Manager(create_app)
 
@@ -38,6 +38,24 @@ def mock_db():
     db.session.add(imt3601_l1_c1)
     imt3601_l1_c2 = Comment('This is fun!', datetime.utcnow(), imt3601_l1)
     db.session.add(imt3601_l1_c2)
+    imt3601_l1_c3 = Comment('Help?', datetime.utcnow(), imt3601_l1)
+    db.session.add(imt3601_l1_c3)
+    imt3601_l1_c4 = Comment('A bit longer comment for your convenience', datetime.utcnow(), imt3601_l1)
+    db.session.add(imt3601_l1_c4)
+    
+    imt3601_l1_r1 = CommentRating(1, 1, imt3601_l1_c1, imt3601_l1)
+    db.session.add(imt3601_l1_r1)
+    imt3601_l1_r2 = CommentRating(1, 2, imt3601_l1_c1, imt3601_l1)
+    db.session.add(imt3601_l1_r2)
+    imt3601_l1_r3 = CommentRating(1, 3, imt3601_l1_c1, imt3601_l1)
+    db.session.add(imt3601_l1_r3)
+    
+    imt3601_l1_r4 = CommentRating(-1, 1, imt3601_l1_c3, imt3601_l1)
+    db.session.add(imt3601_l1_r4)
+    
+    imt3601_l1_r5 = CommentRating(1, 1, imt3601_l1_c4, imt3601_l1)
+    db.session.add(imt3601_l1_r5)
+    
 
     db.session.commit()
 
