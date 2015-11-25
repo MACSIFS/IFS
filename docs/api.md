@@ -6,7 +6,11 @@
     * [Base URL](#base)
     * [Client ID](#id)
 * [APIs](#api)
+    * [Add Course](#add-course)
+    * [Get Course List](#get-courses)
+    * [Add Lecture](#add-lecture)
     * [Get Lecture](#get-lecture)
+    * [Get Lecture List](#get-lectures)
     * [Add Comment](#add-comment)
     * [Get Comments](#get-comments)
     * [Set Comment Rating](#set-rating)
@@ -15,7 +19,7 @@
     * [Add Engagement Update](#add-engagement)
     * [Login](#login)
     * [Check Login](#check-login)
-    * [Logout] (#logout)
+    * [Logout](#logout)
 * [Format](#format)
 
 ## <a name="intro"></a>Inroduction
@@ -42,6 +46,170 @@ This ID is generated and set as a Cookie called `client_id` by the server with t
 Note that some of the APIs (e.g. comment ratings, engagement) will use this ID to identify clients automaticcaly, that the API will not work properly without Cookies enabled, and that clearing the Cookie will identify the user as a new client.
 This is a temporary solutuion until proper user authentication is implemented.
 ## <a name="api"></a>APIs
+
+### <a name="add-course"></a>Add Course
+
+Add a course.
+
+#### URL
+
+`/courses`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+* `name=[string]` Name of the course to add. 50 characters or less.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the new course",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
+
+### <a name="get-courses"></a>Get Course List
+
+Get the list of courses.
+
+#### URL
+
+`/courses`
+
+
+#### Method
+
+GET
+
+#### URL Parameters
+
+##### Optional
+
+* `lecturer = [integer]` ID of lecturer. Get only courses this lecturer is part of.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "List of all courses",
+    "type": "array",
+    "items": {
+        "description": "A course",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of course",
+                "type": "integer"
+            },
+            "name": {
+                "description": "Name of course",
+                "type": "string"
+            }
+        }
+    }
+}
+```
+
+### <a name="add-lecture"></a>Add Lecture
+
+Add a lecture.
+
+#### URL
+
+`/lectures`
+
+#### Method
+
+POST
+
+#### Data Parameters
+
+##### Required
+
+* `name=[string]` Name of the lecture to add. 50 characters or less.
+* `courseId=[integer]` ID of the course in which this lecture is part of.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "The primary id for the new lecture",
+            "type": "integer"
+        }
+    }
+}
+```
+
+#### Error Responses
+
+##### Invalid Data
+
+The data parameters in the request were invalid.
+See error message for details.
+
+Code: 400
+
+Content:
+```
+{
+    "type": "object",
+    "properties": {
+        "message": {
+            "description": "Error message",
+            "type": "string"
+        }
+    }
+}
+```
 
 ### <a name="get-lecture"></a>Get Lecture
 
@@ -111,6 +279,61 @@ Content:
 }
 ```
 
+### <a name="get-lectures"></a>Get Lecture List
+
+Get the list of lectures.
+
+#### URL
+
+`/lectures`
+
+
+#### Method
+
+GET
+
+#### URL Parameters
+
+##### Optional
+
+* `course=[integer]` ID of a course. Only get lectures belonging this course.
+
+#### Success Responses
+
+##### Success
+
+Code: 200
+
+Content:
+```
+{
+    "description": "List of all lectures",
+    "type": "array",
+    "items": {
+        "description": "A lecture",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of lecture",
+                "type": "integer"
+            },
+            "name": {
+                "description": "Name of lecture",
+                "type": "string"
+            },
+            "courseId": {
+                "description": "ID of course this lecture is part of",
+                "type": "integer"
+            }
+        }
+    }
+}
+```
+
+#### Notes
+
+To get the list of lectures in a course, use `GET /lectures?course=<courseId>` where \<courseId\> is the ID of a course.
+
 ### <a name="add-comment"></a>Add comment
 
 Add a comment to a lecture.
@@ -147,7 +370,7 @@ Content:
     "properties": {
         "id": {
             "description": "The primary id for the added comment",
-            "type": "number"
+            "type": "integer"
         }
     }
 }
@@ -282,7 +505,7 @@ POST
 
 ##### Required
 
-* `rating=[integer]` The number 1, 0 or -1 for up vote, no vote or down vote.
+* `rating=[integer]` The integer 1, 0 or -1 for up vote, no vote or down vote.
 
 #### Success Responses
 
@@ -364,7 +587,7 @@ Content:
     "properties": {
         "rating": {
             "description": "The rating (-1, 0 or 1)",
-            "type": "number"
+            "type": "integer"
         }
     }
 }
@@ -515,34 +738,34 @@ Code: 200
 Content:
 ```
 {
-	"description": "List of all engagements",
-	"type": "array",
-	"items": {
-		"description": "One engagement point",
-		"type": "object",
-		"properties": {
-			"id": {
-				"description": "ID of engagement point",
-				"type": "integer"
-			},
-			"userId": {
-				"description": "ID of user",
-				"type": "integer"
-			},
-			"interest": {
-				"description": "The amount of interest in range [0, 1]",
-				"type": "number"
-			},
-			 "challenge": {
-				"description": "The amount of challenge in range [0, 1]",
-				"type": "number"
-			},
-			"time": {
-				"description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
-				"type": "string"
-			}
-		}
-	}
+    "description": "List of all engagements",
+    "type": "array",
+    "items": {
+        "description": "One engagement point",
+        "type": "object",
+        "properties": {
+            "id": {
+                "description": "ID of engagement point",
+                "type": "integer"
+            },
+            "userId": {
+                "description": "ID of user",
+                "type": "integer"
+            },
+            "interest": {
+                "description": "The amount of interest in range [0, 1]",
+                "type": "number"
+            },
+             "challenge": {
+                "description": "The amount of challenge in range [0, 1]",
+                "type": "number"
+            },
+            "time": {
+                "description": "Time point when engagement point was submitted in ISO format (ISO 8601)"
+                "type": "string"
+            }
+        }
+    }
 
 }
 
@@ -590,7 +813,7 @@ POST
 
 ##### Required
 
-* `email=[string]` Lectures registered email address.
+* `email=[string]` Lecturer's registered email address.
 * `password=[string]` Hashed password using SHA256.
 
 #### Success Responses
@@ -607,6 +830,10 @@ Content:
         "username": {
             "description": "The username of the lecturer logging in",
             "type": "string"
+        },
+        "id": {
+            "description": "The ID of the lecturer logging in",
+            "type": "integer"
         }
     }
 }

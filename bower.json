@@ -21,6 +21,7 @@
     "bootstrap": "~3.3.5",
     "jquery": "~2.1.4",
     "heatmap.js-amd": "pa7/heatmap.js",
+    "heatmap.js-amd": "pa7/heatmap.js#v2.0",
     "jshashes": "~1.0.5"
   },
   "devDependencies": {
