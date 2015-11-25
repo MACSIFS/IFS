@@ -1,7 +1,13 @@
+from uuid import uuid1
+
+from flask.ext.testing import TestCase
+
 from server import create_app
 from server.models import db
 
-from flask.ext.testing import TestCase
+
+def generate_client_id():
+    return str(uuid1())
 
 
 class BaseTestCase(TestCase):
@@ -18,3 +24,18 @@ class BaseTestCase(TestCase):
     def login(self, email, password):
         self.client.post('/api/0/auth/login',
                          data={'email': email, 'password': password})
+
+    def find_client_id_cookie(self):
+        client_id = None
+        for cookie in self.client.cookie_jar:
+            if cookie.name == 'client_id':
+                client_id = cookie.value
+        return client_id
+
+    def set_client_id_cookie(self, id):
+        self.client.set_cookie('localhost', 'client_id', id)
+
+    def set_generated_client_id_cookie(self):
+        id = generate_client_id()
+        self.set_client_id_cookie(id)
+        return id
