@@ -69,9 +69,9 @@ class AddCourseApiTest(BaseTestCase):
 
         self.assertIsNotNone(data)
         self.assertIn('id', data)
-        self.assertEqual(data['id'], 3)
+        self.assertEqual(data['id'], 3) # It's the third course, so it should be 3
 
-        awsmCourse = Course.query.filter(Course.id == 3).first()
+        awsmCourse = Course.query.filter(Course.id == data['id']).first()
         self.assertFalse(awsmCourse is None)
         self.assertEqual(awsmCourse.name, 'awsm')
         self.assertEqual(awsmCourse.lecturer_id, self.simon.id)
