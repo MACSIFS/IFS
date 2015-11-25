@@ -52,7 +52,7 @@
             if (loggedIn) {
                 vm.isLoggedIn = loggedIn;
                 vm.homeRoute = '#/courses';
-                $location.path('/courses');
+                $location.path('/lectures/1');
             } else {
                 vm.isLoggedIn = false;
                 vm.homeRoute = '#/';
