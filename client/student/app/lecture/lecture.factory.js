@@ -24,7 +24,9 @@
             setShowEngagement: setShowEngagement,
             linkShowComment: linkShowComment,
             linkShowEngagement: linkShowEngagement,
-            submitEngagement: submitEngagement
+            submitEngagement: submitEngagement,
+            upVoteComment: upVoteComment,
+            downVoteComment: downVoteComment
         };
         
         return service;
@@ -104,6 +106,16 @@
         function submitEngagement(engagement, onSuccess, onFail) {
             lectureService.submitEngagement
                 .save({lectureId: lectureId}, engagement, onSuccess, onFail);
+        }        
+
+        function upVoteComment(commentId, rating, onSuccess, onError){
+            lectureService.upVoteComment
+                .save({lectureId: lectureId, commentId: commentId}, {rating: rating}, onSuccess, onError);
+        }
+
+        function downVoteComment(commentId, rating, onSuccess, onError){
+            lectureService.downVoteComment
+                .save({lectureId: lectureId, commentId: commentId}, {rating: rating}, onSuccess, onError);
         }
     }
 })();
