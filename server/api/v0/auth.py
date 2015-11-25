@@ -7,7 +7,10 @@ from server.models import Lecturer, db
 class LoginResource(Resource):
     def get(self):
         if current_user.is_active:
-            return {'username': current_user.full_name}
+            return {
+                'username': current_user.full_name,
+                'id': current_user.id
+            }
         else:
             abort(403, message="The user is not logged in")
 
@@ -28,7 +31,10 @@ class LoginResource(Resource):
         if not user:
             abort(403, message="Invalid credentials")
         login_user(user)
-        return {'username': current_user.full_name}
+        return {
+            'username': current_user.full_name,
+            'id': current_user.id
+        }
 
 
 class LogoutResource(Resource):
