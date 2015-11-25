@@ -20,7 +20,7 @@
     "angular-route": "~1.4.7",
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "heatmap.js-amd": "pa7/heatmap.js"
+    "heatmap.js-amd": "pa7/heatmap.js#v2.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.7"
