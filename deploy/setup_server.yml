@@ -48,6 +48,9 @@
       sudo: no
       when: os == "linux"
 
+    - name: remove bower_components direcory
+      file: path={{srv_dir}}/{{app_name}}/src/bower_components state=absent
+
     - name: install clientside dependencies with bower
       bower: path={{srv_dir}}/{{app_name}}/src
       sudo: no
