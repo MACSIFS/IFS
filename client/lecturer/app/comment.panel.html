@@ -1,12 +1,20 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <div class="panel-title">
-            <span>Questions and Comments</span>
+        <div id="comments-title" class="panel-title">
+            <span>Questions &amp; Comments</span>
+            <div class="dropdown pull-right">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Sort
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="" ng-click="commentPanel.sortByName = '-submissionTime'" >Time</a></li>
+                  <li><a href="" ng-click="commentPanel.sortByName = '-score'">Score</a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <ul class="list-group">
         <li class="list-group-item"
-            data-ng-repeat="item in commentPanel.comments | orderBy:'-submissionTime' track by $index">
+            data-ng-repeat="item in commentPanel.comments | orderBy:commentPanel.sortByName track by $index">
             <span class="badge">{{item.score}}</span>
             <b> {{item.content}}</b><br>
             {{item.submissionTime.getHours()}}:{{item.submissionTime.getMinutes()}}
