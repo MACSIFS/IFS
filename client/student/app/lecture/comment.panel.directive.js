@@ -34,7 +34,7 @@
 
         function upVoteComment(comment){
             console.log('+1');
-            lectureFactory.upVoteComment(comment.id, 1, function(respone){
+            lectureFactory.setCommentVote(comment.id, 1, function(respone){
                 console.log('Success');
                 comment.rating = 1;
 
@@ -45,7 +45,7 @@
 
         function downVoteComment(comment){
             console.log('-1');
-            lectureFactory.upVoteComment(comment.id, -1, function(respone){
+            lectureFactory.setCommentVote(comment.id, -1, function(respone){
                 console.log('Success');
                 comment.rating = -1;
 

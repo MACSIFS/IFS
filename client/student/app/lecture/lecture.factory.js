@@ -25,8 +25,7 @@
             linkShowComment: linkShowComment,
             linkShowEngagement: linkShowEngagement,
             submitEngagement: submitEngagement,
-            upVoteComment: upVoteComment,
-            downVoteComment: downVoteComment
+            setCommentVote: setCommentVote
         };
         
         return service;
@@ -108,13 +107,8 @@
                 .save({lectureId: lectureId}, engagement, onSuccess, onFail);
         }        
 
-        function upVoteComment(commentId, rating, onSuccess, onError){
-            lectureService.upVoteComment
-                .save({lectureId: lectureId, commentId: commentId}, {rating: rating}, onSuccess, onError);
-        }
-
-        function downVoteComment(commentId, rating, onSuccess, onError){
-            lectureService.downVoteComment
+        function setCommentVote(commentId, rating, onSuccess, onError){
+            lectureService.setCommentVote
                 .save({lectureId: lectureId, commentId: commentId}, {rating: rating}, onSuccess, onError);
         }
     }
