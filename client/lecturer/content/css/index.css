@@ -28,10 +28,6 @@ html, body {
     align-items: center;
 }
 
-a[ng-click]{
-    cursor: pointer;
-}
-
 #comments-title {
     display: flex;
     align-items: center;
