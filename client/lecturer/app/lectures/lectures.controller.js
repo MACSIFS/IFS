@@ -6,7 +6,7 @@
         .controller('LecturesCtrl', LecturesController);
 
     /* @ngInject */
-    function LecturesController(lecturesFactory, coursesFactory) {
+    function LecturesController(lecturesFactory, coursesFactory, $routeParams) {
         console.log('Ready (Lectures Controller)');
         angular.element('#courses-btn').addClass('active');
         
@@ -15,6 +15,8 @@
         vm.newLecture = {
             name: ''
         };
+
+        coursesFactory.setCourse({id: $routeParams.courseId});
         
         vm.saveNewLecture = saveNewLecture;
         
