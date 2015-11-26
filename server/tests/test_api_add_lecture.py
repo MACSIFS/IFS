@@ -66,9 +66,9 @@ class AddLectureApiTest(BaseTestCase):
 
         self.assertIsNotNone(data)
         self.assertIn('id', data)
-        self.assertEqual(data['id'], 5) # It's the firft Lecture, so it should be 5
+        self.assertEqual(data['id'], 5) # It's the fifth Lecture, so it should be 5
 
         awsmLecture = Lecture.query.filter(Lecture.id == data['id']).first()
-        self.assertFalse(awsmLecture is None)
+        self.assertIsNotNone(awsmLecture)
         self.assertEqual(awsmLecture.name, 'awsm')
         self.assertEqual(awsmLecture.course_id, self.imt1031.id)
