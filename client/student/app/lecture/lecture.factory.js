@@ -24,7 +24,8 @@
             setShowEngagement: setShowEngagement,
             linkShowComment: linkShowComment,
             linkShowEngagement: linkShowEngagement,
-            submitEngagement: submitEngagement
+            submitEngagement: submitEngagement,
+            setCommentVote: setCommentVote
         };
         
         return service;
@@ -104,6 +105,11 @@
         function submitEngagement(engagement, onSuccess, onFail) {
             lectureService.submitEngagement
                 .save({lectureId: lectureId}, engagement, onSuccess, onFail);
+        }        
+
+        function setCommentVote(commentId, rating, onSuccess, onError){
+            lectureService.setCommentVote
+                .save({lectureId: lectureId, commentId: commentId}, {rating: rating}, onSuccess, onError);
         }
     }
 })();
