@@ -5,6 +5,9 @@ import dateutil.parser
 from server.tests.base import BaseTestCase
 from server.models import db, Lecturer, Course, Lecture, Comment
 
+from server.api.v0.api import api
+from server.api.v0.lecture import LectureListResource
+
 
 class GetLectureListApiTest(BaseTestCase):
     def setUp(self):
@@ -37,20 +40,20 @@ class GetLectureListApiTest(BaseTestCase):
         db.session.flush()
 
     def test_success(self):
-        res = self.client.get('/api/0/lectures')
+        res = self.client.get(api.url_for(LectureListResource))
         self.assert200(res)
 
     def test_response_format(self):
-        res = self.client.get('/api/0/lectures')
+        res = self.client.get(api.url_for(LectureListResource))
         self.assertEqual(res.headers['Content-Type'], 'application/json')
 
     def test_response_is_list(self):
-        res = self.client.get('/api/0/lectures')
+        res = self.client.get(api.url_for(LectureListResource))
         response = json.loads(res.data.decode('utf-8'))
         self.assertIsInstance(response, list)
 
     def test_content(self):
-        res = self.client.get('/api/0/lectures')
+        res = self.client.get(api.url_for(LectureListResource))
         response = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(len(response), 4)
@@ -63,27 +66,34 @@ class GetLectureListApiTest(BaseTestCase):
         self.assertEqual(response[2]['name'], self.imt1031_l2.name)
         self.assertEqual(response[3]['name'], self.imt1031_l3.name)
         
-
     def test_valid_lecturer_filter(self):
-        res = self.client.get('/api/0/lectures?course={}'.format(self.imt3601.id))
+        res = self.client.get(
+            api.url_for(LectureListResource, course=self.imt3601.id)
+        )
         response = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(len(response), 1)
         self.assertEqual(response[0]['id'], self.imt3601_l1.id)
         self.assertEqual(response[0]['name'], self.imt3601_l1.name)
 
-        res = self.client.get('/api/0/lectures?course={}'.format(self.imt1031.id))
+        res = self.client.get(
+            api.url_for(LectureListResource, course=self.imt1031.id)
+        )
         response = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(len(response), 3)
         self.assertEqual(response[0]['id'], self.imt1031_l1.id)
         self.assertEqual(response[0]['name'], self.imt1031_l1.name)
 
-        res = self.client.get('/api/0/lectures?course=19999999')
+        res = self.client.get(
+            api.url_for(LectureListResource, course=999999)
+        )
         response = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(len(response), 0)
 
-    def test_invalid_lecturer_filter(self):
-        res = self.client.get('/api/0/lectures?course=hello')
+    def test_invalid_course_filter(self):
+        res = self.client.get(
+            api.url_for(LectureListResource, course='hello')
+        )
         self.assert400(res)

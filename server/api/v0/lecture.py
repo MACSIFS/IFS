@@ -39,7 +39,6 @@ class LectureListResource(Resource):
         argparser.add_argument('courseId', type=int, required=True)
         args = argparser.parse_args()
         
-        
         query = Course.query.filter(Course.id == args.courseId)
         
         course = query.first() 

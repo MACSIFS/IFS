@@ -5,6 +5,9 @@ from flask.ext.testing import TestCase
 from server import create_app
 from server.models import db
 
+from server.api.v0.api import api
+from server.api.v0.auth import LoginResource
+
 
 def generate_client_id():
     return str(uuid1())
@@ -22,8 +25,9 @@ class BaseTestCase(TestCase):
         db.drop_all()
 
     def login(self, email, password):
-        self.client.post('/api/0/auth/login',
-                         data={'email': email, 'password': password})
+        self.client.post(
+            api.url_for(LoginResource, email=email, password=password)
+        )
 
     def find_client_id_cookie(self):
         client_id = None
