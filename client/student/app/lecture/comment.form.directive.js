@@ -36,7 +36,7 @@
 
         commentForm.feedbackMessage = 'Write your question or comment';
         commentForm.feedbackType = 'alert-info';
-        commentForm.feedbackIcon = 'glyphicon glyphicon-pencil';
+        commentForm.feedbackIcon = 'glyphicon-pencil';
 
         function submitComment() {
             commentForm.submitted = true;
