@@ -1,10 +1,10 @@
 (function() {
     'use strict';
-    
+
     angular
         .module('student')
         .directive('commentPanel', commentPanel);
-    
+
     function commentPanel() {
         var directive = {
             restrict: 'E',
@@ -17,18 +17,19 @@
             controllerAs: 'commentPanel',
             bindToController: true
         };
-        
+
         return directive;
-        
+
         function link(scope, element, attrs, commentPanel) {
             console.log('Ready (Comment Panel Link)');
         }
     }
+
     /* @ngInject */
     function CommentPanelController(lectureFactory) {
         console.log('Ready (Comment Panel Controller)');
-       
-        var commentPanel = this;  
+
+        var commentPanel = this;
         commentPanel.upVoteComment = upVoteComment;
         commentPanel.downVoteComment = downVoteComment;
 
@@ -41,7 +42,7 @@
             }, function() {
                 console.log('error');
             });
-        } 
+        }
 
         function downVoteComment(comment){
             console.log('-1');
@@ -52,6 +53,6 @@
             }, function() {
                 console.log('error');
             });
-        }     
+        }
     }
 })();
