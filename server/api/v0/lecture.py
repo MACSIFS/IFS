@@ -48,7 +48,7 @@ class LectureListResource(Resource):
         
         lecture = Lecture(args.name, course)
         db.session.add(lecture)
-        db.session.commit()
+        db.session.flush()
 
         return {
             'id': lecture.id

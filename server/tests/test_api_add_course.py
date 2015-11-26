@@ -29,7 +29,7 @@ class AddCourseApiTest(BaseTestCase):
         imt1031_l1 = Lecture('Lecture 1', imt1031)
         db.session.add(imt1031_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_wrong_lecturer(self):
         self.login(self.simon.email, self.simon.password)

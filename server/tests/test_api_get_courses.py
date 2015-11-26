@@ -30,7 +30,7 @@ class GetCourseListApiTest(BaseTestCase):
         imt1031_l1 = Lecture('Lecture 1', self.imt1031)
         db.session.add(imt1031_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         res = self.client.get(api.url_for(CourseListResource))
