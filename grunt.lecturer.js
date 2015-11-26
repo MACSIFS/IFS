@@ -51,6 +51,7 @@ exports.tags = {
                 'bower_components/angular-resource/angular-resource.js',
                 'bower_components/angular-route/angular-route.js',
                 'bower_components/heatmap.js-amd/build/heatmap.js',
+                'bower_components/jshashes/hashes.js',
                 'client/lecturer/app/lecturer.module.js',
                 'client/lecturer/app/**/*.js',
                 'client/shared/shared.module.js',

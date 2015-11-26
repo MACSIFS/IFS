@@ -3,13 +3,11 @@ from datetime import datetime
 import dateutil.parser
 
 from flask import g
-from flask_restful import Resource, Api, abort, reqparse
+from flask_restful import Resource, abort, reqparse
 from flask.ext.login import login_required
 from sqlalchemy import and_, func as sqlfunc
 
-from .models import db, Comment, Lecture, Engagement, CommentRating
-
-api = Api()
+from server.models import db, Comment, Lecture, Engagement, CommentRating
 
 
 class LectureResource(Resource):
@@ -262,9 +260,3 @@ class CommentRatingResource(Resource):
                 db.session.add(comment_rating)
 
         return None
-
-
-api.add_resource(LectureResource, '/api/0/lectures/<lecture_id>')
-api.add_resource(CommentListResource, '/api/0/lectures/<lecture_id>/comments')
-api.add_resource(EngagementListResource, '/api/0/lectures/<lecture_id>/engagements')
-api.add_resource(CommentRatingResource, '/api/0/lectures/<lecture_id>/comments/<comment_id>/rating')

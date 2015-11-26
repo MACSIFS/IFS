@@ -63,6 +63,8 @@
                     commentForm.feedbackMessage = 'Comment submitted!';
                     commentForm.feedbackType = 'alert-success';
                     commentForm.feedbackIcon = 'glyphicon-ok-sign';
+                    //clear comment input text
+                    commentForm.comment = "";
                     
                     var comment = {
                         id: response.id,

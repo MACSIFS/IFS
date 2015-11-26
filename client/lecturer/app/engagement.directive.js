@@ -50,7 +50,7 @@
     }
 
     /* @ngInject */
-    function EngagementCanvasController(lecturesFactory) {
+    function EngagementCanvasController(lecturesFactory, $scope) {
         console.log('Ready (Engagement Canvas Controller)');
 
         var engagementCanvas = this;
@@ -62,6 +62,12 @@
         engagementCanvas.drawBackground = drawBackground;
         engagementCanvas.drawDot = drawDot;
         engagementCanvas.pollEngagements = pollEngagements;
+
+        $scope.$on('$destroy', function(){
+            if (engagementCanvas.pollId) {
+                clearInterval(engagementCanvas.pollId);
+            }
+        });
 
         function drawBackground(padding) {
             engagementCanvas.ctx.clearRect(
@@ -98,14 +104,14 @@
                 var cartesianHeight = (engagementCanvas.canvas.height - 2*padding);
                 var drawableX = (cartesianWidth*x + padding);
                 var drawableY = (engagementCanvas.canvas.width - (cartesianHeight*y + padding));
-                
+
                 engagementCanvas.ctx.beginPath();
                 engagementCanvas.ctx.fillStyle = 'rgba(0,0,0,0.5)';
                 engagementCanvas.ctx.arc(drawableX, drawableY, 10, 0, 2*Math.PI);
                 engagementCanvas.ctx.fill();
             }
         }
-        
+
         function drawDots(engagements) {
             angular.forEach(engagements, function(engagement) {
                 drawDot(

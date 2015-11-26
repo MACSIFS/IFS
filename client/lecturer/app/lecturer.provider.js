@@ -6,8 +6,8 @@
         .config(config);
 
     /* ngInject */
-    function config($routeProvider) {
-        console.log('Ready (Route Provider');
+    function config($routeProvider, $httpProvider) {
+        console.log('Ready (Providers)');
         
         $routeProvider
             .when('/', {
@@ -28,14 +28,28 @@
                 controllerAs: 'vm',
                 loginRequired: true
             })
+            .when('/courses/:courseId', {
+                templateUrl: 'app/course/course.html',
+                controller: 'CourseCtrl',
+                controllerAs: 'vm',
+                loginRequired: true
+            })
             .when('/lectures', {
                 templateUrl: 'app/lectures/lectures.html',
                 controller: 'LecturesCtrl',
                 controllerAs: 'vm',
                 loginRequired: true
             })
+            .when('/lectures/:lectureId', {
+                templateUrl: 'app/lecture/lecture.html',
+                controller: 'LectureCtrl',
+                controllerAs: 'vm',
+                loginRequired: true
+            })
             .otherwise({
                 redirectTo: '/'
             });
+
+        $httpProvider.interceptors.push('apiInterceptor');
     }
 })();

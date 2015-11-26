@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div id="course-header">
+            <div id="course-title">
+                Your Courses
+            </div>
+            <form id="course-add" name="courseForm" data-ng-submit="coursesList.addNewCourse()">
+                <div class="input-group" data-ng-class="coursesList.courseNameInput.style">
+                    <input type="text" 
+                           name="courseName"
+                           class="form-control" 
+                           data-ng-model="coursesList.course.name" 
+                           placeholder="Add a new course"
+                           title="hei">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" 
+                                type="submit"
+                                data-ng-disabled="coursesList.courseNameInput.reachedLimit">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Add
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"
+            data-ng-repeat="course in coursesList.courses | orderBy:'name' track by $index">
+            <div class="course-item">
+                <div class="course-content">
+                    {{course.name}}
+                </div>
+                <div class="course-buttons">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" data-ng-click="coursesList.openCourse(course)">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                            Open
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Edit
+                        </button>
+                        <button type="button" class="btn btn-default" disabled>
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
