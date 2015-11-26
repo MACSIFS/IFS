@@ -8,9 +8,9 @@
     /* @ngInject */
     function LectureController(lecturesFactory, $routeParams) {
         console.log('Ready (Lecture Controller)');
+        angular.element('#courses-btn').addClass('active');
 
         var vm = this;
-
-        lecturesFactory.setLecture($routeParams.lectureId);
+        lecturesFactory.setLectureId($routeParams.lectureId);
     }
 })();

@@ -1,1 +1,33 @@
-<h1>Lectures</h1>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <lectures-list 
+            list="vm.lectures">
+        </lectures-list>
+        
+        <!-- Add new lecture dialog -->
+        <div id="lecture-dialog" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Add new lecture</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label for="lecture-name" class="sr-only-focusable">Name</label>
+                        <input id="lecture-name"
+                               class="form-control" 
+                               type="text" 
+                               data-ng-model="vm.newLecture.name"
+                               placeholder="Name of the lecture">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-ng-click="vm.saveNewLecture()">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -28,6 +28,9 @@ def mock_db():
     simon.admin = True
     db.session.add(simon)
 
+    magnus = Lecturer('magnus@hig.no', sha256('12345'.encode('utf-8')).hexdigest(), 'Magnus', 'Vik')
+    db.session.add(magnus)
+
     imt3601 = Course('IMT3601 - Game Programming', simon)
     db.session.add(imt3601)
 

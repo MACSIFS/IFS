@@ -38,18 +38,20 @@
                 password: SHA256.hex(credentials.password)
             };
 
-            Login.save(form,
-                function(response) {
-                    if (angular.isFunction(onSuccess)) {
-                        onSuccess(response);
-                    }
-                    loginSuccess(response);
-                }, function() {
-                    if (angular.isFunction(onError)) {
-                        onError();
-                    }
+            Login.save(form, success, success);
+            
+            function success(response) {
+                if (angular.isFunction(onSuccess)) {
+                    onSuccess(response);
                 }
-            );
+                loginSuccess(response);
+            }
+            
+            function error() {
+                if (angular.isFunction(onError)) {
+                    onError();
+                }
+            }
         }
 
         function checkUserToken(onSuccess, onError) {
