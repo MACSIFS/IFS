@@ -62,8 +62,7 @@ def mock_db():
     imt3601_l1_r5 = CommentRating(1, 1, imt3601_l1_c4, imt3601_l1)
     db.session.add(imt3601_l1_r5)
 
-
-    db.session.commit()
+    db.session.flush()
 
 
 @manager.command
