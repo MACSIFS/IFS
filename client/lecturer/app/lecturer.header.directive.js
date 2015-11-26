@@ -49,8 +49,6 @@
         });
         
         function updateHeader(loggedIn, username) {
-            console.log('loggedIn', loggedIn);
-            console.log('username', username);
             if (loggedIn) {
                 vm.username = username;
                 vm.isLoggedIn = loggedIn;
@@ -77,9 +75,6 @@
             } break;
             case '/courses': {
                 return angular.element('#courses-btn');
-            } break;
-            case '/lectures': {
-                return angular.element('#lectures-btn');
             } break;
             default: {
                 return false;

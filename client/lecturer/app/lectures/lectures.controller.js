@@ -8,7 +8,7 @@
     /* @ngInject */
     function LecturesController(lecturesFactory, coursesFactory) {
         console.log('Ready (Lectures Controller)');
-        angular.element('#lectures-btn').addClass('active');
+        angular.element('#courses-btn').addClass('active');
         
         var vm = this;
         vm.lectures = [];
