@@ -71,7 +71,11 @@ def test():
     tests_path = os.path.join(os.path.dirname(__file__), 'server', 'tests')
     tests = unittest.defaultTestLoader.discover(tests_path)
     runner = unittest.TextTestRunner()
-    runner.run(tests)
+    result = runner.run(tests)
+    if result.wasSuccessful():
+        return 0
+    else:
+        return 1
 
 if __name__ == '__main__':
     manager.run()
