@@ -20,8 +20,6 @@
             getComments();
         }, 2000);
         
-        
-        
         var vm = this;
         vm.comment = '';
         vm.comments = [];
@@ -49,7 +47,8 @@
                         return {
                             id: comment.id,
                             content: comment.content,
-                            submissionTime: new Date(comment.submissionTime)
+                            submissionTime: new Date(comment.submissionTime),
+                            rating: comment.rating
                         };
                     });
                     

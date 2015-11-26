@@ -22,11 +22,16 @@ class LoginTest(BaseTestCase):
         res = self.client.post('/api/0/auth/login', data={'email': 'simon', 'password': '1234'})
         self.assert200(res)
 
+        data = json.loads(res.data.decode('utf-8'))
+        self.assertTrue(data['username'] == self.simon.full_name)
+        self.assertTrue(data['id'] == self.simon.id)
+
         res = self.client.get('/api/0/auth/login')
         self.assert200(res)
 
         data = json.loads(res.data.decode('utf-8'))
         self.assertTrue(data['username'] == self.simon.full_name)
+        self.assertTrue(data['id'] == self.simon.id)
 
     def test_login_failed(self):
         res = self.client.post('/api/0/auth/login', data={'email': 'test', 'password': '1234'})

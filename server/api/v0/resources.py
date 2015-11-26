@@ -3,13 +3,11 @@ from datetime import datetime
 import dateutil.parser
 
 from flask import g
-from flask_restful import Resource, Api, abort, reqparse
+from flask_restful import Resource, abort, reqparse
 from flask.ext.login import login_required
 from sqlalchemy import and_, func as sqlfunc
 
-from .models import db, Comment, Lecture, Engagement, CommentRating
-
-api = Api()
+from server.models import db, Comment, Lecture, Engagement, CommentRating
 
 
 class LectureResource(Resource):
@@ -248,23 +246,18 @@ class CommentRatingResource(Resource):
 
         user_id = g.client_id
 
-        with db.session.begin(subtransactions=True):
-            comment_rating = CommentRating.query.filter(
-                CommentRating.lecture_id == lecture.id,
-                CommentRating.comment_id == comment.id,
-                CommentRating.user_id == user_id
-            ).first()
+        comment_rating = CommentRating.query.filter(
+            CommentRating.lecture_id == lecture.id,
+            CommentRating.comment_id == comment.id,
+            CommentRating.user_id == user_id
+        ).first()
 
-            if comment_rating:
-                comment_rating.rating = rating
-            else:
-                comment_rating = CommentRating(rating, user_id, comment, lecture)
-                db.session.add(comment_rating)
+        if comment_rating:
+            comment_rating.rating = rating
+        else:
+            comment_rating = CommentRating(rating, user_id, comment, lecture)
+            db.session.add(comment_rating)
+
+        db.session.commit()
 
         return None
-
-
-api.add_resource(LectureResource, '/api/0/lectures/<lecture_id>')
-api.add_resource(CommentListResource, '/api/0/lectures/<lecture_id>/comments')
-api.add_resource(EngagementListResource, '/api/0/lectures/<lecture_id>/engagements')
-api.add_resource(CommentRatingResource, '/api/0/lectures/<lecture_id>/comments/<comment_id>/rating')
