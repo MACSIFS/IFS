@@ -25,11 +25,12 @@
     /* @ngInject */
     function CommentPanelController(lecturesFactory, $interval, $scope) {
         console.log('Ready (Comment Panel Controller)');
-        
-        $scope.sortByName = "-score";
+
         
         var commentPanel = this;
         commentPanel.comments = [];
+        
+        commentPanel.sortByName = "-score";
 
         var pollPromise;
 

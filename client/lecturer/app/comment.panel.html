@@ -6,8 +6,8 @@
                 <button class="btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort
                 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a ng-click="sortByName = '-submissionTime'" >Time</a></li>
-                  <li><a ng-click="sortByName = '-score'">Score</a></li>
+                  <li><a ng-click="commentPanel.sortByName = '-submissionTime'" >Time</a></li>
+                  <li><a ng-click="commentPanel.sortByName = '-score'">Score</a></li>
                 </ul>
             </div>
             
@@ -15,7 +15,7 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item"
-            data-ng-repeat="item in commentPanel.comments | orderBy:sortByName track by $index">
+            data-ng-repeat="item in commentPanel.comments | orderBy:commentPanel.sortByName track by $index">
             <span class="badge">{{item.score}}</span>
             <b> {{item.content}}</b><br>
             {{item.submissionTime.getHours()}}:{{item.submissionTime.getMinutes()}}
