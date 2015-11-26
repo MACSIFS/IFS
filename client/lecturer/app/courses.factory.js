@@ -6,7 +6,7 @@
         .factory('coursesFactory', coursesFactory);
 
     /* @ngInject */
-    function coursesFactory(coursesService) {
+    function coursesFactory(coursesService, lecturerFactory) {
         var selectedCourse = {};
         
         var Course = false;
@@ -24,7 +24,7 @@
                 Course = coursesService.course;
             }
             
-            Course.query({lecturer: 1}, onSuccess);
+            Course.query({lecturer: lecturerFactory.getLecturerId()}, onSuccess);
         }
         
         function addCourse(course, onSuccess) {
