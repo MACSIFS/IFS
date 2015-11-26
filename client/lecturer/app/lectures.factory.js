@@ -7,7 +7,6 @@
 
     /* @ngInject */
     function lecturesFactory(lecturesService, $location) {
-        var lectureId;
         var lecture = {};
 
         var service = {
@@ -15,14 +14,15 @@
             getComments: getComments,
             openLecture: openLecture,
             getLectures: getLectures,
-            addLecture: addLecture
+            addLecture: addLecture,
+            setLectureId: setLectureId
         };
 
         return service;
 
         function getEngagements(onSuccess) {
             lecturesService.getEngagements
-                .query({lectureId: lectureId, last: true}, onSuccess, onError);
+                .query({lectureId: lecture.id, last: true}, onSuccess, onError);
 
             function onError() {
                 console.log('Error');
@@ -31,33 +31,16 @@
 
         function getComments(onSuccess, onFail) {
             lecturesService.retrieveComments
-                .get({lectureId: lectureId}, onSuccess, onFail);
+                .get({lectureId: lecture.id}, onSuccess, onFail);
         }
 
-        function setLecture(id) {
-            lectureId = id;
+        function setLectureId(id) {
+            lecture.id = id;
         }
 
-        function openLecture(id, error) {
-            lectureId = id;
-
-            lecturesService.retrieveLecture
-                .get({lectureId: lectureId}, onSuccess, onFail);
-
-            function onSuccess(response) {
-                lecture = response;
-
-                $location.path('/lectures/' + lectureId);
-            }
-
-            function onFail(response) {
-                // Show user feedback.
-                if (angular.isFunction(error)) {
-                    error();
-                }
-
-                $location.path('/lectures');
-            }
+        function openLecture(lecture) {
+            lecture = lecture;
+            $location.path('courses/' + lecture.courseId + '/lectures/' + lecture.id);
         }
         
         function getLectures(courseId, onSuccess) {

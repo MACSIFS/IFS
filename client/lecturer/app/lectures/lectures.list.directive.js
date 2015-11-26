@@ -1,10 +1,10 @@
 (function() {
     'use strict';
-    
+
     angular
         .module('lecturer')
         .directive('lecturesList', lecturesList);
-        
+
     function lecturesList() {
         var directive = {
             restrict: 'E',
@@ -29,15 +29,9 @@
     function LecturesListController(lecturesFactory, coursesFactory) {
         console.log('Ready (Lectures List Controller)');
         getLectures();
-        
+
         var lecturesList = this;
-        
-        lecturesList.list = [
-            {id: 1, name: 'Intro', courseId: 1},
-            {id: 2, name: 'Chapter 2', courseId: 1},
-            {id: 3, name: 'Chapter 13 page 700', courseId: 1},
-            {id: 4, name: 'Outro', courseId: 1}
-        ];
+        lecturesList.openLecture = openLecture;
 
         function getLectures() {
             var course = coursesFactory.getCourse();
@@ -46,6 +40,9 @@
                 lecturesList.lectures = lectures;
             });
         }
-        
+
+        function openLecture(lectureId) {
+            lecturesFactory.openLecture(lectureId);
+        }
     }
 })();

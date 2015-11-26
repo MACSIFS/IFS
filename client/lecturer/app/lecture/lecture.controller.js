@@ -10,7 +10,6 @@
         console.log('Ready (Lecture Controller)');
 
         var vm = this;
-
-        lecturesFactory.setLecture($routeParams.lectureId);
+        lecturesFactory.setLectureId($routeParams.lectureId);
     }
 })();
