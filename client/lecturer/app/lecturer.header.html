@@ -16,14 +16,13 @@
                 <li id="login-btn" data-ng-hide="vm.isLoggedIn"><a href="#/">Login</a></li>
                 <li id="register-btn" data-ng-hide="vm.isLoggedIn"><a href="#/register">Register</a></li>
                 <li id="courses-btn" data-ng-show="vm.isLoggedIn"><a href="#/courses">Courses</a></li>
-                <li id="lectures-btn" data-ng-show="vm.isLoggedIn"><a href="#/lectures">Lectures</a></li>
                 <li class="dropdown" data-ng-show="vm.isLoggedIn">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-user"></span>
-                        Username
+                        <span>{{vm.username}}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li id="settings-btn">
+                        <li id="settings-btn" class="disabled">
                             <a href="">
                                 <span class="glyphicon glyphicon-cog"></span>
                                 Settings

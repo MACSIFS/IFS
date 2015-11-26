@@ -13,7 +13,12 @@
         lectureFactory.setShowComment(showComments);
         lectureFactory.setShowEngagement(showEngagement);
         lectureFactory.joinLecture($routeParams.lectureId);
+        
+        //do once and then loop
         getComments();
+        $interval(function() {
+            getComments();
+        }, 2000);
         
         var vm = this;
         vm.comment = '';
@@ -42,7 +47,8 @@
                         return {
                             id: comment.id,
                             content: comment.content,
-                            submissionTime: new Date(comment.submissionTime)
+                            submissionTime: new Date(comment.submissionTime),
+                            rating: comment.rating
                         };
                     });
                     
@@ -68,11 +74,11 @@
                     x: vm.currentPosition.x,
                     y: vm.currentPosition.y,
                     t: vm.currentPosition.t
-                };
+                };    
                 
                 var postData = {
-                    challenge: ((240 - (vm.currentPosition.y - 30))/240).toFixed(2),
-                    interest: ((vm.currentPosition.x - 30)/240).toFixed(2),
+                    challenge: ((vm.currentPosition.x - 30)/240).toFixed(2),
+                    interest: ((240 - (vm.currentPosition.y - 30))/240).toFixed(2),
                     time: (new Date(vm.currentPosition.t)).toISOString()
                 };
                 

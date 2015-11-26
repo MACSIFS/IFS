@@ -17,7 +17,8 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap/dist/js/bootstrap.js',
                     'bower_components/angular/angular.js',
                     'bower_components/angular-resource/angular-resource.js',
-                    'bower_components/angular-route/angular-route.js'
+                    'bower_components/angular-route/angular-route.js',
+                    'bower_components/jshashes/hashes.js'
                 ],
                 dest: 'release/concat/<%= pkg.name %>-deps.js'
             },
@@ -78,6 +79,10 @@ module.exports = function (grunt) {
             student: {
                 configFile: 'test/unit/client/student/karma.conf.js',
             }
+        },
+        copy: {
+            copyStudent: student.copy.main,
+            copyLecturer: student.copy.main
         }
     });
     
@@ -86,6 +91,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-script-link-tags');
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-karma');
@@ -117,6 +123,7 @@ module.exports = function (grunt) {
         'concat:depsScripts',
         'concat:jsStudent',
         'concat:cssStudent',
+        'copy:copyStudent',
         'uglify:deps',
         'uglify:student',
         'cssmin:deps',
@@ -139,6 +146,7 @@ module.exports = function (grunt) {
         'concat:depsScripts',
         'concat:jsLecturer',
         'concat:cssLecturer',
+        'copy:copyLecturer',
         'uglify:deps',
         'uglify:lecturer',
         'cssmin:deps',

@@ -1,13 +1,19 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="panel-title">
-            <span>Comments</span>
+            <span>Questions and Comments</span>
         </div>
     </div>
     <ul class="list-group">
         <li class="list-group-item" 
             data-ng-repeat="item in commentPanel.list | orderBy:'-submissionTime' track by $index">
-            <b>{{item.content}}</b>
+            <p><b>{{item.content}}</b></p>
+            <button type="button" ng-disabled="item.rating == 1" class="btn btn-success" data-ng-click="commentPanel.upVoteComment(item);">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+            </button>
+            <button type="button" ng-disabled="item.rating == -1" class="btn btn-danger" data-ng-click="commentPanel.downVoteComment(item)">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
+            </button>
         </li>
     </ul>
     <div class="panel-footer"></div>

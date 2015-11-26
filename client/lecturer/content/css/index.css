@@ -4,3 +4,34 @@ html, body {
     height: 100%;
     width: 100%;
 }
+
+#lecture-header,
+#course-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+#course-title {
+    flex: 2;
+    align-self: center;
+    font-weight: bold;
+}
+
+#course-add {
+    flex: 3;
+}
+
+.lecture-item,
+.course-item {
+    display: flex;
+    flex--flow: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#comments-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -14,5 +14,6 @@
         this.retrieveComments = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
         this.submitComment = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments', {lectureId:'@lectureId'});
         this.submitEngagement = $resource(CONSTANT.baseURL + '/lectures/:lectureId/engagements', {lectureId:'@lectureId'});
+        this.setCommentVote = $resource(CONSTANT.baseURL + '/lectures/:lectureId/comments/:commentId/rating', {lectureId:'@lectureId', commentId:'@commentId'});
     }
 })();

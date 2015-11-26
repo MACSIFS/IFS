@@ -6,9 +6,14 @@
         .controller('RegisterCtrl', RegisterController);
         
     /* @ngInject */
-    function RegisterController($scope) {
+    function RegisterController(lecturerFactory, $location) {
         console.log('Ready (Register Controller)');
         angular.element('#register-btn').addClass('active');
+
+        if (lecturerFactory.isLoggedIn()) {
+            $location.path('/courses');
+        }
+
         var vm = this;
     }
 })();
