@@ -13,7 +13,7 @@
         var vm = this;
 
         $scope.$on('$routeChangeStart', function(event, next, current) {
-            console.log('location change');
+            console.log('Route change');
             if (angular.isDefined(next)  &&  angular.isDefined(next.$$route)) {
                 
                 if (next.$$route.loginRequired) {

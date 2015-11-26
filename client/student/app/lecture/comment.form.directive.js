@@ -34,6 +34,10 @@
         commentForm.submitComment = submitComment;
         commentForm.maxLength = 500;
 
+        commentForm.feedbackMessage = 'Write your question or comment';
+        commentForm.feedbackType = 'alert-info';
+        commentForm.feedbackIcon = 'glyphicon-pencil';
+
         function submitComment() {
             commentForm.submitted = true;
 
