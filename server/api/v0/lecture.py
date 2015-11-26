@@ -20,7 +20,9 @@ class LectureListResource(Resource):
 
         if args.course is not None:
             query = query.filter(Lecture.course_id == args.course)
-
+        
+        query = query.order_by(Lecture.id)
+        
         return [
             {
                 'id': row.id,
