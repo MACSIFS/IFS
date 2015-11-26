@@ -26,8 +26,11 @@
     function CommentPanelController(lecturesFactory, $interval, $scope) {
         console.log('Ready (Comment Panel Controller)');
 
+        
         var commentPanel = this;
         commentPanel.comments = [];
+        
+        commentPanel.sortByName = "-score";
 
         var pollPromise;
 

@@ -136,8 +136,8 @@ class CommentRating(db.Model):
     def __init__(self, rating, user_id, comment, lecture):
         self.rating = rating
         self.user_id = user_id
-        self.comment_id = comment.id
-        self.lecture_id = lecture.id
+        self.comment = comment
+        self.lecture = lecture
 
     def __repr__(self):
         return "<CommentRating {} {} {}>".format(self.user_id, self.comment_id, self.lecture_id)
