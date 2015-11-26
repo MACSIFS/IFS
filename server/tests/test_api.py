@@ -28,7 +28,7 @@ class GetCommentsApiTest(BaseTestCase):
         db.session.add(imt3601_l1_c1)
         db.session.add(imt3601_l1_c2)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         rv = self.client.get('/api/0/lectures/1/comments')
@@ -89,7 +89,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         imt3601_l1_c1 = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(imt3601_l1_c1)
 
-        db.session.commit()
+        db.session.flush()
 
         self.comment = imt3601_l1_c1
         self.lecture = imt3601_l1
@@ -103,7 +103,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         user_id = self._set_generated_client_id_cookie()
 
         db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
@@ -115,7 +115,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
 
         db.session.add(CommentRating(1, user_id1, self.comment, self.lecture))
         db.session.add(CommentRating(-1, user_id2, self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         self._set_client_id_cookie(user_id1)
         rv = self.client.get('/api/0/lectures/1/comments')
@@ -131,7 +131,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         user_id = generate_client_id()
 
         db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         self._set_generated_client_id_cookie()
         rv = self.client.get('/api/0/lectures/1/comments')
@@ -145,10 +145,10 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         db.session.add(comment2)
 
         db.session.add(CommentRating(1, user_id, self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         db.session.add(CommentRating(-1, user_id, comment2, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         self._set_client_id_cookie(user_id)
         rv = self.client.get('/api/0/lectures/1/comments')
@@ -164,7 +164,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
 
     def test_one_score(self):
         db.session.add(CommentRating(1, 'user', self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
@@ -177,7 +177,7 @@ class GetCommentsWithRatingApiTest(BaseTestCase):
         db.session.add(CommentRating(1, 'user4', self.comment, self.lecture))
         db.session.add(CommentRating(-1, 'user5', self.comment, self.lecture))
         db.session.add(CommentRating(-1, 'user6', self.comment, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/comments')
         response = json.loads(rv.data.decode('utf-8'))
@@ -197,7 +197,7 @@ class PostCommentsApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         rv = self.client.post('/api/0/lectures/1/comments', data=dict(
@@ -261,7 +261,7 @@ class GetLectureApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         rv = self.client.get('/api/0/lectures/1')
@@ -295,7 +295,7 @@ class AddEngagementApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         rv = self.client.post('/api/0/lectures/1/engagements', data=dict(
@@ -410,7 +410,7 @@ class GetEngagementsApiTest(BaseTestCase):
         imt3601_l1 = Lecture('Lecture 1', imt3601)
         db.session.add(imt3601_l1)
 
-        db.session.commit()
+        db.session.flush()
 
         self.lecture = imt3601_l1
 
@@ -437,7 +437,7 @@ class GetEngagementsApiTest(BaseTestCase):
     def test_engagement_content(self):
         user_id = self.set_generated_client_id_cookie()
         db.session.add(Engagement(0.3, 0.6, datetime(2015, 11, 19), user_id, self.lecture))
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/engagements')
         assert rv.status_code == 200
@@ -463,7 +463,7 @@ class GetEngagementsApiTest(BaseTestCase):
             challenge = 0
             eng = Engagement(challenge, interest, time, user_id, self.lecture)
             db.session.add(eng)
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/engagements')
         assert rv.status_code == 200
@@ -484,7 +484,7 @@ class GetEngagementsApiTest(BaseTestCase):
                 challenge = 0
                 eng = Engagement(challenge, interest, time, str(user), self.lecture)
                 db.session.add(eng)
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/engagements?last=true')
         assert rv.status_code == 200
@@ -509,7 +509,7 @@ class GetEngagementsApiTest(BaseTestCase):
                 challenge = 0
                 eng = Engagement(challenge, interest, time, str(user), self.lecture)
                 db.session.add(eng)
-        db.session.commit()
+        db.session.flush()
 
         rv = self.client.get('/api/0/lectures/1/engagements?last=false')
         assert rv.status_code == 200
@@ -537,7 +537,7 @@ class SetCommentRatingApiTest(BaseTestCase):
         imt3601_l1_c1 = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(imt3601_l1_c1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_success(self):
         rv = self.client.post('/api/0/lectures/1/comments/1/rating', data=dict(
@@ -598,7 +598,7 @@ class GetCommentRatingApiTest(BaseTestCase):
         comment = Comment('This is boring', datetime.utcnow(), imt3601_l1)
         db.session.add(comment)
 
-        db.session.commit()
+        db.session.flush()
 
         self.lecture = imt3601_l1
 

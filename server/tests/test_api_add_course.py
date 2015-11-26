@@ -3,6 +3,9 @@ import json
 from server.tests.base import BaseTestCase
 from server.models import db, Lecturer, Course, Lecture
 
+from server.api.v0.api import api
+from server.api.v0.course import CourseListResource
+
 
 class AddCourseApiTest(BaseTestCase):
     def setUp(self):
@@ -26,43 +29,55 @@ class AddCourseApiTest(BaseTestCase):
         imt1031_l1 = Lecture('Lecture 1', imt1031)
         db.session.add(imt1031_l1)
 
-        db.session.commit()
+        db.session.flush()
 
     def test_wrong_lecturer(self):
         self.login(self.simon.email, self.simon.password)
 
-        res = self.client.post('/api/0/courses', data=dict(
-            lecturerId=self.frode.id,
-            name='awsm'
-        ))
+        res = self.client.post(
+            api.url_for(
+                CourseListResource,
+                lecturerId=self.frode.id,
+                name='awsm'
+            )
+        )
 
         self.assert403(res)
 
     def test_no_lecturer(self):
         self.login(self.simon.email, self.simon.password)
 
-        res = self.client.post('/api/0/courses', data=dict(
-            name='awsm'
-        ))
+        res = self.client.post(
+            api.url_for(
+                CourseListResource,
+                name='awsm'
+            )
+        )
 
         self.assert400(res)
 
     def test_no_name(self):
         self.login(self.simon.email, self.simon.password)
 
-        res = self.client.post('/api/0/courses', data=dict(
-            lecturerId=self.simon.id
-        ))
+        res = self.client.post(
+            api.url_for(
+                CourseListResource,
+                lecturerId=self.frode.id,
+            )
+        )
 
         self.assert400(res)
 
     def test_success(self):
         self.login(self.simon.email, self.simon.password)
 
-        res = self.client.post('/api/0/courses', data=dict(
-            lecturerId=self.simon.id,
-            name='awsm'
-        ))
+        res = self.client.post(
+            api.url_for(
+                CourseListResource,
+                lecturerId=self.simon.id,
+                name='awsm'
+            )
+        )
         self.assert200(res)
 
         data = json.loads(res.data.decode('utf-8'))

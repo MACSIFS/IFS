@@ -105,7 +105,8 @@ exports.ngAnnotate = {
         'release/concat/lecturer.js': [
             'client/lecturer/app/**/*.js', 
             '!client/lecturer/app/lecturer.module.js',
-            'client/shared/**/*.js'
+            'client/shared/**/*.js',
+            '!client/shared/shared.module.js'
         ]
     }
 };

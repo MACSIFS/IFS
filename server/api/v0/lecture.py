@@ -39,7 +39,6 @@ class LectureListResource(Resource):
         argparser.add_argument('courseId', type=int, required=True)
         args = argparser.parse_args()
         
-        
         query = Course.query.filter(Course.id == args.courseId)
         
         course = query.first() 
@@ -49,7 +48,7 @@ class LectureListResource(Resource):
         
         lecture = Lecture(args.name, course)
         db.session.add(lecture)
-        db.session.commit()
+        db.session.flush()
 
         return {
             'id': lecture.id

@@ -62,8 +62,7 @@ def mock_db():
     imt3601_l1_r5 = CommentRating(1, 1, imt3601_l1_c4, imt3601_l1)
     db.session.add(imt3601_l1_r5)
 
-
-    db.session.commit()
+    db.session.flush()
 
 
 @manager.command
@@ -71,7 +70,11 @@ def test():
     tests_path = os.path.join(os.path.dirname(__file__), 'server', 'tests')
     tests = unittest.defaultTestLoader.discover(tests_path)
     runner = unittest.TextTestRunner()
-    runner.run(tests)
+    result = runner.run(tests)
+    if result.wasSuccessful():
+        return 0
+    else:
+        return 1
 
 if __name__ == '__main__':
     manager.run()

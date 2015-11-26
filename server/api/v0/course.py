@@ -40,7 +40,7 @@ class CourseListResource(Resource):
 
         course = Course(args.name, current_user)
         db.session.add(course)
-        db.session.commit()
+        db.session.flush()
 
         return {
             'id': course.id

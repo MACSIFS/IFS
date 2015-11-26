@@ -32,7 +32,7 @@ class AddLectureApiTest(BaseTestCase):
         self.imt1031_l3 = Lecture('Lecture 3', self.imt1031)
         db.session.add(self.imt1031_l3)
 
-        db.session.commit()
+        db.session.flush()
 
 
     def test_no_lecturer(self):
