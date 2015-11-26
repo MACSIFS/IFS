@@ -37,7 +37,7 @@
             var course = coursesFactory.getCourse();
 
             lecturesFactory.getLectures(course.id, function(lectures) {
-                lecturesList.lectures = lectures;
+                lecturesList.list = lectures;
             });
         }
 
