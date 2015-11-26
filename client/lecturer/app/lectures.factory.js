@@ -44,7 +44,6 @@
         }
         
         function getLectures(courseId, onSuccess) {
-            
             lecturesService.lectures
                 .query({course: courseId}, onSuccess, error);
             
