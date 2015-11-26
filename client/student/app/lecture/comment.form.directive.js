@@ -30,8 +30,8 @@
     function CommentFormController(lectureFactory) {
         console.log('Ready (Comment Form Controller)');
         var commentForm = this;
-            commentForm.submitComment = submitComment;
-            commentForm.maxLength = 500;
+        commentForm.submitComment = submitComment;
+        commentForm.maxLength = 500;
         
         function submitComment() {
             commentForm.submitted = true;
