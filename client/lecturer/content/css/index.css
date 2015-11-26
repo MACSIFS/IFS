@@ -31,3 +31,9 @@ html, body {
 a[ng-click]{
     cursor: pointer;
 }
+
+#comments-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
